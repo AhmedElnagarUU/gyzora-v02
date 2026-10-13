@@ -1,4 +1,53 @@
 {
+  "auth": {
+    "fields": {
+      "name": "Full name",
+      "namePlaceholder": "Enter your full name",
+      "email": "Email",
+      "emailPlaceholder": "name@example.com",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password"
+    },
+    "signIn": {
+      "title": "Welcome back",
+      "heading": "Sign in",
+      "toSignUpPrompt": "Need an account?",
+      "toSignUpLink": "Create one"
+    },
+    "signUp": {
+      "title": "Create account",
+      "heading": "Sign up",
+      "toSignInPrompt": "Already have an account?",
+      "toSignInLink": "Sign in"
+    },
+    "actions": {
+      "signIn": "Sign in",
+      "signUp": "Create account"
+    },
+    "loading": {
+      "signIn": "Signing in...",
+      "signUp": "Creating account..."
+    },
+    "success": {
+      "signIn": "Signed in successfully.",
+      "signUp": "Account created successfully."
+    },
+    "errors": {
+      "generic": "Something went wrong. Please try again."
+    },
+    "validation": {
+      "nameMin": "Name must be at least 2 characters.",
+      "emailInvalid": "Please enter a valid email address.",
+      "passwordMin": "Password must be at least 8 characters."
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "welcome": "Welcome back",
+      "signOut": "Sign out",
+      "signingOut": "Signing out...",
+      "signOutError": "We couldn't sign you out. Please try again."
+    }
+  },
   "landing": {
     "nav": {
       "home": "Home",

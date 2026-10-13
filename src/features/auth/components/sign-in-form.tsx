@@ -1,0 +1,125 @@
+'use client';
+
+import {signInSchema} from '@/features/auth/schemas/sign-in-schema';
+import {useLocale, useTranslations} from 'next-intl';
+import Link from 'next/link';
+import {useRouter} from 'next/navigation';
+import {FormEvent, useState} from 'react';
+
+export function SignInForm({redirectTo}: {redirectTo: string}) {
+  const t = useTranslations('auth');
+  const locale = useLocale();
+  const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setError('');
+
+    const parsed = signInSchema.safeParse({email, password});
+
+    if (!parsed.success) {
+      setStatus('error');
+      setError(t(parsed.error.issues[0]?.message || 'errors.generic'));
+      return;
+    }
+
+    setStatus('loading');
+
+    try {
+      const response = await fetch('/api/auth/sign-in/email', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          email: parsed.data.email,
+          password: parsed.data.password
+        })
+      });
+
+      if (!response.ok) {
+        setStatus('error');
+        setError(t('errors.generic'));
+        return;
+      }
+
+      setStatus('success');
+      router.push(redirectTo || `/${locale}/dashboard`);
+    } catch {
+      setStatus('error');
+      setError(t('errors.generic'));
+    }
+  };
+
+  return (
+    <div className="w-full max-w-md rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="mb-6 text-center">
+        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-700">
+          {t('signIn.title')}
+        </p>
+        <h1 className="mt-3 text-3xl font-semibold text-slate-900">{t('signIn.heading')}</h1>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+        <div className="space-y-2">
+          <label htmlFor="email" className="block text-sm font-medium text-slate-700">
+            {t('fields.email')}
+          </label>
+          <input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            autoComplete="email"
+            className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-900 outline-none transition focus:border-emerald-500 focus:bg-white"
+            placeholder={t('fields.emailPlaceholder')}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label htmlFor="password" className="block text-sm font-medium text-slate-700">
+            {t('fields.password')}
+          </label>
+          <input
+            id="password"
+            type="password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            autoComplete="current-password"
+            className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-900 outline-none transition focus:border-emerald-500 focus:bg-white"
+            placeholder={t('fields.passwordPlaceholder')}
+          />
+        </div>
+
+        {status === 'error' && (
+          <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {error}
+          </div>
+        )}
+
+        {status === 'success' && (
+          <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+            {t('success.signIn')}
+          </div>
+        )}
+
+        <button
+          type="submit"
+          disabled={status === 'loading'}
+          className="inline-flex w-full items-center justify-center rounded-2xl bg-emerald-700 px-4 py-3 text-sm font-semibold text-white transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-70"
+        >
+          {status === 'loading' ? t('loading.signIn') : t('actions.signIn')}
+        </button>
+      </form>
+
+      <p className="mt-6 text-center text-sm text-slate-600">
+        {t('signIn.toSignUpPrompt')}{' '}
+        <Link href={`/${locale}/auth/sign-up`} className="font-semibold text-emerald-700">
+          {t('signIn.toSignUpLink')}
+        </Link>
+      </p>
+    </div>
+  );
+}

@@ -2,10 +2,10 @@
 
 | Milestone | Status | Owner/Role | Notes |
 |---|---|---|---|
-| M2.1 Signup | todo | Backend/Auth Dev | Use existing auth system; server-side validation |
-| M2.2 Sign in | todo | Backend/Auth Dev | No sensitive info leakage on invalid creds |
-| M2.3 Sign out and route protection | todo | Backend/Auth Dev | Protected dashboard redirects unauthenticated users; server-validated session |
-| M2.4 Auth UI states and bilingual | todo | Frontend Dev | Loading/success/error, AR/EN, RTL |
+| M2.1 Signup | in progress | Backend/Auth Dev | Form and Better Auth API wiring are implemented; database-backed signup is unverified |
+| M2.2 Sign in | in progress | Backend/Auth Dev | Form and Better Auth API wiring are implemented; invalid-credential behavior is unverified |
+| M2.3 Sign out and route protection | in progress | Backend/Auth Dev | Sign-out button and server-validated dashboard guard are implemented; session lifecycle is unverified |
+| M2.4 Auth UI states and bilingual | in progress | Frontend Dev | Bilingual forms and translated loading/success/error UI implemented; locale rendering check pending |
 
-**Open questions:** Confirm existing auth implementation details if needed (delegate inspection to sub-agent). 
-**Assumptions:** Follow better-auth patterns per CODE_RULES.
+**Open questions:** End-to-end auth verification is blocked in this environment: MongoDB Atlas hostname resolution timed out (`querySrv ETIMEOUT`). Retry after database network/DNS access is available.
+**Assumptions:** Use Better Auth with the project's configured MongoDB connection.

@@ -1,9 +1,12 @@
-import {useTranslations} from 'next-intl';
+import {useLocale, useTranslations} from 'next-intl';
+import Link from 'next/link';
 import {Nav} from './nav';
 import {LanguageSwitcher} from './language-switcher';
 
 export function Header() {
   const t = useTranslations('landing.nav');
+  const authT = useTranslations('auth.actions');
+  const locale = useLocale();
 
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 backdrop-blur-xl">
@@ -19,7 +22,21 @@ export function Header() {
             </span>
             <span className="text-lg font-bold tracking-tight text-slate-900">Gyzora</span>
           </a>
-          <LanguageSwitcher />
+          <div className="flex shrink-0 items-center gap-2">
+            <Link
+              href={`/${locale}/auth/sign-in`}
+              className="inline-flex items-center justify-center rounded-full border border-slate-300 px-3 py-1.5 text-sm font-semibold text-slate-700 transition hover:border-emerald-300 hover:bg-emerald-50"
+            >
+              {authT('signIn')}
+            </Link>
+            <Link
+              href={`/${locale}/auth/sign-up`}
+              className="inline-flex items-center justify-center rounded-full bg-emerald-700 px-3 py-1.5 text-sm font-semibold text-white transition hover:bg-emerald-800"
+            >
+              {authT('signUp')}
+            </Link>
+            <LanguageSwitcher />
+          </div>
         </div>
         <Nav />
       </div>

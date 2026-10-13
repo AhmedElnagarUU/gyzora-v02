@@ -1,0 +1,135 @@
+{
+  "landing": {
+    "nav": {
+      "home": "Home",
+      "about": "About",
+      "services": "Services",
+      "projects": "Projects",
+      "contact": "Contact",
+      "brandLabel": "Gyzora home",
+      "label": "Main navigation",
+      "features": "What you get",
+      "howItWorks": "How it works",
+      "industries": "Who it's for",
+      "faq": "FAQ"
+    },
+    "language": {
+      "switchToAr": "Switch to Arabic",
+      "switchToEn": "Switch to English",
+      "en": "EN",
+      "ar": "AR"
+    },
+    "footer": {
+      "copyright": "© {year} All rights reserved",
+      "backToTop": "Back to top"
+    },
+    "page": {
+      "metadata": {
+        "title": "Company websites made simple",
+        "description": "Create a professional company website, showcase your projects, and share your services with Gyzora."
+      },
+      "hero": {
+        "eyebrow": "A clearer online presence for your business",
+        "title": "Your work deserves",
+        "accent": "a website that works as hard as you do.",
+        "description": "Build a polished company website to introduce your services, showcase your projects, and make it easier for the right clients to reach you.",
+        "primaryAction": "See how it works",
+        "secondaryAction": "Explore the platform",
+        "note": "Made for real estate, construction, and design businesses."
+      },
+      "preview": {
+        "workspace": "Website workspace",
+        "sample": "Sample preview",
+        "menu": "YOUR WEBSITE",
+        "home": "Home",
+        "services": "Services",
+        "projects": "Projects",
+        "contact": "Contact",
+        "siteLabel": "COMPANY WEBSITE",
+        "company": "Your company name",
+        "tagline": "A welcoming introduction to your business and the work you do.",
+        "action": "Explore our work",
+        "projectsTitle": "Selected projects",
+        "viewAll": "View portfolio",
+        "projectOne": "Sample project",
+        "projectTwo": "Sample project",
+        "caption": "A sample preview of a company website and project portfolio."
+      },
+      "features": {
+        "eyebrow": "Everything in one place",
+        "title": "A professional home for your business",
+        "description": "Bring your company story, services, and project portfolio together in a website that is easy to keep up to date.",
+        "items": {
+          "presence": {
+            "title": "Introduce your business",
+            "description": "Share what your company does, the services you offer, and how clients can get in touch."
+          },
+          "portfolio": {
+            "title": "Showcase your projects",
+            "description": "Organize project details and imagery into a portfolio that helps visitors understand your work."
+          },
+          "publishing": {
+            "title": "Review before you publish",
+            "description": "Make changes to your draft, preview your website, and publish when your content is ready."
+          }
+        }
+      },
+      "steps": {
+        "eyebrow": "A simple way to get started",
+        "title": "From company details to a live website",
+        "description": "Start with the information you already have. You can refine your website and its content over time.",
+        "number": "Step {number}",
+        "items": {
+          "details": {
+            "title": "Add your company details",
+            "description": "Choose a starting design and introduce your business, services, and contact information."
+          },
+          "projects": {
+            "title": "Build your portfolio",
+            "description": "Add the projects you want visitors to discover, with the details and images you choose."
+          },
+          "publish": {
+            "title": "Preview and publish",
+            "description": "Review your website before publishing. Your edits stay in draft until you are ready."
+          }
+        }
+      },
+      "industries": {
+        "eyebrow": "Designed around your work",
+        "title": "For businesses built on trust and craft",
+        "description": "Give potential clients a clear way to understand your services and see the kind of work you do.",
+        "items": {
+          "realEstate": "Real estate",
+          "construction": "Construction and contracting",
+          "interiors": "Interior design and finishing",
+          "consulting": "Architecture and consulting"
+        }
+      },
+      "faq": {
+        "eyebrow": "Good to know",
+        "title": "A few quick answers",
+        "description": "The essentials about creating and managing your company website.",
+        "items": {
+          "website": {
+            "question": "Do I need coding skills to create a website?",
+            "answer": "No. Gyzora is designed to help you create and manage a company profile website without writing code."
+          },
+          "languages": {
+            "question": "Can my website support Arabic and English?",
+            "answer": "Yes. Gyzora is designed for Arabic and English, with layouts that support right-to-left and left-to-right content."
+          },
+          "publishing": {
+            "question": "Can I review changes before they go live?",
+            "answer": "Yes. Your edits can be reviewed in a draft preview. The published website stays unchanged until you publish your updates."
+          }
+        }
+      },
+      "closing": {
+        "eyebrow": "Make your work easier to discover",
+        "title": "Give your business a place to grow online.",
+        "description": "Bring your company profile and projects together in one clear, professional website.",
+        "action": "Explore the steps"
+      }
+    }
+  }
+}

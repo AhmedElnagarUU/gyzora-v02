@@ -2,7 +2,7 @@
 
 | Milestone | Status | Owner/Role | Notes |
 |---|---|---|---|
-| M1.1 Layout foundation | todo | Frontend Dev | Header/nav, footer, language switch, RTL/LTR |
+| M1.1 Layout foundation | in-progress | Frontend Dev | Fixed hydration (only locale layout renders html/body), removed duplicate next.config.ts, improved Tailwind styling, better responsive layout |
 | M1.2 Landing sections skeleton | todo | Frontend Dev | Hero, features, how it works, target industries, CTA (placeholders) |
 | M1.3 Responsive and accessibility pass | todo | Frontend Dev | Mobile/tablet/desktop, semantic HTML, keyboard nav, lucide-react |
 

@@ -11,6 +11,41 @@
 
 **Out of scope:** real design polish, template previews, pricing, auth logic.
 
+## Proposed folder/file structure
+
+This epic organizes work under feature-based structure (per CODE_RULES). Files shown are the expected locations for code produced by this epic.
+
+```
+src/
+  app/
+    [locale]/
+      (marketing)/
+        layout.tsx        # Landing/shared layout
+        page.tsx           # Landing page
+      layout.tsx          # Root layout (i18n, dir, providers if needed)
+  features/
+    landing/
+      components/
+        header.tsx
+        footer.tsx
+        nav.tsx
+        language-switcher.tsx
+        hero-section.tsx
+        features-section.tsx
+        how-it-works-section.tsx
+        industries-section.tsx
+        cta-section.tsx
+      constants.ts
+      types.ts
+  shared/
+    ui/                  # (reusable UI only if shared by 2+ features)
+  messages/
+    en.json              # landing labels added
+    ar.json              # landing labels added
+```
+
+> Note: Only create files needed. Follow existing patterns first. Do not create empty directories unnecessarily.
+
 ## Milestones
 
 1. [M1.1 Layout foundation](./M1.1-layout-foundation.md)

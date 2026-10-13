@@ -65,7 +65,7 @@ No numeric limit is enforced. The test: if a file stops being easy to scan top-t
 ## 7. Stack conventions (binding)
 
 - **Next.js App Router + TypeScript.** Server Components by default; `"use client"` only where interactivity requires it.
-- **API = route handlers in `src/app/api/**`**, never server actions as the primary pattern. Every endpoint path is defined in the task file — do not invent different paths.
+- **No Server Actions.** Do not use Next.js Server Actions under any circumstance. All API endpoints and mutations must be implemented as route handlers (`route.ts`) under `src/app/api/**` exclusively. Every endpoint path is defined in the task file — do not invent different paths.
 - **mongoose** via the official driver through the `shared/db` singleton. Data access lives in a `repository.ts` inside the owning feature. TypeScript interfaces define collection shapes; validate input with `zod` at API boundaries.
 - **Auth** via better-auth (email/password), session cookie based. Every owner-scoped API must verify the session and that `site.ownerId === session.user.id`; otherwise return `401` (no session) or `404` (not owner).
 - **S3**: presigned PUT uploads from the browser; objects are served from the bucket's public base URL (`S3_PUBLIC_BASE_URL`). Key pattern: `sites/{siteId}/{slotId}/{uuid}.{ext}`.

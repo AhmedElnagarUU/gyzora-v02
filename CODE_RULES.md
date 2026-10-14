@@ -20,7 +20,8 @@ The codebase is organized by **feature/module**, not by technical type.
 
 - Each feature owns its components, hooks, API logic, schemas, and types under `src/features/<feature>/`.
 - A route file in `src/app/api/**` must contain no business logic: parse request → call feature function → return response.
-- Anything used by **two or more features** goes in `shared/`. Anything used by one feature stays in that feature.
+- Anything used by **two or more features** goes in `src/shared/` so common project code has one centralized home. Anything used by one feature stays in that feature.
+- Keep shared code focused on reusable cross-feature concerns; for example, MongoDB connection setup belongs in `src/shared/db/`, while feature-specific data access stays with its owning feature.
 - Any feature can be understood, modified, or removed without breaking unrelated features.
 
 ## 3. One responsibility per function
@@ -66,7 +67,7 @@ No numeric limit is enforced. The test: if a file stops being easy to scan top-t
 
 - **Next.js App Router + TypeScript.** Server Components by default; `"use client"` only where interactivity requires it.
 - **No Server Actions.** Do not use Next.js Server Actions under any circumstance. All API endpoints and mutations must be implemented as route handlers (`route.ts`) under `src/app/api/**` exclusively. Every endpoint path is defined in the task file — do not invent different paths.
-- **mongoose** via the official driver through the `shared/db` singleton. Data access lives in a `repository.ts` inside the owning feature. TypeScript interfaces define collection shapes; validate input with `zod` at API boundaries.
+- **mongoose** through the shared connection singleton in `src/shared/db/`. Data access lives in a `repository.ts` inside the owning feature. TypeScript interfaces define collection shapes; validate input with `zod` at API boundaries.
 - **Auth** via better-auth (email/password), session cookie based. Every owner-scoped API must verify the session and that `site.ownerId === session.user.id`; otherwise return `401` (no session) or `404` (not owner).
 - **S3**: presigned PUT uploads from the browser; objects are served from the bucket's public base URL (`S3_PUBLIC_BASE_URL`). Key pattern: `sites/{siteId}/{slotId}/{uuid}.{ext}`.
 - **Env vars** are documented in `.env.example`; never commit real secrets.
@@ -81,6 +82,8 @@ npx tsc --noEmit
 npm run build
 ```
 
-## 9. commit the done work 
+## 9. Epic completion and commits
 
-Then manually verify the acceptance criteria in your task file (curl for APIs, browser for UI, both locales).
+- Create a focused Git commit for completed work; do not include unrelated changes.
+- When an epic is complete, confirm all its milestones and acceptance criteria are done, update its `STATUS.md`, and create a commit for the completed epic.
+- Manually verify the acceptance criteria in your task file (curl for APIs, browser for UI, both locales).

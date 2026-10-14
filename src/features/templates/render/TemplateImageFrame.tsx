@@ -15,7 +15,8 @@ export function TemplateImageFrame({
   className: string;
 }) {
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
-  const failed = failedSrc === image.src;
+  const src = image.src.trim();
+  const failed = !src || failedSrc === src;
 
   return (
     <div className={`template-image-frame ${className}`}>
@@ -23,12 +24,12 @@ export function TemplateImageFrame({
         <div className="template-image-placeholder" aria-hidden="true" />
       ) : (
         <Image
-          src={image.src}
+          src={src}
           alt={image.alt[locale]}
           fill
           sizes="(max-width: 720px) 100vw, (max-width: 1100px) 50vw, 40vw"
           unoptimized
-          onError={() => setFailedSrc(image.src)}
+          onError={() => setFailedSrc(src)}
         />
       )}
     </div>

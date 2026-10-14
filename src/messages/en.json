@@ -180,5 +180,33 @@
         "action": "Explore the steps"
       }
     }
+  },
+  "siteSetup": {
+    "eyebrow": "Create your website",
+    "title": "Set up your site",
+    "description": "Start with a simple company profile and choose a template to begin your draft website.",
+    "fields": {
+      "template": "Template",
+      "companyName": "Company name",
+      "companyNamePlaceholder": "Enter your company name",
+      "category": "Business category",
+      "categoryPlaceholder": "e.g. Real estate, construction, design",
+      "description": "Company description",
+      "descriptionPlaceholder": "Tell visitors a little about your business and the services you provide.",
+      "language": "Website languages"
+    },
+    "validation": {
+      "templateRequired": "Please choose a template.",
+      "companyNameMin": "Company name must be at least 2 characters.",
+      "categoryMin": "Please provide a business category.",
+      "descriptionMin": "Description must be at least 20 characters.",
+      "languageRequired": "Select at least one language."
+    },
+    "errors": {
+      "generic": "Something went wrong. Please try again."
+    },
+    "loading": "Creating site...",
+    "submit": "Create site",
+    "success": "Your site draft has been created."
   }
 }

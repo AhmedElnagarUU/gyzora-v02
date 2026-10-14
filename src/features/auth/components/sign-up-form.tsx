@@ -1,5 +1,6 @@
 'use client';
 
+import {authClient} from '@/features/auth/lib/auth-client';
 import {signUpSchema} from '@/features/auth/schemas/sign-up-schema';
 import {useLocale, useTranslations} from 'next-intl';
 import Link from 'next/link';
@@ -31,24 +32,29 @@ export function SignUpForm({redirectTo}: {redirectTo: string}) {
     setStatus('loading');
 
     try {
-      const response = await fetch('/api/auth/sign-up/email', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          name: parsed.data.name,
-          email: parsed.data.email,
-          password: parsed.data.password
-        })
+      const {error: signUpError} = await authClient.signUp.email({
+        name: parsed.data.name,
+        email: parsed.data.email,
+        password: parsed.data.password
       });
 
-      if (!response.ok) {
+      if (signUpError) {
+        setStatus('error');
+        setError(t('errors.generic'));
+        return;
+      }
+
+      const {data: session, error: sessionError} = await authClient.getSession();
+
+      if (sessionError || !session) {
         setStatus('error');
         setError(t('errors.generic'));
         return;
       }
 
       setStatus('success');
-      router.push(redirectTo || `/${locale}/dashboard`);
+      router.replace(redirectTo || `/${locale}/dashboard`);
+      router.refresh();
     } catch {
       setStatus('error');
       setError(t('errors.generic'));
@@ -111,13 +117,13 @@ export function SignUpForm({redirectTo}: {redirectTo: string}) {
         </div>
 
         {status === 'error' && (
-          <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          <div role="alert" className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
             {error}
           </div>
         )}
 
         {status === 'success' && (
-          <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+          <div role="status" aria-live="polite" className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
             {t('success.signUp')}
           </div>
         )}
@@ -125,6 +131,7 @@ export function SignUpForm({redirectTo}: {redirectTo: string}) {
         <button
           type="submit"
           disabled={status === 'loading'}
+          aria-busy={status === 'loading'}
           className="inline-flex w-full items-center justify-center rounded-2xl bg-emerald-700 px-4 py-3 text-sm font-semibold text-white transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-70"
         >
           {status === 'loading' ? t('loading.signUp') : t('actions.signUp')}

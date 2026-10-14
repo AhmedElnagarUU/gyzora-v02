@@ -1,10 +1,10 @@
 import {useTranslations} from 'next-intl';
 import type {CSSProperties} from 'react';
-import {getTemplatePage} from '../catalog';
+import {getTemplatePage, isTemplateId} from '../catalog';
 import {TemplateSection} from './TemplateSections';
 import {TemplateImageFrame} from './TemplateImageFrame';
-import type {SiteLocale} from '@/features/sites/types/site';
 import type {SitePageRendererProps, TemplatePageId} from '../types';
+import {getLocalizedText, getTextDirection} from './localized';
 
 const NAVIGATION_PAGE_IDS: readonly TemplatePageId[] = [
   'home',
@@ -14,12 +14,11 @@ const NAVIGATION_PAGE_IDS: readonly TemplatePageId[] = [
   'contact',
 ];
 
-function directionFor(locale: SiteLocale): 'ltr' | 'rtl' {
-  return locale === 'ar' ? 'rtl' : 'ltr';
-}
-
 export function TemplateRenderer(props: SitePageRendererProps) {
-  const {template, site, locale, pageId, hrefForPage} = props;
+  const {template, site, locale, mode, pageId, hrefForPage} = props;
+  if (!isTemplateId(template.id)) {
+    throw new Error(`Unsupported template ID "${template.id}".`);
+  }
   const page = getTemplatePage(template, pageId);
 
   if (!page) {
@@ -27,10 +26,11 @@ export function TemplateRenderer(props: SitePageRendererProps) {
   }
 
   const t = useTranslations('landing.nav');
-  const name = site.profile.companyName[locale].trim();
+  const tPreview = useTranslations('landing.page.preview');
+  const name = getLocalizedText(site.profile.companyName, locale);
   const project = pageId === 'project-details' ? props.project : undefined;
   const activeNavigationPage = pageId === 'project-details' ? 'projects' : pageId;
-  const heroImage = site.illustrativeImages?.['home.hero'];
+  const heroImage = template.images?.['home.hero'];
 
   return (
     <div
@@ -38,7 +38,7 @@ export function TemplateRenderer(props: SitePageRendererProps) {
       data-template-id={template.id}
       data-font-style={template.style.fontStyle}
       lang={locale}
-      dir={directionFor(locale)}
+      dir={getTextDirection(locale)}
       style={
         {
           '--template-accent': template.style.accent,
@@ -52,6 +52,9 @@ export function TemplateRenderer(props: SitePageRendererProps) {
         } as CSSProperties
       }
     >
+      {mode === 'sample' ? (
+        <p className="template-sample-label">{tPreview('sample')}</p>
+      ) : null}
       <header className="template-header">
         <div className="template-header-inner">
           <a className="template-brand" href={hrefForPage('home')}>

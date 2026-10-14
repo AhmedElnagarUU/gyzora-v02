@@ -9,10 +9,7 @@ import type {
   TemplateSiteData,
 } from '../types';
 import {TemplateImageFrame} from './TemplateImageFrame';
-
-function localized(value: LocalizedValue | undefined, locale: SiteLocale): string {
-  return value?.[locale]?.trim() ?? '';
-}
+import {getLocalizedText, getVisibleProjects} from './localized';
 
 function PageIntroduction({
   pageId,
@@ -34,9 +31,11 @@ function PageIntroduction({
           : pageId === 'contact'
             ? copy?.contact?.introduction
             : copy?.home?.introduction;
-  const description = localized(introduction, locale) || localized(site.profile.description, locale);
+  const description =
+    getLocalizedText(introduction, locale) ||
+    (pageId === 'home' ? '' : getLocalizedText(site.profile.description, locale));
   const t = useTranslations('landing.nav');
-  const heading = pageId === 'home' || pageId === 'project-details' ? 'about' : pageId;
+  const heading = pageId === 'project-details' ? 'projects' : pageId;
 
   if (!description) return null;
 
@@ -59,7 +58,7 @@ function ServiceItems({
   values: readonly LocalizedValue[];
   locale: SiteLocale;
 }) {
-  const items = values.map((value) => localized(value, locale)).filter(Boolean);
+  const items = values.map((value) => getLocalizedText(value, locale)).filter(Boolean);
   if (items.length === 0) return null;
 
   return (
@@ -93,7 +92,7 @@ function ProjectCards({
   featured: boolean;
 }) {
   const t = useTranslations('landing.nav');
-  const availableProjects = projects.filter((project) => localized(project.title, locale));
+  const availableProjects = getVisibleProjects(projects, locale);
   if (availableProjects.length === 0) return null;
 
   return (
@@ -117,9 +116,9 @@ function ProjectCards({
                 <div className="template-image-placeholder template-project-image" aria-hidden="true" />
               )}
               <span className="template-project-copy">
-                <span className="template-project-title">{localized(project.title, locale)}</span>
-                {localized(project.category, locale) ? (
-                  <span className="template-project-meta">{localized(project.category, locale)}</span>
+                <span className="template-project-title">{getLocalizedText(project.title, locale)}</span>
+                {getLocalizedText(project.category, locale) ? (
+                  <span className="template-project-meta">{getLocalizedText(project.category, locale)}</span>
                 ) : null}
               </span>
             </a>
@@ -138,7 +137,9 @@ function Capabilities({
   locale: SiteLocale;
 }) {
   const t = useTranslations('landing.nav');
-  const features = site.profile.features.map((feature) => localized(feature, locale)).filter(Boolean);
+  const features = site.profile.features
+    .map((feature) => getLocalizedText(feature, locale))
+    .filter(Boolean);
   if (features.length === 0) return null;
 
   return (
@@ -163,7 +164,9 @@ function ProcessSteps({
   locale: SiteLocale;
 }) {
   const t = useTranslations('landing.nav');
-  const items = (steps ?? []).map((step) => localized(step, locale)).filter(Boolean);
+  const items = (steps ?? [])
+    .map((step) => getLocalizedText(step, locale))
+    .filter(Boolean);
   if (items.length === 0) return null;
 
   return (
@@ -195,7 +198,7 @@ function CallToAction({
   href: string;
 }) {
   const t = useTranslations('landing.nav');
-  const text = localized(title, locale);
+  const text = getLocalizedText(title, locale);
 
   return (
     <section className="template-section template-call-to-action" id="call-to-action">
@@ -220,7 +223,7 @@ function ContactDetails({
 }) {
   const t = useTranslations('landing.nav');
   const contact = site.profile.contact;
-  const address = localized(contact?.address, locale);
+  const address = getLocalizedText(contact?.address, locale);
   const details: {label: string; value: string; href?: string}[] = [];
   if (contact?.email) details.push({label: 'email', value: contact.email, href: `mailto:${contact.email}`});
   if (contact?.phone) details.push({label: 'phone', value: contact.phone, href: `tel:${contact.phone}`});
@@ -254,8 +257,12 @@ function ProjectHero({
   project: TemplateProject;
   locale: SiteLocale;
 }) {
-  const title = localized(project.title, locale);
+  const title = getLocalizedText(project.title, locale);
   if (!title) return null;
+  const metadata = [
+    getLocalizedText(project.category, locale),
+    getLocalizedText(project.location, locale),
+  ].filter(Boolean);
 
   return (
     <section className="template-section template-project-hero">
@@ -264,9 +271,9 @@ function ProjectHero({
           <TemplateImageFrame image={project.coverImage} locale={locale} className="template-project-cover" />
         ) : null}
         <h1 className="template-page-title">{title}</h1>
-        <p className="template-project-meta">
-          {[localized(project.category, locale), localized(project.location, locale)].filter(Boolean).join(' · ')}
-        </p>
+        {metadata.length > 0 ? (
+          <p className="template-project-meta">{metadata.join(' · ')}</p>
+        ) : null}
       </div>
     </section>
   );
@@ -279,7 +286,7 @@ function ProjectDescription({
   project: TemplateProject;
   locale: SiteLocale;
 }) {
-  const description = localized(project.description, locale);
+  const description = getLocalizedText(project.description, locale);
   if (!description) return null;
 
   return (
@@ -324,7 +331,7 @@ function Story({
   site: TemplateSiteData;
   locale: SiteLocale;
 }) {
-  const story = localized(site.pageCopy?.about?.story, locale);
+  const story = getLocalizedText(site.pageCopy?.about?.story, locale);
   if (!story) return null;
 
   return (
@@ -359,8 +366,8 @@ export function TemplateSection({
 
   switch (definition.type) {
     case 'hero': {
-      const name = localized(site.profile.companyName, locale);
-      const description = localized(site.profile.description, locale);
+      const name = getLocalizedText(site.profile.companyName, locale);
+      const description = getLocalizedText(site.profile.description, locale);
       if (!name && !description) return null;
 
       return (
@@ -428,6 +435,6 @@ export function TemplateSection({
     case 'contact-methods':
       return <ContactDetails site={site} locale={locale} />;
     default:
-      return null;
+      throw new Error(`Unsupported template section type "${String(definition.type)}".`);
   }
 }

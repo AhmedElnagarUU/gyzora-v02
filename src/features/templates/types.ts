@@ -90,6 +90,7 @@ export interface TemplateDefinition {
   readonly id: TemplateId;
   readonly style: TemplateStyle;
   readonly pages: readonly TemplatePageDefinition[];
+  readonly images?: Partial<Record<TemplateImageSlotId, TemplateImage>>;
 }
 
 export interface TemplateImage {
@@ -132,7 +133,6 @@ export interface TemplateSiteData {
   readonly profile: SiteProfile;
   readonly pageCopy?: TemplatePageCopy;
   readonly projects?: readonly TemplateProject[];
-  readonly illustrativeImages?: Partial<Record<'home.hero', TemplateImage>>;
 }
 
 export type TemplatePageHref = (
@@ -140,10 +140,13 @@ export type TemplatePageHref = (
   projectId?: string
 ) => string;
 
+export type TemplateRenderMode = 'sample' | 'draft' | 'published';
+
 interface TemplateRendererBaseProps {
   template: TemplateDefinition;
   site: TemplateSiteData;
   locale: SiteLocale;
+  mode: TemplateRenderMode;
   hrefForPage: TemplatePageHref;
 }
 

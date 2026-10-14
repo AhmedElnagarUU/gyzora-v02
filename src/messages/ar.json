@@ -180,5 +180,33 @@
         "action": "استكشف الخطوات"
       }
     }
+  },
+  "siteSetup": {
+    "eyebrow": "أنشئ موقعك",
+    "title": "إعداد موقعك",
+    "description": "ابدأ بملف تعريفي بسيط للشركة واختيار نموذج لبدء موقعك الحالي كمسودة.",
+    "fields": {
+      "template": "القالب",
+      "companyName": "اسم الشركة",
+      "companyNamePlaceholder": "أدخل اسم شركتك",
+      "category": "فئة العمل",
+      "categoryPlaceholder": "مثل: العقارات، البناء، التصميم",
+      "description": "وصف الشركة",
+      "descriptionPlaceholder": "أخبر الزوار قليلاً عن نشاطك وخدماتك.",
+      "language": "لغات الموقع"
+    },
+    "validation": {
+      "templateRequired": "يرجى اختيار قالب.",
+      "companyNameMin": "يجب أن يحتوي اسم الشركة على حرفين على الأقل.",
+      "categoryMin": "يرجى تقديم فئة العمل.",
+      "descriptionMin": "يجب أن يحتوي الوصف على 20 حرفًا على الأقل.",
+      "languageRequired": "اختر لغة واحدة على الأقل."
+    },
+    "errors": {
+      "generic": "حدث خطأ ما. يُرجى المحاولة مرة أخرى."
+    },
+    "loading": "جارٍ إنشاء الموقع...",
+    "submit": "إنشاء الموقع",
+    "success": "تم إنشاء مسودة موقعك."
   }
 }

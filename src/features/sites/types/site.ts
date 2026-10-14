@@ -23,9 +23,11 @@ export interface SiteProfile {
 export interface SiteDocument {
   ownerUserId: string;
   templateId: string;
+  status: 'draft';
   profile: SiteProfile;
+  content: Record<string, unknown>;
   createdAt: Date;
   updatedAt: Date;
 }
 
-export type NewSite = Pick<SiteDocument, 'ownerUserId' | 'templateId' | 'profile'>;
+export type NewSite = Pick<SiteDocument, 'ownerUserId' | 'templateId' | 'status' | 'profile' | 'content'>;

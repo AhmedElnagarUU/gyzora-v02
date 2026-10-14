@@ -1,12 +1,19 @@
 import {betterAuth} from 'better-auth';
 import {mongodbAdapter} from 'better-auth/adapters/mongodb';
-import {nextCookies} from 'better-auth/next-js';
 
 import {getDatabase} from '@/shared/db/mongodb';
 
-export async function getAuth() {
+let authPromise: ReturnType<typeof createAuth> | undefined;
+
+async function createAuth() {
+  const secret = process.env.BETTER_AUTH_SECRET;
+
+  if (!secret) {
+    throw new Error('BETTER_AUTH_SECRET is not configured.');
+  }
+
   return betterAuth({
-    secret: process.env.BETTER_AUTH_SECRET || 'development-secret',
+    secret,
     baseURL: process.env.BETTER_AUTH_URL || 'http://localhost:3000',
     database: mongodbAdapter(await getDatabase()),
     emailAndPassword: {
@@ -15,7 +22,17 @@ export async function getAuth() {
     },
     session: {
       expiresIn: 60 * 60 * 24 * 7
-    },
-    plugins: [nextCookies()]
+    }
   });
+}
+
+export function getAuth() {
+  if (!authPromise) {
+    authPromise = createAuth().catch((error: unknown) => {
+      authPromise = undefined;
+      throw error;
+    });
+  }
+
+  return authPromise;
 }

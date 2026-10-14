@@ -130,18 +130,22 @@ sections and fields should not be duplicated merely for styling.
 
 ```text
 src/features/templates/
-  types.ts                 Definition, page, section, media, and render contracts
-  catalog.ts               Five definitions, shared page structure, and lookup
+  types.ts                 Definition, page, section, media, and render-mode contracts
+  catalog.ts               Five immutable definitions, shared page structure, and lookup
   render/
     TemplateRenderer.tsx   Resolve page and render shared header/footer
     TemplateSections.tsx   Render supported semantic section types
     TemplateImageFrame.tsx Render images and failed-load fallbacks
+    localized.ts           Explicit locale selection, direction, and visible projects
 ```
 
 The renderer receives data and route-link construction from its caller. It
 does not choose a route scheme or fetch customer data. Keep template-specific
 presentation in the theme styles unless a design genuinely needs a separate
 component; do not introduce a plugin system or runtime JSON builder.
+Sample-mode rendering displays the existing localized sample-preview label.
+Template illustrations are defined on the immutable template; Site and Project
+data remain caller-owned inputs.
 
 ## Feature interaction flows
 

@@ -1,5 +1,6 @@
 'use client';
 
+import {authClient} from '@/features/auth/lib/auth-client';
 import {useLocale, useTranslations} from 'next-intl';
 import {useRouter} from 'next/navigation';
 import {useState} from 'react';
@@ -16,17 +17,24 @@ export function SignOutButton() {
     setHasError(false);
 
     try {
-      const response = await fetch('/api/auth/sign-out', {
-        method: 'POST'
-      });
+      const {data, error} = await authClient.signOut();
 
-      if (!response.ok) {
+      if (error || data?.success !== true) {
         setHasError(true);
         setIsPending(false);
         return;
       }
 
-      router.push(`/${locale}`);
+      const {data: session, error: sessionError} = await authClient.getSession();
+
+      if (sessionError || session !== null) {
+        setHasError(true);
+        setIsPending(false);
+        return;
+      }
+
+      router.replace(`/${locale}`);
+      router.refresh();
     } catch {
       setHasError(true);
       setIsPending(false);
@@ -39,6 +47,7 @@ export function SignOutButton() {
         type="button"
         onClick={handleSignOut}
         disabled={isPending}
+        aria-busy={isPending}
         className="inline-flex items-center justify-center rounded-full bg-slate-950 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70"
       >
         {isPending ? t('signingOut') : t('signOut')}

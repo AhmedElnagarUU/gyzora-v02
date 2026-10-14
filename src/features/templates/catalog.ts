@@ -165,6 +165,29 @@ export const TEMPLATES: readonly TemplateDefinition[] = [
   },
 ];
 
+for (const template of TEMPLATES) {
+  for (const page of template.pages) {
+    for (const sectionDefinition of page.sections) {
+      Object.freeze(sectionDefinition.fieldIds);
+      Object.freeze(sectionDefinition.imageSlotIds);
+      Object.freeze(sectionDefinition);
+    }
+    Object.freeze(page.sections);
+    Object.freeze(page);
+  }
+  Object.freeze(template.pages);
+  if (template.images) {
+    for (const image of Object.values(template.images)) {
+      if (!image) continue;
+      Object.freeze(image.alt);
+      Object.freeze(image);
+    }
+    Object.freeze(template.images);
+  }
+  Object.freeze(template.style);
+  Object.freeze(template);
+}
+
 export function getTemplate(templateId: string): TemplateDefinition | null {
   return TEMPLATES.find((template) => template.id === templateId) ?? null;
 }

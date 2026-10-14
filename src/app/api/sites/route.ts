@@ -3,7 +3,7 @@ import {NextResponse} from 'next/server';
 import {getSession} from '@/features/auth/lib/session';
 import {createSite, findSiteByOwnerId} from '@/features/sites/repository';
 import {createSiteSchema} from '@/features/sites/schemas/create-site-schema';
-import {buildTemplateContent, getTemplateById, type SiteTemplateId} from '@/features/sites/templates';
+import {buildTemplateContent} from '@/features/sites/templates';
 
 export const dynamic = 'force-dynamic';
 
@@ -32,12 +32,7 @@ export async function POST(request: Request) {
     return NextResponse.json({error: 'Site already exists for this account'}, {status: 409});
   }
 
-  const templateId = parsed.data.templateId as SiteTemplateId;
-  const template = getTemplateById(templateId);
-
-  if (!template) {
-    return NextResponse.json({error: 'Unsupported template'}, {status: 400});
-  }
+  const {templateId} = parsed.data;
 
   const siteId = await createSite({
     ownerUserId: session.user.id,

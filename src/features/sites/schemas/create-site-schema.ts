@@ -1,7 +1,12 @@
 import {z} from 'zod';
+import {isTemplateId} from '../../templates/catalog.ts';
 
 export const createSiteSchema = z.object({
-  templateId: z.string().trim().min(1, 'siteSetup.validation.templateRequired'),
+  templateId: z
+    .string()
+    .trim()
+    .min(1, 'siteSetup.validation.templateRequired')
+    .refine(isTemplateId, 'siteSetup.validation.templateInvalid'),
   companyName: z.string().trim().min(2, 'siteSetup.validation.companyNameMin'),
   category: z.string().trim().min(2, 'siteSetup.validation.categoryMin'),
   description: z.string().trim().min(20, 'siteSetup.validation.descriptionMin'),

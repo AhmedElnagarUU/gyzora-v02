@@ -6,7 +6,8 @@
 - Authenticated dashboard with Site existence and publish-state summary
 - One-Site-per-user guard in UI and server
 - Site creation wizard with company name, category, description, logo, contact address, services, features, language preferences, and selection from the five-template catalog defined in [the design brief](../../template-design/README.md) and implemented through [the template-engine contract](../../template-engine/README.md)
-- Server-side validation for required fields and selection of a supported catalog template ID
+- M3.2 owns connecting the existing Site-creation form and `/api/sites` handler to the template catalog. The picker must offer exactly `atelier`, `modern-build`, `urban-estate`, `interior-calm`, and `craft-studio`; the API must validate against that same catalog, not a duplicated or legacy list.
+- Server-side validation for required fields and catalog-supported template IDs; any otherwise-valid authenticated request using a supported ID creates a draft Site, while unsupported IDs are rejected.
 - No-publish creation flow that initializes editable Site content from template
 - Redirects to editor or dashboard based on Site existence
 
@@ -22,6 +23,7 @@
 - [ ] Dashboard loads for authenticated users and redirects unauthenticated users to sign-in.
 - [ ] Users with no Site see a clear create-site action; users with an existing Site see edit, preview, and publish actions.
 - [ ] Create-Site form validates required fields and rejects unsupported template choices.
+- [ ] With otherwise valid data and an authenticated owner, creation succeeds for each of the five supported catalog IDs; unsupported IDs are rejected server-side. The picker defaults to a supported ID.
 - [ ] A second Site creation attempt is blocked in the UI and rejected on the server.
 - [ ] Concurrent creation attempts are safely rejected without creating duplicate Site records.
 - [ ] Site creation initializes editable content from the chosen template but does not publish content.

@@ -4,13 +4,14 @@ import {useLocale, useTranslations} from 'next-intl';
 import {useRouter} from 'next/navigation';
 import {FormEvent, useState} from 'react';
 
-import {SITE_TEMPLATES} from '@/features/sites/templates';
+import {isTemplateId, TEMPLATES} from '@/features/templates/catalog';
+import type {TemplateId} from '@/features/templates/types';
 
 export function CreateSiteForm() {
   const t = useTranslations('siteSetup');
   const locale = useLocale();
   const router = useRouter();
-  const [templateId, setTemplateId] = useState('modern');
+  const [templateId, setTemplateId] = useState<TemplateId>(TEMPLATES[0].id);
   const [companyName, setCompanyName] = useState('');
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
@@ -61,12 +62,16 @@ export function CreateSiteForm() {
         <select
           id="templateId"
           value={templateId}
-          onChange={(event) => setTemplateId(event.target.value)}
+          onChange={(event) => {
+            if (isTemplateId(event.target.value)) {
+              setTemplateId(event.target.value);
+            }
+          }}
           className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-900 outline-none transition focus:border-emerald-500 focus:bg-white"
         >
-          {Object.values(SITE_TEMPLATES).map((template) => (
+          {TEMPLATES.map((template) => (
             <option key={template.id} value={template.id}>
-              {template.title[locale as keyof typeof template.title] ?? template.title.en}
+              {t(`fields.templateNames.${template.id}`)}
             </option>
           ))}
         </select>

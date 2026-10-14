@@ -35,7 +35,7 @@ FR-01 Auth. Use the existing auth system (don't replace it). Protected routes re
 
 FR-02 Dashboard. Shows Site existence and publish status, with links to editor, projects, preview, and publish. No multi-site UI. Duplicate creation is blocked in the UI and on the server.
 
-FR-03 Site creation. Collects company name, category, description, logo, contact info, address, services, features, language preferences, and template. Only fields with a real product reason are required. Creation initializes editable content from the template plus the user's input, and does not depend on publishing.
+FR-03 Site creation. Collects company name, category, description, logo, contact info, address, services, features, language preferences, and template. The picker and server API use exactly the supported template IDs exported by the template catalog: `atelier`, `modern-build`, `urban-estate`, `interior-calm`, and `craft-studio`. The form must not maintain a separate or legacy template list. Only fields with a real product reason are required. With otherwise valid required data and an authenticated owner, creation succeeds for every supported ID and rejects unsupported IDs. Creation initializes editable content from the selected template plus the user's input, and does not depend on publishing.
 
 FR-04 Templates. Provide five selectable template variations for the MVP. No templates currently exist; create five Gyzora definitions that follow the template-engine contract. Each must:
 

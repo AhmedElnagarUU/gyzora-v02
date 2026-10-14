@@ -1,29 +1,9 @@
-export const SITE_TEMPLATES = {
-  modern: {
-    id: 'modern',
-    title: {en: 'Modern Studio', ar: 'استوديو عصري'},
-    accent: {en: 'For a polished, conversion-focused profile', ar: 'لملف شخصي احترافي يركز على التحويل'}
-  },
-  boutique: {
-    id: 'boutique',
-    title: {en: 'Boutique Portfolio', ar: 'ملف أعمال فاخر'},
-    accent: {en: 'For a warm, service-led brand story', ar: 'لرواية علامة تجارية دافئة وموجهة للخدمة'}
-  }
-} as const;
+import type {TemplateId} from '../templates/types';
 
-export type SiteTemplateId = keyof typeof SITE_TEMPLATES;
-
-export function getTemplateById(templateId?: string) {
-  if (!templateId || !(templateId in SITE_TEMPLATES)) {
-    return null;
-  }
-
-  return SITE_TEMPLATES[templateId as SiteTemplateId];
-}
-
-export function buildTemplateContent(templateId: SiteTemplateId, profile: {companyName: string; category: string; description: string}) {
-  const template = SITE_TEMPLATES[templateId];
-
+export function buildTemplateContent(
+  templateId: TemplateId,
+  profile: {companyName: string; category: string; description: string}
+) {
   return {
     templateId,
     language: 'en',
@@ -61,11 +41,6 @@ export function buildTemplateContent(templateId: SiteTemplateId, profile: {compa
           title: {en: profile.category, ar: profile.category},
           description: {en: profile.description, ar: profile.description}
         }]
-      },
-      templateMeta: {
-        id: template.id,
-        label: template.title,
-        accent: template.accent
       }
     }
   };

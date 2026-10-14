@@ -187,6 +187,13 @@
     "description": "Start with a simple company profile and choose a template to begin your draft website.",
     "fields": {
       "template": "Template",
+      "templateNames": {
+        "atelier": "Editorial Atelier",
+        "modern-build": "Modern Build",
+        "urban-estate": "Urban Estate",
+        "interior-calm": "Interior Calm",
+        "craft-studio": "Craft Studio"
+      },
       "companyName": "Company name",
       "companyNamePlaceholder": "Enter your company name",
       "category": "Business category",
@@ -197,6 +204,7 @@
     },
     "validation": {
       "templateRequired": "Please choose a template.",
+      "templateInvalid": "Please choose a supported template.",
       "companyNameMin": "Company name must be at least 2 characters.",
       "categoryMin": "Please provide a business category.",
       "descriptionMin": "Description must be at least 20 characters.",

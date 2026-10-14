@@ -29,3 +29,521 @@ body {
   font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   min-height: 100%;
 }
+
+.template-site {
+  --template-content-width: 76rem;
+  background: var(--template-background);
+  color: var(--template-foreground);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  min-height: 100vh;
+}
+
+.template-site[data-font-style="editorial"],
+.template-site[data-font-style="refined"] {
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.template-header {
+  border-bottom: 1px solid var(--template-border);
+  position: relative;
+  z-index: 1;
+}
+
+.template-header-inner,
+.template-footer-inner {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  justify-content: space-between;
+  margin-inline: auto;
+  max-width: var(--template-content-width);
+  padding: 1.25rem clamp(1rem, 4vw, 3rem);
+}
+
+.template-brand {
+  align-items: center;
+  color: inherit;
+  display: inline-flex;
+  font-size: 1rem;
+  font-weight: 700;
+  gap: 0.75rem;
+  min-height: 2.5rem;
+  text-decoration: none;
+}
+
+.template-logo-image {
+  height: 2.5rem;
+  position: relative;
+  width: 2.5rem;
+}
+
+.template-navigation {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(0.75rem, 2vw, 1.75rem);
+}
+
+.template-navigation a,
+.template-footer a {
+  color: var(--template-muted);
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+.template-navigation a:hover,
+.template-navigation a[aria-current="page"],
+.template-footer a:hover {
+  color: var(--template-accent);
+}
+
+.template-page {
+  margin-inline: auto;
+  max-width: var(--template-content-width);
+  padding-inline: clamp(1rem, 4vw, 3rem);
+}
+
+.template-section {
+  padding-block: clamp(2.75rem, 7vw, 6rem);
+}
+
+.template-section-inner {
+  margin-inline: auto;
+  max-width: 68rem;
+}
+
+.template-page-title {
+  font-size: clamp(2.5rem, 7vw, 6.5rem);
+  font-weight: 600;
+  letter-spacing: -0.055em;
+  line-height: 0.98;
+  margin: 0;
+  max-width: 15ch;
+  text-wrap: balance;
+}
+
+.template-section-heading {
+  color: var(--template-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  margin: 0 0 1.5rem;
+  text-transform: uppercase;
+}
+
+.template-lead {
+  font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+  line-height: 1.65;
+  margin: 1rem 0 0;
+  max-width: 52rem;
+  text-wrap: pretty;
+}
+
+.template-hero {
+  padding-block: clamp(3rem, 8vw, 7rem);
+}
+
+.template-hero-inner {
+  align-items: center;
+  display: grid;
+  gap: clamp(2rem, 5vw, 5rem);
+}
+
+.template-hero-copy {
+  max-width: 52rem;
+}
+
+.template-hero-copy .template-lead {
+  color: var(--template-muted);
+  margin-block: 1.5rem 2rem;
+}
+
+.template-image-frame {
+  background: var(--template-border);
+  border-radius: var(--template-radius);
+  overflow: hidden;
+  position: relative;
+}
+
+.template-image-frame img {
+  object-fit: cover;
+}
+
+.template-image-placeholder {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--template-accent) 18%, transparent), transparent 58%),
+    linear-gradient(35deg, var(--template-border), var(--template-surface));
+  height: 100%;
+  min-height: 10rem;
+  width: 100%;
+}
+
+.template-hero-image {
+  aspect-ratio: 16 / 10;
+  min-height: 16rem;
+}
+
+.template-button {
+  align-items: center;
+  background: var(--template-accent);
+  border: 1px solid var(--template-accent);
+  border-radius: var(--template-radius);
+  color: var(--template-accent-foreground);
+  display: inline-flex;
+  font-size: 0.9rem;
+  font-weight: 700;
+  justify-content: center;
+  min-height: 2.9rem;
+  padding: 0.75rem 1.25rem;
+  text-decoration: none;
+  transition: filter 150ms ease, transform 150ms ease;
+}
+
+.template-button:hover {
+  filter: brightness(0.92);
+  transform: translateY(-1px);
+}
+
+.template-button:focus-visible,
+.template-site a:focus-visible {
+  outline: 3px solid var(--template-accent);
+  outline-offset: 3px;
+}
+
+.template-services,
+.template-capabilities,
+.template-process,
+.template-contact {
+  border-top: 1px solid var(--template-border);
+}
+
+.template-service-list,
+.template-feature-list,
+.template-process-list,
+.template-contact-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.template-service-item,
+.template-process-list li {
+  align-items: baseline;
+  border-bottom: 1px solid var(--template-border);
+  display: flex;
+  gap: 1.25rem;
+  padding-block: 1rem;
+}
+
+.template-index {
+  color: var(--template-accent);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+.template-feature-list {
+  display: grid;
+  gap: 0.75rem 2rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.template-feature-list li {
+  border-inline-start: 2px solid var(--template-accent);
+  padding: 0.75rem 1rem;
+}
+
+.template-project-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.template-project-card {
+  color: inherit;
+  min-width: 0;
+  text-decoration: none;
+}
+
+.template-project-image,
+.template-gallery-image {
+  aspect-ratio: 4 / 3;
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+.template-project-copy {
+  display: grid;
+  gap: 0.35rem;
+  padding-block: 0.9rem;
+}
+
+.template-project-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.template-project-meta {
+  color: var(--template-muted);
+  font-size: 0.85rem;
+}
+
+.template-project-card:hover .template-project-title {
+  color: var(--template-accent);
+}
+
+.template-call-to-action {
+  background: var(--template-surface);
+  border-block: 1px solid var(--template-border);
+}
+
+.template-cta-inner {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: space-between;
+}
+
+.template-cta-inner .template-section-heading {
+  color: var(--template-foreground);
+  font-size: clamp(1.4rem, 3vw, 2.5rem);
+  letter-spacing: -0.03em;
+  margin: 0;
+  max-width: 30ch;
+  text-transform: none;
+}
+
+.template-contact-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+}
+
+.template-contact-list a,
+.template-contact-list span {
+  color: var(--template-foreground);
+  overflow-wrap: anywhere;
+}
+
+.template-contact-list a:hover {
+  color: var(--template-accent);
+}
+
+.template-project-cover {
+  aspect-ratio: 16 / 8;
+  margin-block-end: 2rem;
+  width: 100%;
+}
+
+.template-project-hero .template-page-title {
+  font-size: clamp(2.25rem, 6vw, 5.5rem);
+}
+
+.template-project-description {
+  border-top: 1px solid var(--template-border);
+}
+
+.template-story {
+  border-inline-start: 2px solid var(--template-accent);
+  margin-inline-start: clamp(0rem, 4vw, 3rem);
+  padding-inline-start: clamp(1rem, 3vw, 2rem);
+}
+
+.template-footer {
+  border-top: 1px solid var(--template-border);
+  margin-block-start: 2rem;
+}
+
+.template-footer-inner {
+  color: var(--template-muted);
+  font-size: 0.875rem;
+}
+
+.template-site[data-template-id="atelier"] .template-hero-inner,
+.template-site[data-template-id="interior-calm"] .template-hero-inner,
+.template-site[data-template-id="craft-studio"] .template-hero-inner {
+  grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.9fr);
+}
+
+.template-site[data-template-id="atelier"] .template-hero-image {
+  aspect-ratio: 4 / 5;
+}
+
+.template-site[data-template-id="atelier"] .template-page-title,
+.template-site[data-template-id="urban-estate"] .template-page-title {
+  font-weight: 400;
+}
+
+.template-site[data-template-id="modern-build"] .template-hero-inner {
+  background: var(--template-surface);
+  border-inline-start: 0.4rem solid var(--template-accent);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: clamp(1.5rem, 5vw, 4rem);
+}
+
+.template-site[data-template-id="modern-build"] .template-service-item {
+  background: var(--template-surface);
+  margin-block: 0.6rem;
+  padding-inline: 1rem;
+}
+
+.template-site[data-template-id="modern-build"] .template-project-card {
+  background: var(--template-surface);
+  border: 1px solid var(--template-border);
+}
+
+.template-site[data-template-id="modern-build"] .template-project-copy {
+  padding: 1rem;
+}
+
+.template-site[data-template-id="urban-estate"] .template-hero-inner {
+  grid-template-columns: 1fr;
+  text-align: center;
+}
+
+.template-site[data-template-id="urban-estate"] .template-hero-copy {
+  margin-inline: auto;
+}
+
+.template-site[data-template-id="urban-estate"] .template-hero-image {
+  aspect-ratio: 2 / 1;
+}
+
+.template-site[data-template-id="urban-estate"] .template-project-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.template-site[data-template-id="atelier"] .template-project-grid {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.template-site[data-template-id="atelier"] .template-project-card:nth-child(4n + 1),
+.template-site[data-template-id="atelier"] .template-project-card:nth-child(4n + 4) {
+  grid-column: span 7;
+}
+
+.template-site[data-template-id="atelier"] .template-project-card:nth-child(4n + 2),
+.template-site[data-template-id="atelier"] .template-project-card:nth-child(4n + 3) {
+  grid-column: span 5;
+}
+
+.template-site[data-template-id="atelier"] .template-project-card:nth-child(4n + 2) {
+  margin-block-start: 3rem;
+}
+
+.template-site[data-template-id="interior-calm"] .template-hero-image {
+  border-radius: 45% 45% var(--template-radius) var(--template-radius);
+}
+
+.template-site[data-template-id="interior-calm"] .template-project-image {
+  border-radius: calc(var(--template-radius) * 1.4);
+}
+
+.template-site[data-template-id="interior-calm"] .template-project-card:nth-child(even) {
+  margin-block-start: 2rem;
+}
+
+.template-site[data-template-id="craft-studio"] .template-hero-inner {
+  grid-template-columns: minmax(0, 1.2fr) minmax(14rem, 0.8fr);
+}
+
+.template-site[data-template-id="craft-studio"] .template-project-grid {
+  grid-template-columns: 1fr;
+}
+
+.template-site[data-template-id="craft-studio"] .template-project-card {
+  align-items: center;
+  display: grid;
+  gap: clamp(1rem, 4vw, 3rem);
+  grid-template-columns: minmax(0, 1.2fr) minmax(10rem, 0.8fr);
+}
+
+.template-site[data-template-id="craft-studio"] .template-project-card:nth-child(even) {
+  grid-template-columns: minmax(10rem, 0.8fr) minmax(0, 1.2fr);
+}
+
+.template-site[data-template-id="craft-studio"] .template-project-card:nth-child(even) .template-project-image {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.template-site[data-template-id="craft-studio"] .template-project-card:nth-child(even) .template-project-copy {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.template-site[data-template-id="craft-studio"] .template-call-to-action {
+  background: var(--template-accent);
+  color: #fff;
+}
+
+.template-site[data-template-id="craft-studio"] .template-cta-inner .template-section-heading {
+  color: inherit;
+}
+
+.template-site[data-template-id="craft-studio"] .template-call-to-action .template-button {
+  background: var(--template-surface);
+  border-color: var(--template-surface);
+  color: var(--template-foreground);
+}
+
+@media (max-width: 720px) {
+  .template-header-inner,
+  .template-footer-inner {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .template-navigation {
+    gap: 0.5rem 1rem;
+  }
+
+  .template-site[data-template-id="atelier"] .template-hero-inner,
+  .template-site[data-template-id="modern-build"] .template-hero-inner,
+  .template-site[data-template-id="interior-calm"] .template-hero-inner,
+  .template-site[data-template-id="craft-studio"] .template-hero-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .template-project-grid,
+  .template-feature-list {
+    grid-template-columns: 1fr;
+  }
+
+  .template-site[data-template-id="atelier"] .template-project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .template-site[data-template-id="atelier"] .template-project-card {
+    grid-column: auto;
+    margin-block-start: 0;
+  }
+
+  .template-site[data-template-id="urban-estate"] .template-project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .template-site[data-template-id="craft-studio"] .template-project-card,
+  .template-site[data-template-id="craft-studio"] .template-project-card:nth-child(even) {
+    grid-template-columns: 1fr;
+  }
+
+  .template-site[data-template-id="craft-studio"] .template-project-card:nth-child(even) .template-project-image,
+  .template-site[data-template-id="craft-studio"] .template-project-card:nth-child(even) .template-project-copy {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .template-story {
+    margin-inline-start: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .template-button {
+    transition: none;
+  }
+}

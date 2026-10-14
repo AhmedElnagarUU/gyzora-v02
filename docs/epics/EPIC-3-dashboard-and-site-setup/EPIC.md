@@ -5,8 +5,8 @@
 **Scope:**
 - Authenticated dashboard with Site existence and publish-state summary
 - One-Site-per-user guard in UI and server
-- Site creation wizard with company name, category, description, logo, contact address, services, features, language preferences, and template selection
-- Server-side validation for required fields and template selection
+- Site creation wizard with company name, category, description, logo, contact address, services, features, language preferences, and selection from the five-template catalog defined in [the design brief](../../template-design/README.md) and implemented through [the template-engine contract](../../template-engine/README.md)
+- Server-side validation for required fields and selection of a supported catalog template ID
 - No-publish creation flow that initializes editable Site content from template
 - Redirects to editor or dashboard based on Site existence
 

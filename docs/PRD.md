@@ -37,13 +37,17 @@ FR-02 Dashboard. Shows Site existence and publish status, with links to editor, 
 
 FR-03 Site creation. Collects company name, category, description, logo, contact info, address, services, features, language preferences, and template. Only fields with a real product reason are required. Creation initializes editable content from the template plus the user's input, and does not depend on publishing.
 
-FR-04 Templates. Improve the two existing templates (don't assume new ones). Each must:
+FR-04 Templates. Provide five selectable template variations for the MVP. No templates currently exist; create five Gyzora definitions that follow the template-engine contract. Each must:
 
 Have a coherent identity and consistent layout.
 Use structured, reusable section definitions.
 Support AR/EN and mobile/tablet/desktop.
 Render cleanly when optional content or images are missing.
 Contain no placeholder text or false company claims.
+
+See [docs/template-design/README.md](./template-design/README.md) for the five
+template design briefs and shared page/section plan. The template engine
+architecture is documented in [docs/template-engine/README.md](./template-engine/README.md).
 
 FR-05 Pages and sections. Home, About, Services, Projects, Project Details, Contact (or equivalents).
 
@@ -104,7 +108,7 @@ PA-02	One Site per user. Further and concurrent attempts are safely rejected
 PA-03	Create a Site with a template and open the editor without publishing
 PA-04	Edit and save content, and see it persist on revisit
 PA-05	Add, edit, and delete projects, persisted and isolated per Site
-PA-06	Both templates render complete, responsive, meaningful pages
+PA-06	All five templates render complete, responsive, meaningful pages
 PA-07	Dashboard and public site work in AR/EN with correct RTL/LTR
 PA-08	Preview, publish, edit, and republish. Visitors see the correct published version
 PA-09	API contracts, persistence, validation, and errors are tested
@@ -128,4 +132,4 @@ Test framework and browser automation
 Deployment config and env vars
 10. Success
 
-A business owner can independently register, create a professional company profile site, edit it, manage a portfolio, preview, publish, and update it later in Arabic or English, with one Site per user, tenant isolation, and both templates rendering as complete sites.
+A business owner can independently register, create a professional company profile site, edit it, manage a portfolio, preview, publish, and update it later in Arabic or English, with one Site per user, tenant isolation, and all five templates rendering as complete sites.

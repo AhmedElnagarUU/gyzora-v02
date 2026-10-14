@@ -1,9 +1,9 @@
 # Epic 4: Template and Site Editor
 
-**Goal:** Build the two shared templates and the site editor so a customer can edit company content, services, contact details, and image placeholders in Arabic and English without altering the shared template definition. This covers FR-04, FR-05, FR-06, FR-08, FR-10, FR-14, and the template/content separation requirements.
+**Goal:** Define and integrate five selectable Gyzora template variations with the separate template engine, and build the site editor so customers can edit company content, services, contact details, and images in Arabic and English without altering shared definitions. This covers FR-04, FR-05, FR-06, FR-08, FR-10, FR-14, and template/content separation.
 
 **Scope:**
-- Two template definitions with realistic content blocks and fallback behavior
+- Five design-defined template variations, implemented as immutable definitions through the template-engine contract
 - Site editor for company info, sections, services, features, contact data, and imagery
 - Draft-only editing with reliable save feedback and validation
 - AR/EN supported content model, RTL/LTR layout, and fallback translations
@@ -13,12 +13,12 @@
 
 ## User stories
 - As a customer, I want to edit my Site content in a structured editor, so that my public website stays accurate without affecting the shared template.
-- As a business owner, I want both templates to render complete and responsive pages, so that I can present my company clearly in either language.
+- As a business owner, I want to choose from five complete, responsive templates, so that my company site has a suitable visual identity in either language.
 - As a customer, I want language switching to preserve Site data and route context, so that my content remains intact in AR or EN.
 - As a product owner, I want image fallback handling and template separation, so that public pages stay robust even when optional media is missing.
 
 ## Acceptance criteria
-- [ ] Both templates render complete site sections and handle missing optional content without broken layouts.
+- [ ] All five templates match [the design brief](../../template-design/README.md), render the agreed pages/sections, and handle missing optional content without broken layouts.
 - [ ] Shared template content is not mutated by customer edits.
 - [ ] Editor loads saved draft content, validates input, and shows success/error feedback.
 - [ ] Switching AR/EN preserves the Site context and does not overwrite customer text.
@@ -27,6 +27,8 @@
 
 ## Technical notes
 - Use a template schema that keeps shared layout definitions separate from customer content.
+- Follow the boundaries in [the template-engine contract](../../template-engine/README.md); its renderer/catalog implementation is delivered in a separate session and must be integrated rather than duplicated here.
+- Treat the five stable IDs and visual/page briefs in `docs/template-design/README.md` as the product catalog source. IDs are proposed until implemented; do not silently rename or substitute them.
 - Model language-specific fields explicitly; do not infer text direction from content.
 - Keep the save model simple and reliable: draft content saved to Site state with clear validation and user feedback.
 - Respect existing i18n routing and use the approved Pexels integration only for illustrative template imagery and not as a dependency for core site generation.
@@ -40,7 +42,7 @@
 - Size: L
 
 ## Definition of Done
-- Both templates render complete pages and handle empty/missing images cleanly.
+- All five template variations conform to the design brief and engine contract, render complete pages, and handle empty/missing images cleanly.
 - Editor saves persistently and remains isolated from the shared template.
 - AR/EN language flow passes QA and no broken RTL/LTR layout remains.
 

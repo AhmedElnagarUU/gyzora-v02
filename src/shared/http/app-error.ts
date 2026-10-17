@@ -19,12 +19,15 @@ export const API_ERROR_CODES = [
 export type ApiErrorCode = (typeof API_ERROR_CODES)[number];
 
 export class AppError extends Error {
-  constructor(
-    readonly code: ApiErrorCode,
-    readonly status: number,
-    readonly fields?: Record<string, string>
-  ) {
+  code: ApiErrorCode;
+  status: number;
+  fields?: Record<string, string>;
+
+  constructor(code: ApiErrorCode, status: number, fields?: Record<string, string>) {
     super(code);
     this.name = 'AppError';
+    this.code = code;
+    this.status = status;
+    this.fields = fields;
   }
 }

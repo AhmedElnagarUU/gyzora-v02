@@ -8,8 +8,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-sans-latin);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -26,16 +25,24 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: var(--font-sans-latin), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   min-height: 100%;
+}
+
+html[dir="rtl"] body {
+  font-family: var(--font-sans-arabic), var(--font-sans-latin), ui-sans-serif, system-ui, sans-serif;
 }
 
 .template-site {
   --template-content-width: 76rem;
   background: var(--template-background);
   color: var(--template-foreground);
-  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-sans-latin), ui-sans-serif, system-ui, sans-serif;
   min-height: 100vh;
+}
+
+html[dir="rtl"] .template-site {
+  font-family: var(--font-sans-arabic), var(--font-sans-latin), ui-sans-serif, system-ui, sans-serif;
 }
 
 .template-sample-label {

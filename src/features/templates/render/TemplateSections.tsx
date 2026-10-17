@@ -426,7 +426,7 @@ export function TemplateSection({
               {category ? <p className="template-hero-category">{category}</p> : null}
               {description ? <p className="template-lead">{description}</p> : null}
               {featurePills.length > 0 ? (
-                <div className="template-hero-pills" aria-label="Key highlights">
+                <div className="template-hero-pills" aria-label={t('keyHighlights')}>
                   {featurePills.slice(0, 4).map((pill, index) => (
                     <span className="template-hero-pill" key={`${index}-${pill}`}>
                       {pill}

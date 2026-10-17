@@ -85,7 +85,8 @@
       "features": "What you get",
       "howItWorks": "How it works",
       "industries": "Who it's for",
-      "faq": "FAQ"
+      "faq": "FAQ",
+      "keyHighlights": "Key highlights"
     },
     "footer": {
       "copyright": "© {year} All rights reserved",
@@ -294,6 +295,16 @@
       "phone": "Phone",
       "address": "Address",
       "workingHours": "Working hours"
+    },
+    "navLabel": "Template pages",
+    "viewportLabel": "Responsive viewport",
+    "language": {
+      "en": "English",
+      "ar": "العربية"
+    },
+    "metadata": {
+      "title": "{template} — {page} | Gyzora Live Preview",
+      "description": "Live interactive preview of the {template} template on Gyzora."
     },
     "backToTemplates": "Back to gallery"
   }

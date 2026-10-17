@@ -1,6 +1,6 @@
 import type {Metadata} from 'next';
 import {notFound} from 'next/navigation';
-import {setRequestLocale} from 'next-intl/server';
+import {getTranslations, setRequestLocale} from 'next-intl/server';
 import {routing} from '@/i18n/routing';
 import type {SiteLocale} from '@/features/sites/types/site';
 import {getTemplate, isTemplateId} from '@/features/templates/catalog';
@@ -25,11 +25,13 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
 
   const siteLocale = (locale === 'ar' ? 'ar' : 'en') as SiteLocale;
   const templateName = template.name[siteLocale];
-  const pageLabel = !slug || slug.length === 0 ? 'Home' : slug[0];
+  const pageKey = slug?.[0] ?? 'home';
+
+  const t = await getTranslations({locale, namespace: 'templatePreview'});
 
   return {
-    title: `${templateName} — ${pageLabel} | Gyzora Live Preview`,
-    description: `Live interactive preview of ${templateName} template on Gyzora.`,
+    title: t('metadata.title', {template: templateName, page: t(`pages.${pageKey}`)}),
+    description: t('metadata.description', {template: templateName})
   };
 }
 

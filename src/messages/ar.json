@@ -85,7 +85,8 @@
       "features": "ماذا ستحصل عليه",
       "howItWorks": "كيف يعمل",
       "industries": "لمن صُمم",
-      "faq": "أسئلة شائعة"
+      "faq": "أسئلة شائعة",
+      "keyHighlights": "أبرز المزايا"
     },
     "footer": {
       "copyright": "© {year} جميع الحقوق محفوظة",
@@ -294,6 +295,16 @@
       "phone": "الهاتف",
       "address": "العنوان",
       "workingHours": "ساعات العمل"
+    },
+    "navLabel": "صفحات القالب",
+    "viewportLabel": "عرض متجاوب",
+    "language": {
+      "en": "الإنجليزية",
+      "ar": "العربية"
+    },
+    "metadata": {
+      "title": "{template} — {page} | معاينة قالب جيزورا المباشرة",
+      "description": "معاينة تفاعلية مباشرة لقالب {template} على جيزورا."
     },
     "backToTemplates": "العودة إلى المعرض"
   }

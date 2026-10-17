@@ -37,8 +37,9 @@ export function TemplatePreviewBar({
   onViewportChange: (viewport: ViewportMode) => void;
 }) {
   const t = useTranslations('templatePreview');
+  const brandT = useTranslations('common.brand');
   const targetLocale = locale === 'ar' ? 'en' : 'ar';
-  const targetLocaleLabel = locale === 'ar' ? 'English' : 'العربية';
+  const targetLocaleLabel = t(`language.${targetLocale}`);
 
   // Compute page path for switching
   const getPageHref = (templateId: TemplateId, pageSlug: string) => {
@@ -70,7 +71,7 @@ export function TemplatePreviewBar({
             className="flex items-center gap-2 rounded-lg bg-slate-800/80 px-2.5 py-1.5 text-xs font-semibold text-slate-300 transition hover:bg-slate-700 hover:text-white"
             title={t('backToTemplates')}
           >
-            <span className="font-bold tracking-wider text-emerald-400">GYZORA</span>
+            <span className="font-bold uppercase tracking-wider text-emerald-400">{brandT('name')}</span>
             <span className="text-slate-500">/</span>
             <span className="hidden sm:inline">{t('backToTemplates')}</span>
           </Link>
@@ -107,7 +108,7 @@ export function TemplatePreviewBar({
         </div>
 
         {/* Page Navigator */}
-        <nav className="flex items-center gap-1 overflow-x-auto py-1" aria-label="Template pages">
+        <nav className="flex items-center gap-1 overflow-x-auto py-1" aria-label={t('navLabel')}>
           {NAVIGATION_PAGES.map((navPage) => {
             const isActive = currentActivePage === navPage.id;
             const href = getPageHref(currentTemplateId, navPage.slug);
@@ -134,7 +135,7 @@ export function TemplatePreviewBar({
           <div
             className="hidden items-center rounded-lg border border-slate-700/80 bg-slate-800/80 p-0.5 sm:inline-flex"
             role="group"
-            aria-label="Responsive viewport"
+            aria-label={t('viewportLabel')}
           >
             <button
               type="button"

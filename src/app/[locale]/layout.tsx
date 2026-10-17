@@ -4,6 +4,8 @@ import {routing} from '@/i18n/routing';
 import {notFound} from 'next/navigation';
 import type {Metadata} from 'next';
 
+import '../globals.css';
+
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({locale}));
 }
@@ -22,7 +24,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function LocaleLayout({
+export default async function RootLayout({
   children,
   params
 }: {
@@ -39,8 +41,10 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <div lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'} className="min-h-full">
-      <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
-    </div>
+    <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'} className="h-full antialiased" suppressHydrationWarning>
+      <body className="h-full">
+        <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+      </body>
+    </html>
   );
 }

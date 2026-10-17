@@ -1,7 +1,7 @@
 import {useLocale, useTranslations} from 'next-intl';
 import Link from 'next/link';
 import {Nav} from './nav';
-import {LanguageSwitcher} from './language-switcher';
+import {LanguageSwitcher} from '@/shared/ui/language-switcher';
 
 export function Header() {
   const t = useTranslations('landing.nav');

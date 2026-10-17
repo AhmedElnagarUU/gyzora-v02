@@ -1,17 +1,20 @@
 'use client';
 
 import {useLocale, useTranslations} from 'next-intl';
+
 import {usePathname, useRouter} from '@/i18n/navigation';
 
 export function LanguageSwitcher() {
-  const t = useTranslations('landing.language');
+  const t = useTranslations('common.language');
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
   const switchTo = locale === 'en' ? 'ar' : 'en';
 
   const handleSwitch = () => {
-    router.replace(pathname, {locale: switchTo});
+    const {search, hash} = window.location;
+
+    router.replace(`${pathname}${search}${hash}`, {locale: switchTo});
   };
 
   return (

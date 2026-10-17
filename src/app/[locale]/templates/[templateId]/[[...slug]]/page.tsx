@@ -71,7 +71,7 @@ export default async function TemplatePreviewPage({params}: PageProps) {
   } else if (slug.length === 2 && slug[0] === 'projects') {
     pageId = 'project-details';
     const projectId = slug[1];
-    project = siteData.projects?.find((p) => p.id === projectId) ?? siteData.projects?.[0];
+    project = siteData.projects?.find((p) => p.id === projectId);
     if (!project) {
       notFound();
     }

@@ -88,6 +88,7 @@ export interface TemplateStyle {
 
 export interface TemplateDefinition {
   readonly id: TemplateId;
+  readonly name: LocalizedValue;
   readonly style: TemplateStyle;
   readonly pages: readonly TemplatePageDefinition[];
   readonly images?: Partial<Record<TemplateImageSlotId, TemplateImage>>;
@@ -104,6 +105,8 @@ export interface TemplateProject {
   readonly description: LocalizedValue;
   readonly category?: LocalizedValue;
   readonly location?: LocalizedValue;
+  readonly year?: string;
+  readonly area?: LocalizedValue;
   readonly coverImage?: TemplateImage;
   readonly gallery?: readonly TemplateImage[];
 }

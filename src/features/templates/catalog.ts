@@ -90,6 +90,7 @@ const PAGES: readonly TemplatePageDefinition[] = [
 export const TEMPLATES: readonly TemplateDefinition[] = [
   {
     id: 'atelier',
+    name: {en: 'Editorial Atelier', ar: 'Editorial Atelier'},
     style: {
       accent: '#9B4C31',
       accentForeground: '#FFFFFF',
@@ -102,9 +103,16 @@ export const TEMPLATES: readonly TemplateDefinition[] = [
       fontStyle: 'editorial',
     },
     pages: PAGES,
+    images: {
+      'home.hero': {
+        src: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1600&q=80',
+        alt: {en: 'Atelier Interior Architecture', ar: 'عمارة أتيلييه الداخلية'},
+      },
+    },
   },
   {
     id: 'modern-build',
+    name: {en: 'Modern Build', ar: 'Modern Build'},
     style: {
       accent: '#B64C20',
       accentForeground: '#FFFFFF',
@@ -117,9 +125,16 @@ export const TEMPLATES: readonly TemplateDefinition[] = [
       fontStyle: 'geometric',
     },
     pages: PAGES,
+    images: {
+      'home.hero': {
+        src: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80',
+        alt: {en: 'MODO Modular Architecture', ar: 'عمارة مودو المعيارية'},
+      },
+    },
   },
   {
     id: 'urban-estate',
+    name: {en: 'Urban Estate', ar: 'Urban Estate'},
     style: {
       accent: '#A6874A',
       accentForeground: '#1D3029',
@@ -132,9 +147,16 @@ export const TEMPLATES: readonly TemplateDefinition[] = [
       fontStyle: 'refined',
     },
     pages: PAGES,
+    images: {
+      'home.hero': {
+        src: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1600&q=80',
+        alt: {en: 'Urban Estate Development', ar: 'تطوير أوربان إستيت العقاري'},
+      },
+    },
   },
   {
     id: 'interior-calm',
+    name: {en: 'Interior Calm', ar: 'Interior Calm'},
     style: {
       accent: '#78866C',
       accentForeground: '#252A23',
@@ -147,9 +169,16 @@ export const TEMPLATES: readonly TemplateDefinition[] = [
       fontStyle: 'soft',
     },
     pages: PAGES,
+    images: {
+      'home.hero': {
+        src: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1600&q=80',
+        alt: {en: 'Interior Calm Minimalist Living', ar: 'مساحات إنتيريور كالم الهادئة'},
+      },
+    },
   },
   {
     id: 'craft-studio',
+    name: {en: 'Craft Studio', ar: 'Craft Studio'},
     style: {
       accent: '#C18468',
       accentForeground: '#202222',
@@ -162,6 +191,12 @@ export const TEMPLATES: readonly TemplateDefinition[] = [
       fontStyle: 'studio',
     },
     pages: PAGES,
+    images: {
+      'home.hero': {
+        src: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1600&q=80',
+        alt: {en: 'Craft Studio Architectural Fabrication', ar: 'أعمال كرافت ستوديو المعمارية'},
+      },
+    },
   },
 ];
 
@@ -184,6 +219,7 @@ for (const template of TEMPLATES) {
     }
     Object.freeze(template.images);
   }
+  Object.freeze(template.name);
   Object.freeze(template.style);
   Object.freeze(template);
 }

@@ -1,46 +1,35 @@
+import type {SiteLocale} from './types/site';
 import type {TemplateId} from '../templates/types';
 
 export function buildTemplateContent(
   templateId: TemplateId,
-  profile: {companyName: string; category: string; description: string}
+  profile: {companyName: string; category: string; description: string; locale: SiteLocale}
 ) {
+  const localized = (value: string) =>
+    profile.locale === 'ar' ? {en: '', ar: value} : {en: value, ar: ''};
+
   return {
     templateId,
-    language: 'en',
+    language: profile.locale,
     sections: {
       hero: {
-        heading: {
-          en: profile.companyName,
-          ar: profile.companyName
-        },
-        subheading: {
-          en: profile.category,
-          ar: profile.category
-        },
-        description: {
-          en: profile.description,
-          ar: profile.description
-        }
+        heading: localized(profile.companyName),
+        subheading: localized(profile.category),
+        description: localized(profile.description)
       },
       about: {
         title: {
           en: 'About us',
           ar: 'من نحن'
         },
-        description: {
-          en: profile.description,
-          ar: profile.description
-        }
+        description: localized(profile.description)
       },
       services: {
         title: {
           en: 'Services',
           ar: 'الخدمات'
         },
-        items: [{
-          title: {en: profile.category, ar: profile.category},
-          description: {en: profile.description, ar: profile.description}
-        }]
+        items: []
       }
     }
   };

@@ -23,8 +23,8 @@ export default async function SiteCreatePage({params}: {params: Promise<{locale:
       <div className="mx-auto max-w-3xl rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
         <div className="mb-8">
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-700">{t('eyebrow')}</p>
-          <h1 className="mt-3 text-3xl font-semibold text-slate-900">{t('title')}</h1>
-          <p className="mt-3 text-slate-600">{t('description')}</p>
+          <h1 className="mt-3 text-3xl font-semibold text-slate-900">{t('firstStep.title')}</h1>
+          <p className="mt-3 text-slate-600">{t('firstStep.description')}</p>
         </div>
         <CreateSiteForm />
       </div>

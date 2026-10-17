@@ -180,6 +180,25 @@ body {
   margin-block: 1.5rem 2rem;
 }
 
+.template-hero-category {
+  color: var(--template-accent);
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-block: 1rem 0;
+}
+
+.template-preview-frame .template-site {
+  min-height: auto;
+}
+
+.template-preview-frame .template-section {
+  padding-block: clamp(1.5rem, 4vw, 3rem);
+}
+
+.template-preview-dialog::backdrop {
+  background: rgb(2 6 23 / 70%);
+}
+
 .template-image-frame {
   background: var(--template-border);
   border-radius: var(--template-radius);
@@ -309,6 +328,84 @@ body {
 .template-project-meta {
   color: var(--template-muted);
   font-size: 0.85rem;
+}
+
+.template-project-specs {
+  align-items: center;
+  color: var(--template-muted);
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 0.825rem;
+  gap: 0.35rem 0.65rem;
+  margin-block-start: 0.25rem;
+}
+
+.template-project-specs span + span::before {
+  content: '·';
+  margin-inline-end: 0.65rem;
+  opacity: 0.6;
+}
+
+.template-project-specs-grid {
+  background: var(--template-surface);
+  border: 1px solid var(--template-border);
+  border-radius: var(--template-radius);
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  margin-block: 2rem 1.5rem;
+  padding: 1.25rem 1.5rem;
+}
+
+.template-spec-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.template-spec-label {
+  color: var(--template-muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.template-spec-value {
+  color: var(--template-foreground);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.template-hero-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block: 1.25rem 1.5rem;
+}
+
+.template-hero-pill {
+  background: color-mix(in srgb, var(--template-surface) 85%, transparent);
+  border: 1px solid var(--template-border);
+  border-radius: var(--template-radius);
+  color: var(--template-foreground);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.35rem 0.75rem;
+  text-transform: uppercase;
+}
+
+.template-contact-item {
+  align-items: baseline;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.template-contact-label {
+  color: var(--template-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
 }
 
 .template-project-card:hover .template-project-title {
@@ -446,6 +543,33 @@ body {
 
 .template-site[data-template-id="modern-build"] .template-project-copy {
   padding: 1rem;
+}
+
+.template-site[data-template-id="modern-build"] .template-process-list {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.template-site[data-template-id="modern-build"] .template-process-list li {
+  background: var(--template-surface);
+  border: 1px solid var(--template-border);
+  border-inline-start: 4px solid var(--template-accent);
+  border-radius: var(--template-radius);
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.5rem;
+}
+
+.template-site[data-template-id="modern-build"] .template-process-list .template-index {
+  font-size: 1.15rem;
+}
+
+.template-site[data-template-id="modern-build"] .template-feature-list li {
+  background: var(--template-surface);
+  border: 1px solid var(--template-border);
+  border-inline-start: 3px solid var(--template-accent);
+  border-radius: var(--template-radius);
 }
 
 .template-site[data-template-id="urban-estate"] .template-hero-inner {

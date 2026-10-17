@@ -1,20 +1,19 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {createSiteSchema} from './create-site-schema.ts';
+import {createSiteSchema, siteSetupSchema} from './create-site-schema.ts';
 import {TEMPLATES} from '../../templates/catalog.ts';
 import {buildTemplateContent} from '../templates.ts';
 
-const validSiteRequest = {
+const validSetup = {
   companyName: 'Example Company',
   category: 'Interior design',
-  description: 'A company description with more than twenty characters.',
-  languagePreferences: ['en'],
+  locale: 'en',
 };
 
 test('Site creation schema accepts and retains every supported catalog ID', () => {
   for (const template of TEMPLATES) {
     const parsed = createSiteSchema.safeParse({
-      ...validSiteRequest,
+      ...validSetup,
       templateId: template.id,
     });
 
@@ -23,10 +22,10 @@ test('Site creation schema accepts and retains every supported catalog ID', () =
   }
 });
 
-test('Site creation schema rejects legacy and unknown template IDs', () => {
+test('unsupported template IDs are rejected independently of required-field validation', () => {
   for (const templateId of ['modern', 'boutique', 'not-a-template']) {
     const parsed = createSiteSchema.safeParse({
-      ...validSiteRequest,
+      ...validSetup,
       templateId,
     });
 
@@ -40,38 +39,63 @@ test('Site creation schema rejects legacy and unknown template IDs', () => {
   }
 });
 
-test('required Site fields remain required independently of template validation', () => {
-  const parsed = createSiteSchema.safeParse({
-    templateId: TEMPLATES[0].id,
+test('empty first-step data is rejected independently of template selection', () => {
+  const parsed = siteSetupSchema.safeParse({
     companyName: '',
     category: '',
-    description: '',
-    languagePreferences: [],
+    locale: 'en',
   });
 
   assert.equal(parsed.success, false);
   if (!parsed.success) {
     assert.equal(parsed.error.issues.some((issue) => issue.path[0] === 'companyName'), true);
     assert.equal(parsed.error.issues.some((issue) => issue.path[0] === 'category'), true);
-    assert.equal(parsed.error.issues.some((issue) => issue.path[0] === 'description'), true);
-    assert.equal(parsed.error.issues.some((issue) => issue.path[0] === 'languagePreferences'), true);
   }
 });
 
-test('template content is seeded per Site without mutating customer input', () => {
+test('optional profile fields survive creation validation', () => {
+  const parsed = createSiteSchema.safeParse({
+    ...validSetup,
+    templateId: 'atelier',
+    description: 'Company overview',
+    logoUrl: 'https://example.com/logo.png',
+    contactEmail: 'hello@example.com',
+    contactPhone: '+1 555 0100',
+    address: 'Main Street',
+    services: 'Design\nPlanning',
+    features: 'Bilingual support',
+    languagePreferences: ['en', 'ar'],
+  });
+
+  assert.equal(parsed.success, true);
+  if (parsed.success) {
+    assert.equal(parsed.data.description, 'Company overview');
+    assert.equal(parsed.data.logoUrl, 'https://example.com/logo.png');
+    assert.equal(parsed.data.contactEmail, 'hello@example.com');
+    assert.equal(parsed.data.address, 'Main Street');
+    assert.equal(parsed.data.services, 'Design\nPlanning');
+    assert.equal(parsed.data.features, 'Bilingual support');
+    assert.deepEqual(parsed.data.languagePreferences, ['en', 'ar']);
+  }
+});
+
+test('template content is seeded per Site in the entered language without mutating input', () => {
   const profile = {
     companyName: 'Example Company',
     category: 'Interior design',
-    description: 'A company description with more than twenty characters.',
+    description: '',
+    locale: 'en',
   };
   const content = buildTemplateContent('atelier', profile);
 
   assert.equal(content.templateId, 'atelier');
   assert.equal(content.sections.hero.heading.en, profile.companyName);
+  assert.equal(content.sections.hero.heading.ar, '');
   assert.notEqual(content.sections.hero.heading, profile);
   assert.deepEqual(profile, {
     companyName: 'Example Company',
     category: 'Interior design',
-    description: 'A company description with more than twenty characters.',
+    description: '',
+    locale: 'en',
   });
 });

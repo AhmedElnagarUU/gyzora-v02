@@ -183,38 +183,99 @@
   },
   "siteSetup": {
     "eyebrow": "Create your website",
-    "title": "Set up your site",
-    "description": "Start with a simple company profile and choose a template to begin your draft website.",
+    "firstStep": {
+      "title": "Tell us about your business",
+      "description": "Enter your business name and category. You can add other details now or later."
+    },
+    "additionalDetails": "Additional company details",
+    "optional": "optional",
+    "continueToTemplates": "Continue to designs",
+    "creating": "Creating your draft...",
+    "gallery": {
+      "heading": "Choose a design for your website",
+      "title": "Available designs",
+      "description": "Explore the five designs and open a live preview before choosing one."
+    },
+    "preview": {
+      "title": "Preview: {name}"
+    },
+    "actions": {
+      "preview": "Open live preview",
+      "backToDetails": "Back to business details",
+      "backToGallery": "Back to designs",
+      "selectTemplate": "Select this design"
+    },
     "fields": {
-      "template": "Template",
-      "templateNames": {
-        "atelier": "Editorial Atelier",
-        "modern-build": "Modern Build",
-        "urban-estate": "Urban Estate",
-        "interior-calm": "Interior Calm",
-        "craft-studio": "Craft Studio"
-      },
       "companyName": "Company name",
       "companyNamePlaceholder": "Enter your company name",
       "category": "Business category",
       "categoryPlaceholder": "e.g. Real estate, construction, design",
       "description": "Company description",
       "descriptionPlaceholder": "Tell visitors a little about your business and the services you provide.",
+      "logoUrl": "Logo image URL",
+      "logoUrlPlaceholder": "https://example.com/logo.png",
+      "email": "Contact email",
+      "phone": "Phone",
+      "address": "Address",
+      "services": "Services (one per line)",
+      "features": "Features (one per line)",
+      "listPlaceholder": "Enter one item per line",
       "language": "Website languages"
     },
     "validation": {
-      "templateRequired": "Please choose a template.",
-      "templateInvalid": "Please choose a supported template.",
       "companyNameMin": "Company name must be at least 2 characters.",
       "categoryMin": "Please provide a business category.",
-      "descriptionMin": "Description must be at least 20 characters.",
-      "languageRequired": "Select at least one language."
+      "urlInvalid": "Enter a valid image URL.",
+      "emailInvalid": "Enter a valid email address."
     },
     "errors": {
-      "generic": "Something went wrong. Please try again."
+      "generic": "Something went wrong. Please try again.",
+      "storage": "Your setup details could not be saved in this browser. Please try again.",
+      "siteExists": "A website already exists for this account.",
+      "createFailed": "We couldn't create your website draft. Please try again.",
+      "previewBlocked": "Your browser blocked the preview tab. Allow pop-ups for this site and try again.",
+      "noDraft": "Your business details are missing. Start the setup again.",
+      "invalidDraft": "Your saved setup details are invalid. Start the setup again."
     },
-    "loading": "Creating site...",
-    "submit": "Create site",
+    "loading": "Loading your saved details...",
     "success": "Your site draft has been created."
+  },
+  "templatePreview": {
+    "title": "Live Template Preview",
+    "badge": "Sample Preview",
+    "useTemplate": "Use This Template",
+    "template": "Design",
+    "templates": {
+      "modern-build": "Modern Build",
+      "atelier": "Editorial Atelier",
+      "urban-estate": "Urban Estate",
+      "interior-calm": "Interior Calm",
+      "craft-studio": "Craft Studio"
+    },
+    "pages": {
+      "home": "Home",
+      "about": "About",
+      "services": "Services",
+      "projects": "Our Work",
+      "contact": "Contact Us"
+    },
+    "viewports": {
+      "desktop": "Desktop",
+      "tablet": "Tablet",
+      "mobile": "Mobile"
+    },
+    "specs": {
+      "category": "Category",
+      "location": "Location",
+      "year": "Year",
+      "area": "Area"
+    },
+    "contact": {
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address",
+      "workingHours": "Working hours"
+    },
+    "backToTemplates": "Back to gallery"
   }
 }

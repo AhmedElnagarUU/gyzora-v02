@@ -57,7 +57,12 @@ const SUPPORTED_SECTION_TYPES = new Set([
 
 test('catalog exposes exactly the five supported IDs', () => {
   assert.deepEqual(TEMPLATES.map((template) => template.id), EXPECTED_TEMPLATE_IDS);
-  for (const id of EXPECTED_TEMPLATE_IDS) assert.equal(isTemplateId(id), true);
+  for (const template of TEMPLATES) {
+    assert.equal(isTemplateId(template.id), true);
+    assert.equal(template.name.en.length > 0, true);
+    assert.equal(template.name.ar.length > 0, true);
+    assert.equal(template.name.en, template.name.ar);
+  }
   assert.equal(getTemplate('unknown'), null);
 });
 

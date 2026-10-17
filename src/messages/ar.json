@@ -183,38 +183,99 @@
   },
   "siteSetup": {
     "eyebrow": "أنشئ موقعك",
-    "title": "إعداد موقعك",
-    "description": "ابدأ بملف تعريفي بسيط للشركة واختيار نموذج لبدء موقعك الحالي كمسودة.",
+    "firstStep": {
+      "title": "أخبرنا عن نشاطك التجاري",
+      "description": "أدخل اسم نشاطك التجاري وفئته. يمكنك إضافة تفاصيل أخرى الآن أو لاحقًا."
+    },
+    "additionalDetails": "تفاصيل إضافية عن الشركة",
+    "optional": "اختياري",
+    "continueToTemplates": "المتابعة لاختيار التصميم",
+    "creating": "جارٍ إنشاء المسودة...",
+    "gallery": {
+      "heading": "اختر تصميمًا لموقعك",
+      "title": "التصاميم المتاحة",
+      "description": "تعرّف على التصاميم الخمسة وافتح معاينة مباشرة قبل اختيار أحدها."
+    },
+    "preview": {
+      "title": "معاينة: {name}"
+    },
+    "actions": {
+      "preview": "فتح معاينة مباشرة",
+      "backToDetails": "العودة إلى تفاصيل النشاط",
+      "backToGallery": "العودة إلى التصاميم",
+      "selectTemplate": "اختيار هذا التصميم"
+    },
     "fields": {
-      "template": "القالب",
-      "templateNames": {
-        "atelier": "Editorial Atelier",
-        "modern-build": "Modern Build",
-        "urban-estate": "Urban Estate",
-        "interior-calm": "Interior Calm",
-        "craft-studio": "Craft Studio"
-      },
       "companyName": "اسم الشركة",
       "companyNamePlaceholder": "أدخل اسم شركتك",
       "category": "فئة العمل",
       "categoryPlaceholder": "مثل: العقارات، البناء، التصميم",
       "description": "وصف الشركة",
       "descriptionPlaceholder": "أخبر الزوار قليلاً عن نشاطك وخدماتك.",
+      "logoUrl": "رابط صورة الشعار",
+      "logoUrlPlaceholder": "https://example.com/logo.png",
+      "email": "البريد الإلكتروني للتواصل",
+      "phone": "رقم الهاتف",
+      "address": "العنوان",
+      "services": "الخدمات (خدمة واحدة في كل سطر)",
+      "features": "المزايا (ميزة واحدة في كل سطر)",
+      "listPlaceholder": "أدخل عنصرًا واحدًا في كل سطر",
       "language": "لغات الموقع"
     },
     "validation": {
-      "templateRequired": "يرجى اختيار قالب.",
-      "templateInvalid": "يرجى اختيار قالب مدعوم.",
       "companyNameMin": "يجب أن يحتوي اسم الشركة على حرفين على الأقل.",
       "categoryMin": "يرجى تقديم فئة العمل.",
-      "descriptionMin": "يجب أن يحتوي الوصف على 20 حرفًا على الأقل.",
-      "languageRequired": "اختر لغة واحدة على الأقل."
+      "urlInvalid": "أدخل رابطًا صالحًا للصورة.",
+      "emailInvalid": "أدخل بريدًا إلكترونيًا صالحًا."
     },
     "errors": {
-      "generic": "حدث خطأ ما. يُرجى المحاولة مرة أخرى."
+      "generic": "حدث خطأ ما. يُرجى المحاولة مرة أخرى.",
+      "storage": "تعذر حفظ تفاصيل الإعداد في هذا المتصفح. يُرجى المحاولة مرة أخرى.",
+      "siteExists": "يوجد موقع بالفعل لهذا الحساب.",
+      "createFailed": "تعذر إنشاء مسودة الموقع. يُرجى المحاولة مرة أخرى.",
+      "previewBlocked": "حظر المتصفح علامة تبويب المعاينة. اسمح بالنوافذ المنبثقة لهذا الموقع ثم حاول مرة أخرى.",
+      "noDraft": "تفاصيل نشاطك التجاري غير موجودة. ابدأ الإعداد من جديد.",
+      "invalidDraft": "تفاصيل الإعداد المحفوظة غير صالحة. ابدأ الإعداد من جديد."
     },
-    "loading": "جارٍ إنشاء الموقع...",
-    "submit": "إنشاء الموقع",
+    "loading": "جارٍ تحميل التفاصيل المحفوظة...",
     "success": "تم إنشاء مسودة موقعك."
+  },
+  "templatePreview": {
+    "title": "معاينة التصميم المباشرة",
+    "badge": "معاينة تجريبية",
+    "useTemplate": "استخدم هذا التصميم",
+    "template": "التصميم",
+    "templates": {
+      "modern-build": "مودرن بيلد",
+      "atelier": "أتيلييه تحريري",
+      "urban-estate": "أوربان إستيت",
+      "interior-calm": "إنتيريور كالم",
+      "craft-studio": "كرافت ستوديو"
+    },
+    "pages": {
+      "home": "الرئيسية",
+      "about": "من نحن",
+      "services": "خدماتنا",
+      "projects": "أعمالنا",
+      "contact": "تواصل معنا"
+    },
+    "viewports": {
+      "desktop": "شاشة حاسوب",
+      "tablet": "جهاز لوحي",
+      "mobile": "هاتف جوال"
+    },
+    "specs": {
+      "category": "الفئة",
+      "location": "الموقع",
+      "year": "السنة",
+      "area": "المساحة"
+    },
+    "contact": {
+      "email": "البريد الإلكتروني",
+      "phone": "الهاتف",
+      "address": "العنوان",
+      "workingHours": "ساعات العمل"
+    },
+    "backToTemplates": "العودة إلى المعرض"
   }
 }

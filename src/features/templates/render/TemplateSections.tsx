@@ -117,9 +117,18 @@ function ProjectCards({
               )}
               <span className="template-project-copy">
                 <span className="template-project-title">{getLocalizedText(project.title, locale)}</span>
-                {getLocalizedText(project.category, locale) ? (
-                  <span className="template-project-meta">{getLocalizedText(project.category, locale)}</span>
-                ) : null}
+                <span className="template-project-specs">
+                  {getLocalizedText(project.category, locale) ? (
+                    <span className="template-project-meta">{getLocalizedText(project.category, locale)}</span>
+                  ) : null}
+                  {getLocalizedText(project.location, locale) ? (
+                    <span>{getLocalizedText(project.location, locale)}</span>
+                  ) : null}
+                  {project.year ? <span>{project.year}</span> : null}
+                  {getLocalizedText(project.area, locale) ? (
+                    <span>{getLocalizedText(project.area, locale)}</span>
+                  ) : null}
+                </span>
               </span>
             </a>
           ))}
@@ -222,12 +231,15 @@ function ContactDetails({
   compact?: boolean;
 }) {
   const t = useTranslations('landing.nav');
+  const tContact = useTranslations('templatePreview.contact');
   const contact = site.profile.contact;
   const address = getLocalizedText(contact?.address, locale);
-  const details: {label: string; value: string; href?: string}[] = [];
+  const workingHours = getLocalizedText(contact?.workingHours, locale);
+  const details: {label: 'email' | 'phone' | 'address' | 'workingHours'; value: string; href?: string}[] = [];
   if (contact?.email) details.push({label: 'email', value: contact.email, href: `mailto:${contact.email}`});
   if (contact?.phone) details.push({label: 'phone', value: contact.phone, href: `tel:${contact.phone}`});
   if (address) details.push({label: 'address', value: address});
+  if (workingHours) details.push({label: 'workingHours', value: workingHours});
 
   if (details.length === 0) return null;
 
@@ -240,7 +252,8 @@ function ContactDetails({
         <h2 className="template-section-heading">{t('contact')}</h2>
         <ul className="template-contact-list">
           {details.map((detail) => (
-            <li key={detail.label}>
+            <li key={detail.label} className="template-contact-item">
+              <span className="template-contact-label">{tContact(detail.label)}:</span>
               {detail.href ? <a href={detail.href}>{detail.value}</a> : <span>{detail.value}</span>}
             </li>
           ))}
@@ -257,12 +270,13 @@ function ProjectHero({
   project: TemplateProject;
   locale: SiteLocale;
 }) {
+  const tSpecs = useTranslations('templatePreview.specs');
   const title = getLocalizedText(project.title, locale);
   if (!title) return null;
-  const metadata = [
-    getLocalizedText(project.category, locale),
-    getLocalizedText(project.location, locale),
-  ].filter(Boolean);
+  const category = getLocalizedText(project.category, locale);
+  const location = getLocalizedText(project.location, locale);
+  const year = project.year;
+  const area = getLocalizedText(project.area, locale);
 
   return (
     <section className="template-section template-project-hero">
@@ -271,8 +285,33 @@ function ProjectHero({
           <TemplateImageFrame image={project.coverImage} locale={locale} className="template-project-cover" />
         ) : null}
         <h1 className="template-page-title">{title}</h1>
-        {metadata.length > 0 ? (
-          <p className="template-project-meta">{metadata.join(' · ')}</p>
+        {(category || location || year || area) ? (
+          <div className="template-project-specs-grid">
+            {category ? (
+              <div className="template-spec-item">
+                <span className="template-spec-label">{tSpecs('category')}</span>
+                <span className="template-spec-value">{category}</span>
+              </div>
+            ) : null}
+            {location ? (
+              <div className="template-spec-item">
+                <span className="template-spec-label">{tSpecs('location')}</span>
+                <span className="template-spec-value">{location}</span>
+              </div>
+            ) : null}
+            {year ? (
+              <div className="template-spec-item">
+                <span className="template-spec-label">{tSpecs('year')}</span>
+                <span className="template-spec-value">{year}</span>
+              </div>
+            ) : null}
+            {area ? (
+              <div className="template-spec-item">
+                <span className="template-spec-label">{tSpecs('area')}</span>
+                <span className="template-spec-value">{area}</span>
+              </div>
+            ) : null}
+          </div>
         ) : null}
       </div>
     </section>
@@ -367,8 +406,12 @@ export function TemplateSection({
   switch (definition.type) {
     case 'hero': {
       const name = getLocalizedText(site.profile.companyName, locale);
+      const category = getLocalizedText(site.profile.category, locale);
       const description = getLocalizedText(site.profile.description, locale);
-      if (!name && !description) return null;
+      const featurePills = site.profile.features
+        .map((feature) => getLocalizedText(feature, locale))
+        .filter(Boolean);
+      if (!name && !category && !description) return null;
 
       return (
         <section className="template-section template-hero" id="hero">
@@ -380,10 +423,22 @@ export function TemplateSection({
             )}
             <div className="template-hero-copy">
               {name ? <h1 className="template-page-title">{name}</h1> : null}
+              {category ? <p className="template-hero-category">{category}</p> : null}
               {description ? <p className="template-lead">{description}</p> : null}
-              <a className="template-button" href={hrefForContact}>
-                {t('contact')}
-              </a>
+              {featurePills.length > 0 ? (
+                <div className="template-hero-pills" aria-label="Key highlights">
+                  {featurePills.slice(0, 4).map((pill, index) => (
+                    <span className="template-hero-pill" key={`${index}-${pill}`}>
+                      {pill}
+                    </span>
+                  ))}
+                </div>
+              ) : null}
+              <div className="template-hero-actions">
+                <a className="template-button" href={hrefForContact}>
+                  {t('contact')}
+                </a>
+              </div>
             </div>
           </div>
         </section>

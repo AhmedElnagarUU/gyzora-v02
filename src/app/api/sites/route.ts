@@ -1,9 +1,8 @@
 import {NextResponse} from 'next/server';
 
 import {getSession} from '@/features/auth/lib/session';
-import {createSite, findSiteByOwnerId} from '@/features/sites/repository';
+import {createSiteForOwner} from '@/features/sites/create-site';
 import {createSiteSchema} from '@/features/sites/schemas/create-site-schema';
-import {buildTemplateContent} from '@/features/sites/templates';
 
 export const dynamic = 'force-dynamic';
 
@@ -26,41 +25,10 @@ export async function POST(request: Request) {
     return NextResponse.json({error: 'Validation failed'}, {status: 400});
   }
 
-  const existingSite = await findSiteByOwnerId(session.user.id);
-
-  if (existingSite) {
+  const result = await createSiteForOwner(session.user.id, parsed.data);
+  if (result.kind === 'already-exists') {
     return NextResponse.json({error: 'Site already exists for this account'}, {status: 409});
   }
 
-  const {templateId} = parsed.data;
-
-  const siteId = await createSite({
-    ownerUserId: session.user.id,
-    templateId,
-    status: 'draft',
-    profile: {
-      companyName: {
-        en: parsed.data.companyName,
-        ar: parsed.data.companyName
-      },
-      category: {
-        en: parsed.data.category,
-        ar: parsed.data.category
-      },
-      description: {
-        en: parsed.data.description,
-        ar: parsed.data.description
-      },
-      services: [],
-      features: [],
-      languagePreferences: parsed.data.languagePreferences
-    },
-    content: buildTemplateContent(templateId, {
-      companyName: parsed.data.companyName,
-      category: parsed.data.category,
-      description: parsed.data.description
-    })
-  });
-
-  return NextResponse.json({siteId, status: 'draft'}, {status: 201});
+  return NextResponse.json({siteId: result.siteId, status: 'draft'}, {status: 201});
 }

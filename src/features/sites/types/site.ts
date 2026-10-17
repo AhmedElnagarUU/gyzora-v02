@@ -14,6 +14,7 @@ export interface SiteProfile {
     email?: string;
     phone?: string;
     address?: LocalizedValue;
+    workingHours?: LocalizedValue;
   };
   services: LocalizedValue[];
   features: LocalizedValue[];

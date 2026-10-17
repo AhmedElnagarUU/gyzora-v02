@@ -1,17 +1,8 @@
 import type mongoose from 'mongoose';
 
+import {isDuplicateKeyError} from './mongodb';
+
 type Database = NonNullable<typeof mongoose.connection.db>;
-
-const DUPLICATE_KEY_ERROR = 11000;
-
-function isDuplicateKeyError(error: unknown): boolean {
-  return (
-    typeof error === 'object' &&
-    error !== null &&
-    'code' in error &&
-    (error as {code?: unknown}).code === DUPLICATE_KEY_ERROR
-  );
-}
 
 export async function ensureIndexes(db: Database): Promise<void> {
   try {

@@ -1,4 +1,4 @@
-import {createSite as insertSite, findSiteByOwnerId} from './repository';
+import {createSite as insertSite} from './repository';
 import type {CreateSiteValues} from './schemas/create-site-schema';
 import type {LocalizedValue, SiteLocale, SiteProfile} from './types/site';
 import {buildTemplateContent} from './templates';
@@ -40,10 +40,7 @@ function siteProfileFromValues(values: CreateSiteValues): SiteProfile {
 export async function createSiteForOwner(
   ownerUserId: string,
   values: CreateSiteValues
-): Promise<{kind: 'created'; siteId: string} | {kind: 'already-exists'}> {
-  const existingSite = await findSiteByOwnerId(ownerUserId);
-  if (existingSite) return {kind: 'already-exists'};
-
+): Promise<{siteId: string}> {
   const siteId = await insertSite({
     ownerUserId,
     templateId: values.templateId,
@@ -57,5 +54,5 @@ export async function createSiteForOwner(
     }),
   });
 
-  return {kind: 'created', siteId};
+  return {siteId};
 }

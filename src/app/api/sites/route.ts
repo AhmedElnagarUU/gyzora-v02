@@ -1,34 +1,14 @@
-import {NextResponse} from 'next/server';
-
-import {getSession} from '@/features/auth/lib/session';
 import {createSiteForOwner} from '@/features/sites/create-site';
 import {createSiteSchema} from '@/features/sites/schemas/create-site-schema';
+import {ok} from '@/shared/http/api-response';
+import {withSession} from '@/shared/http/with-session';
 
 export const dynamic = 'force-dynamic';
 
-export async function POST(request: Request) {
-  const session = await getSession();
+export const POST = withSession(async ({session, req}) => {
+  const body = await req.json().catch(() => null);
+  const values = createSiteSchema.parse(body);
+  const {siteId} = await createSiteForOwner(session.user.id, values);
 
-  if (!session) {
-    return NextResponse.json({error: 'Unauthorized'}, {status: 401});
-  }
-
-  const json = await request.json().catch(() => null);
-
-  if (!json) {
-    return NextResponse.json({error: 'Invalid JSON payload'}, {status: 400});
-  }
-
-  const parsed = createSiteSchema.safeParse(json);
-
-  if (!parsed.success) {
-    return NextResponse.json({error: 'Validation failed'}, {status: 400});
-  }
-
-  const result = await createSiteForOwner(session.user.id, parsed.data);
-  if (result.kind === 'already-exists') {
-    return NextResponse.json({error: 'Site already exists for this account'}, {status: 409});
-  }
-
-  return NextResponse.json({siteId: result.siteId, status: 'draft'}, {status: 201});
-}
+  return ok({siteId, status: 'draft'}, 201);
+});

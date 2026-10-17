@@ -1,4 +1,21 @@
-# S0-foundations — questions for the owner (STOPPED before Task 1)
+# S0-foundations — questions for the owner (RESOLVED — work resumed)
+
+Resolutions (2026-10-17):
+- **Q1 (fonts):** owner added `src/app/fonts/` (Geist + IBM Plex Sans Arabic, `.ttf`
+  instead of the `.woff2` suggested in 07 A — `.ttf` works with `next/font/local`,
+  accepted). Task 5 proceeds with these files.
+- **Q2 (dirty tree):** owner committed everything (`a05331f`); tree is clean.
+  Branch `slice/S0-foundations` created from `main`.
+- **Q3 (audit section 9):** owner could not locate the audit document. Decision
+  (owner-approved "fix it"): the explicit list in Task 11 (template preview page
+  metadata, aria-labels in `template-preview-bar.tsx` and `TemplateSections.tsx`,
+  `'Home'` label) is the full hardcoded-string scope for A7, plus a grep sweep of
+  the files named in the S0 slice.
+- **Q4 (plan-pack paths):** proceeded as proposed — STATUS.md updated in
+  `gyzora-plan/gyzora-plan/docs/plan/`, `.env.example` + PR template installed from
+  `repo-root-files/`; PR body goes to `docs/pr/S0-foundations.md` (`gh` absent).
+
+## Original questions (kept for the record)
 
 Stopped per `05-AGENT-WORKFLOW.md` ("A required owner prerequisite is missing" /
 "The spec is ambiguous") and per the slice: "Owner: font files in `src/app/fonts/`

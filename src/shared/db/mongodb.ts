@@ -1,14 +1,10 @@
 import mongoose from 'mongoose';
 
+import {getDbEnv} from '@/shared/config/env';
+
 export async function getDatabase() {
   if (mongoose.connection.readyState === 0) {
-    const uri = process.env.MONGODB_URL;
-
-    if (!uri) {
-      throw new Error('MONGODB_URL is not configured.');
-    }
-
-    await mongoose.connect(uri);
+    await mongoose.connect(getDbEnv().MONGODB_URL);
   }
 
   const db = mongoose.connection.db;

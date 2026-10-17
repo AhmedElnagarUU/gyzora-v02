@@ -2,19 +2,16 @@ import {betterAuth} from 'better-auth';
 import {mongodbAdapter} from 'better-auth/adapters/mongodb';
 
 import {getDatabase} from '@/shared/db/mongodb';
+import {getAuthEnv} from '@/shared/config/env';
 
 let authPromise: ReturnType<typeof createAuth> | undefined;
 
 async function createAuth() {
-  const secret = process.env.BETTER_AUTH_SECRET;
-
-  if (!secret) {
-    throw new Error('BETTER_AUTH_SECRET is not configured.');
-  }
+  const {BETTER_AUTH_SECRET: secret, BETTER_AUTH_URL: baseURL} = getAuthEnv();
 
   return betterAuth({
     secret,
-    baseURL: process.env.BETTER_AUTH_URL || 'http://localhost:3000',
+    baseURL,
     database: mongodbAdapter(await getDatabase()),
     emailAndPassword: {
       enabled: true,

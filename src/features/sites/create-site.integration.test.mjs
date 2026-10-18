@@ -38,7 +38,7 @@ test(
   async () => {
     process.env.NODE_ENV = 'test';
 
-    const {createSiteForOwner} = await import('./create-site.ts');
+    const {createSiteForOwner} = await import('./service.ts');
     const {getDatabase} = await import('@/shared/db/mongodb');
     const {AppError} = await import('@/shared/http/app-error');
     const mongoose = (await import('mongoose')).default;

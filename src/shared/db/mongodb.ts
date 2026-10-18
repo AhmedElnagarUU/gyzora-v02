@@ -17,6 +17,14 @@ export function isDuplicateKeyError(error: unknown): boolean {
   );
 }
 
+export function duplicateKeyPattern(error: unknown): string[] {
+  if (!isDuplicateKeyError(error)) return [];
+
+  const pattern = (error as {keyPattern?: Record<string, unknown>}).keyPattern;
+
+  return pattern ? Object.keys(pattern) : [];
+}
+
 async function initDatabase() {
   if (mongoose.connection.readyState === 0) {
     await mongoose.connect(getDbEnv().MONGODB_URL);

@@ -19,13 +19,15 @@ export const siteSetupSchema = z.object({
   locale: z.enum(['en', 'ar']),
 });
 
-export const createSiteSchema = siteSetupSchema.extend({
-  templateId: z
-    .string()
-    .trim()
-    .min(1, 'siteSetup.validation.templateRequired')
-    .refine(isTemplateId, 'siteSetup.validation.templateInvalid'),
-});
+export const createSiteSchema = siteSetupSchema
+  .extend({
+    templateId: z
+      .string()
+      .trim()
+      .min(1, 'siteSetup.validation.templateRequired')
+      .refine(isTemplateId, 'siteSetup.validation.templateInvalid'),
+  })
+  .strict();
 
 export type SiteSetupValues = z.infer<typeof siteSetupSchema>;
 export type CreateSiteValues = z.infer<typeof createSiteSchema>;

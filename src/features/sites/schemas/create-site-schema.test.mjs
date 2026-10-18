@@ -2,7 +2,6 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {createSiteSchema, siteSetupSchema} from './create-site-schema.ts';
 import {TEMPLATES} from '../../templates/catalog.ts';
-import {buildTemplateContent} from '../templates.ts';
 
 const validSetup = {
   companyName: 'Example Company',
@@ -79,23 +78,18 @@ test('optional profile fields survive creation validation', () => {
   }
 });
 
-test('template content is seeded per Site in the entered language without mutating input', () => {
-  const profile = {
-    companyName: 'Example Company',
-    category: 'Interior design',
-    description: '',
-    locale: 'en',
-  };
-  const content = buildTemplateContent('atelier', profile);
-
-  assert.equal(content.templateId, 'atelier');
-  assert.equal(content.sections.hero.heading.en, profile.companyName);
-  assert.equal(content.sections.hero.heading.ar, '');
-  assert.notEqual(content.sections.hero.heading, profile);
-  assert.deepEqual(profile, {
-    companyName: 'Example Company',
-    category: 'Interior design',
-    description: '',
-    locale: 'en',
+test('unknown body fields are rejected for site creation', () => {
+  const parsed = createSiteSchema.safeParse({
+    ...validSetup,
+    templateId: 'atelier',
+    ownerUserId: 'someone-else',
   });
+
+  assert.equal(parsed.success, false);
+  if (!parsed.success) {
+    assert.equal(
+      parsed.error.issues.some((issue) => issue.code === 'unrecognized_keys'),
+      true
+    );
+  }
 });

@@ -138,6 +138,10 @@ export interface TemplateSiteData {
   readonly projects?: readonly TemplateProject[];
 }
 
+export type SiteData = TemplateSiteData;
+
+export type StoredSiteData = Omit<TemplateSiteData, 'projects'>;
+
 export type TemplatePageHref = (
   pageId: TemplatePageId,
   projectId?: string

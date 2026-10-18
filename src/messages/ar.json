@@ -81,6 +81,21 @@
     },
     "userMenu": {
       "signedInAs": "مسجَّل الدخول باسم"
+    },
+    "overview": {
+      "eyebrow": "لوحة التحكم",
+      "title": "نظرة عامة",
+      "emptyTitle": "لا يوجد موقع لك حتى الآن",
+      "emptyDescription": "أنشئ موقعك للتعريف بنشاطك وخدماتك ومشاريعك.",
+      "createAction": "أنشئ موقعك",
+      "template": "التصميم",
+      "status": "الحالة",
+      "created": "تاريخ الإنشاء"
+    },
+    "status": {
+      "draft": "مسوّدة",
+      "published": "منشور",
+      "unpublished": "غير منشور"
     }
   },
   "landing": {

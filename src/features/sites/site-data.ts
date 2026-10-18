@@ -34,6 +34,14 @@ export function siteProfileFromValues(values: SiteSetupValues): SiteProfile {
   };
 }
 
+export function getDisplayValue(value: LocalizedValue, locale: SiteLocale): string {
+  const primary = value[locale].trim();
+
+  if (primary) return primary;
+
+  return value[locale === 'en' ? 'ar' : 'en'].trim();
+}
+
 export function siteDataFromValues(values: SiteSetupValues): StoredSiteData {
   return {profile: siteProfileFromValues(values)};
 }

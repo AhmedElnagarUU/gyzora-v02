@@ -81,6 +81,21 @@
     },
     "userMenu": {
       "signedInAs": "Signed in as"
+    },
+    "overview": {
+      "eyebrow": "Dashboard",
+      "title": "Overview",
+      "emptyTitle": "You don't have a website yet",
+      "emptyDescription": "Create your website to introduce your business, services and projects.",
+      "createAction": "Create your site",
+      "template": "Design",
+      "status": "Status",
+      "created": "Created"
+    },
+    "status": {
+      "draft": "Draft",
+      "published": "Published",
+      "unpublished": "Unpublished"
     }
   },
   "landing": {

@@ -2,8 +2,10 @@ import {getTranslations} from 'next-intl/server';
 
 import {getDisplayValue} from '@/features/sites/site-data';
 import {getTemplate} from '@/features/templates/catalog';
+import {Link} from '@/i18n/navigation';
 
 import type {SiteDocument, SiteLocale} from '../types/site';
+import {DeleteSiteButton} from './delete-site-button';
 
 export async function SiteOverviewCard({
   site,
@@ -50,6 +52,17 @@ export async function SiteOverviewCard({
           <dd className="mt-2 text-sm font-semibold text-slate-900">{createdAt}</dd>
         </div>
       </dl>
+      <div className="mt-8 flex flex-col gap-3 border-t border-slate-100 pt-6 sm:flex-row sm:items-center">
+        <Link
+          href="/dashboard/site/edit"
+          className="inline-flex min-h-11 items-center justify-center rounded-xl bg-emerald-700 px-5 py-2 font-semibold text-white transition hover:bg-emerald-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
+        >
+          {t('editAction')}
+        </Link>
+        <div className="sm:w-64">
+          <DeleteSiteButton />
+        </div>
+      </div>
     </article>
   );
 }

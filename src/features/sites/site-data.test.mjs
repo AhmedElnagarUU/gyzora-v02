@@ -1,6 +1,10 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {siteDataFromValues} from './site-data.ts';
+import {
+  mergeProfileEdit,
+  siteDataFromValues,
+  siteSetupValuesFromProfile,
+} from './site-data.ts';
 
 const values = {
   companyName: 'Crown & Stone',
@@ -44,4 +48,60 @@ test('missing language preferences fall back to the entered locale', () => {
   const data = siteDataFromValues({...values, languagePreferences: []});
 
   assert.deepEqual(data.profile.languagePreferences, ['en']);
+});
+
+test('stored site data fills the edit form with the viewed locale', () => {
+  const data = siteDataFromValues({...values, locale: 'ar'});
+  const form = siteSetupValuesFromProfile(data.profile, 'ar');
+
+  assert.equal(form.companyName, 'Crown & Stone');
+  assert.equal(form.category, 'Real estate');
+  assert.equal(form.contactEmail, 'hello@example.com');
+  assert.equal(form.address, 'Riyadh');
+  assert.equal(form.services, 'Sales\nLeasing');
+  assert.equal(form.locale, 'ar');
+});
+
+test('edit form values come only from the viewed locale', () => {
+  const data = siteDataFromValues(values);
+  const form = siteSetupValuesFromProfile(data.profile, 'ar');
+
+  assert.equal(form.companyName, '');
+  assert.equal(form.services, '');
+  assert.equal(form.address, '');
+  assert.deepEqual(form.languagePreferences, ['en', 'ar']);
+});
+
+test('editing one locale never changes the other locale', () => {
+  const stored = siteDataFromValues({...values, locale: 'ar'}).profile;
+  const merged = mergeProfileEdit(stored, 'en', {
+    ...values,
+    companyName: 'Crown Stone',
+    description: '',
+    address: '',
+    services: 'Leasing',
+    features: '',
+  });
+
+  assert.deepEqual(merged.companyName, {en: 'Crown Stone', ar: 'Crown & Stone'});
+  assert.deepEqual(merged.description, {en: '', ar: 'Prime developments'});
+  assert.deepEqual(merged.services, [{en: 'Leasing', ar: 'Sales'}, {en: '', ar: 'Leasing'}]);
+  assert.deepEqual(merged.features, [{en: '', ar: 'Trusted'}]);
+  assert.equal(merged.contact?.email, 'hello@example.com');
+  assert.equal(merged.contact?.address, undefined);
+});
+
+test('editing drops an emptied optional field and keeps other contact details', () => {
+  const stored = siteDataFromValues(values).profile;
+  const merged = mergeProfileEdit(stored, 'en', {
+    ...values,
+    logoUrl: '',
+    contactEmail: '',
+    contactPhone: '',
+    address: '',
+  });
+
+  assert.equal(merged.logoUrl, undefined);
+  assert.equal(merged.contact, undefined);
+  assert.deepEqual(merged.languagePreferences, ['en', 'ar']);
 });

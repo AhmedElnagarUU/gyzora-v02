@@ -28,6 +28,7 @@
     "UNAUTHENTICATED": "Please sign in again to continue.",
     "VALIDATION_FAILED": "Some details are invalid. Please review them and try again.",
     "SITE_ALREADY_EXISTS": "A website already exists for this account.",
+    "STALE_REVISION": "This draft changed in another tab. Reload the page to see the latest version.",
     "NOT_FOUND": "We couldn't find what you were looking for.",
     "INTERNAL": "Something went wrong. Please try again.",
     "field": {
@@ -104,7 +105,9 @@
       "createAction": "Create your site",
       "template": "Design",
       "status": "Status",
-      "created": "Created"
+      "created": "Created",
+      "editAction": "Edit details",
+      "deleted": "Your website has been deleted."
     },
     "status": {
       "draft": "Draft",
@@ -291,7 +294,22 @@
       "reviewFields": "These details need attention before you continue:"
     },
     "loading": "Loading your saved details...",
-    "success": "Your site draft has been created."
+    "success": "Your site draft has been created.",
+    "edit": {
+      "eyebrow": "Edit your website",
+      "title": "Business details",
+      "description": "Update your company information. Changes apply to the language you are viewing now.",
+      "save": "Save changes",
+      "saving": "Saving...",
+      "saved": "Your changes have been saved.",
+      "reload": "Reload the page",
+      "deleteSite": "Delete website",
+      "deleting": "Deleting...",
+      "deleteConfirmTitle": "Delete this website?",
+      "deleteConfirmDescription": "Your website and its content will be removed. You can create a new one afterwards.",
+      "deleteConfirm": "Yes, delete it",
+      "deleteCancel": "Keep it"
+    }
   },
   "templatePreview": {
     "title": "Live Template Preview",

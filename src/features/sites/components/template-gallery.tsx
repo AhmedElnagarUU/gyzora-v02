@@ -6,7 +6,7 @@ import {type RefObject, useEffect, useRef, useState, useSyncExternalStore} from 
 
 import {Link} from '@/i18n/navigation';
 import {serializeFieldErrors} from '@/features/sites/field-errors';
-import {getDisplayValue} from '@/features/sites/site-data';
+import {getDisplayValue, toSiteLocale} from '@/features/sites/site-data';
 import type {SiteSetupValues} from '@/features/sites/schemas/create-site-schema';
 import type {SiteLocale} from '@/features/sites/types/site';
 import {
@@ -17,10 +17,6 @@ import {
 } from '@/features/sites/wizard-draft';
 import {TEMPLATES} from '@/features/templates/catalog';
 import type {TemplateDefinition, TemplateId} from '@/features/templates/types';
-
-function getLocale(locale: string): SiteLocale {
-  return locale === 'ar' ? 'ar' : 'en';
-}
 
 const API_ERROR_CODES = [
   'UNAUTHENTICATED',
@@ -144,7 +140,7 @@ function TemplateCard({
 }
 
 export function TemplateGallery({highlightId}: {highlightId?: string}) {
-  const locale = getLocale(useLocale());
+  const locale = toSiteLocale(useLocale());
   const t = useTranslations('siteSetup');
   const tErrors = useTranslations('errors');
   const router = useRouter();

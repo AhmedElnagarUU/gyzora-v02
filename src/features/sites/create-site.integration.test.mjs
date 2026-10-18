@@ -31,10 +31,28 @@ registerHooks({
 });
 
 const testUrl = process.env.MONGODB_TEST_URL;
+const skipWithoutTestDb = testUrl ? false : 'SKIPPED: MONGODB_TEST_URL not set';
+
+function wizardValues(companyName) {
+  return {
+    companyName,
+    category: 'Testing',
+    description: '',
+    logoUrl: '',
+    contactEmail: '',
+    contactPhone: '',
+    address: '',
+    services: '',
+    features: '',
+    languagePreferences: [],
+    locale: 'en',
+    templateId: 'atelier'
+  };
+}
 
 test(
   'concurrent site creation for the same owner creates exactly one site',
-  {skip: testUrl ? false : 'SKIPPED: MONGODB_TEST_URL not set'},
+  {skip: skipWithoutTestDb},
   async () => {
     process.env.NODE_ENV = 'test';
 
@@ -43,21 +61,8 @@ test(
     const {AppError} = await import('@/shared/http/app-error');
     const mongoose = (await import('mongoose')).default;
 
-    const ownerUserId = `s0-integration-${Date.now()}`;
-    const values = {
-      companyName: 'Integration Test Company',
-      category: 'Testing',
-      description: '',
-      logoUrl: '',
-      contactEmail: '',
-      contactPhone: '',
-      address: '',
-      services: '',
-      features: '',
-      languagePreferences: [],
-      locale: 'en',
-      templateId: 'atelier'
-    };
+    const ownerUserId = `s1-integration-${Date.now()}`;
+    const values = wizardValues('Integration Test Company');
 
     try {
       const results = await Promise.allSettled([
@@ -81,6 +86,45 @@ test(
     } finally {
       const db = await getDatabase();
       await db.collection('sites').deleteMany({ownerUserId});
+      await mongoose.disconnect();
+    }
+  }
+);
+
+test(
+  'concurrent creation with the same business name gives every owner a unique slug',
+  {skip: skipWithoutTestDb},
+  async () => {
+    process.env.NODE_ENV = 'test';
+
+    const {createSiteForOwner} = await import('./service.ts');
+    const {getDatabase} = await import('@/shared/db/mongodb');
+    const mongoose = (await import('mongoose')).default;
+
+    const stamp = Date.now();
+    const owners = [`s1-slug-${stamp}-a`, `s1-slug-${stamp}-b`];
+    const values = wizardValues('Same Name Company');
+
+    try {
+      const results = await Promise.allSettled(
+        owners.map((ownerUserId) => createSiteForOwner(ownerUserId, values))
+      );
+
+      for (const result of results) {
+        assert.equal(result.status, 'fulfilled', 'both owners should get a site');
+      }
+
+      const slugs = results.map((result) => result.value.slug);
+
+      assert.equal(new Set(slugs).size, owners.length, 'slugs should be unique');
+
+      const db = await getDatabase();
+      const sites = await db.collection('sites').countDocuments({ownerUserId: {$in: owners}});
+
+      assert.equal(sites, owners.length, 'every owner should have their own site');
+    } finally {
+      const db = await getDatabase();
+      await db.collection('sites').deleteMany({ownerUserId: {$in: owners}});
       await mongoose.disconnect();
     }
   }

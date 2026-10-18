@@ -11,10 +11,10 @@ export default async function DashboardPage({
   searchParams,
 }: {
   params: Promise<{locale: string}>;
-  searchParams: Promise<{created?: string}>;
+  searchParams: Promise<{created?: string; deleted?: string}>;
 }) {
   const {locale} = await params;
-  const {created} = await searchParams;
+  const {created, deleted} = await searchParams;
   setRequestLocale(locale);
 
   const session = await getSession();
@@ -41,6 +41,15 @@ export default async function DashboardPage({
           className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-900"
         >
           {tSetup('success')}
+        </p>
+      ) : null}
+
+      {deleted === '1' ? (
+        <p
+          role="status"
+          className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-900"
+        >
+          {t('deleted')}
         </p>
       ) : null}
 

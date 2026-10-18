@@ -23,9 +23,10 @@ Success: `{ "data": <payload> }`. Error: `{ "error": { "code": "<CODE>", "fields
 ## Endpoints (all JSON; `S` = slice that creates it)
 | Method + path | Auth | Body -> Response | Errors | S |
 |---|---|---|---|---|
-| POST `/api/sites` | session | `{businessName, category, ...wizard fields, templateId}` -> 201 `{site:{id,slug,status,templateId}}` | VALIDATION_FAILED, SITE_ALREADY_EXISTS | S1 |
+| POST `/api/sites` | session | `{companyName, category, ...wizard fields, locale, templateId}` -> 201 `{site:{id,slug,status,templateId}}` | VALIDATION_FAILED, SITE_ALREADY_EXISTS | S1 |
 | GET `/api/sites/me` | session | -> `{site}` (own, draft view) | NOT_FOUND | S1 |
-| PATCH `/api/sites/me` | session | `{revision, data: partial StoredSiteData}` (strict; unknown keys rejected) -> `{site}` | VALIDATION_FAILED, STALE_REVISION, UPLOAD_REJECTED | S3 |
+| PATCH `/api/sites/me` | session | `{revision, data:{profile}}` (strict; unknown keys rejected; the whole profile for both locales) -> `{site}` | VALIDATION_FAILED, STALE_REVISION, NOT_FOUND, UPLOAD_REJECTED | S1 (profile) / S3 (full editor) |
+| DELETE `/api/sites/me` | session | - -> 204 | NOT_FOUND | S1 |
 | PATCH `/api/sites/me/slug` | session | `{slug}` -> `{slug}` | SLUG_TAKEN, SLUG_LOCKED, VALIDATION_FAILED | S5 |
 | POST `/api/uploads/presign` | session | `{kind:'logo'|'cover'|'gallery'|'receipt', contentType, size}` -> `{uploadUrl, key, headers}` | UPLOAD_REJECTED, RATE_LIMITED, NO_SITE | S4 |
 | GET `/api/projects` | session | -> `{projects[]}` (own site) | NO_SITE | S4 |
@@ -51,3 +52,11 @@ Success: `{ "data": <payload> }`. Error: `{ "error": { "code": "<CODE>", "fields
 | GET/PATCH `/api/admin/wallet-requests[/id]` ; GET `.../[id]/receipt` | admin | list / `{action:'approve'|'reject', reason?}` / `{url}` | | S9 |
 
 `/api/auth/[...all]` stays Better Auth's. Public pages are Next pages, not APIs.
+
+Notes:
+- `DELETE /api/sites/me` (S1) removes the site document only, so the user can create a new site.
+  Cascade rules for projects (S4), uploads and the published snapshot (S4/S5) are added by those
+  slices.
+- `PATCH /api/sites/me` accepts the `profile` section in S1 (the business-details form, one locale
+  per save, revision-filtered). S3 keeps the same path and body shape and extends `data` to the
+  remaining sections (about, services, features, projects copy) with per-locale partials.

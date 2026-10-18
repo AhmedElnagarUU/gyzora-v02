@@ -1,10 +1,22 @@
 # S1-dashboard-create-site — questions for the owner
 
-Slice work is complete on `slice/S1-dashboard-create-site` (see `docs/pr/S1-dashboard-create-site.md`).
-These are decisions I cannot settle from `CODE_RULES.md`, the PRD or the plan pack. None of them
-blocked the code (I took the option marked **taken**), but 1, 2 and 3 change the written plan.
+Resolutions (2026-10-18, owner): 
+- **Q1 (delete endpoint):** keep `DELETE /api/sites/me`; the row is added to `04-API-CONTRACT.md`
+  and to the S1 slice (task 13), with a note that S4/S5 add the cascade. Done in this branch.
+- **Q2 (edit scope):** keep the profile-only edit on S3's route/endpoint; the S3 slice now says
+  "extend what S1 shipped" instead of "create these files". Done in this branch.
+- The slice and contract were updated to mirror the shipped API and the branch was merged to `main`.
 
-## 1. `DELETE /api/sites/me` is not in the API contract (needs a contract + slice row)
+Still open:
+- **Q3 Arabic catalog names/summaries** (`أتيلييه التحرير`, `البناء العصري`, `العقارات الحضرية`,
+  `الهدوء الداخلي`, `استوديو الحرفية` + summaries): approve or replace.
+- **Q4 `docs/template-design/README.md`** does not exist; confirm it is obsolete (or point me at it)
+  so future "Read first" lists are accurate.
+- **Q5 the dev `sites` collection is empty** at the end of the session (it held one draft at the
+  start); all my DB access was read-only. If that was not you, say so before I re-verify the create
+  path.
+
+## 1. `DELETE /api/sites/me` was not in the API contract (RESOLVED — see above)
 
 You asked for "delete the website" on the dashboard. `04-API-CONTRACT.md` has no user-side delete
 row — only S6's admin `DELETE /api/admin/users/[id]`. `CODE_RULES.md` says every endpoint path must
@@ -21,7 +33,7 @@ should it be a different path / deferred?
 Related: there is no cascade yet. Deleting a site today removes the `sites` document only.
 Projects (S4) and published snapshots (S5) do not exist, so nothing else references the site.
 
-## 2. Editing now pulls part of S3 forward
+## 2. Editing pulls part of S3 forward (RESOLVED — see above)
 
 The S1 slice says "Do NOT: add editor/preview links" and "Do not render buttons for pages that do
 not exist yet"; S3 defines `PATCH /api/sites/me` and the route
@@ -62,6 +74,3 @@ accurate.
 - **Error envelope:** per `02 §6`, API codes are mapped through a top-level `errors` namespace; the
   gallery maps unknown codes to `INTERNAL`/`field.invalid_type`, and `400` sends the user back to
   step 1 with `?fields=name:code,...`.
-- **The dev `sites` collection is empty** at the end of this session (it held one draft at the
-  start). All my DB access was read-only. If that was not you, tell me before I re-verify the
-  create path.

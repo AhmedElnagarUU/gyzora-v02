@@ -10,8 +10,10 @@ S2 merged.
 `03-DATA-MODEL.md`; `04-API-CONTRACT.md` (PATCH /api/sites/me); `SiteData` type and `sample-data.ts` (field names are the contract); `docs/template-engine/README.md` (field validation).
 
 ## Files
-Create: `src/features/sites/schemas/update-site-schema.ts` (+ test), `src/features/sites/apply-edit.ts` (+ test), `src/app/api/sites/me/route.ts` (add PATCH), `src/app/[locale]/dashboard/site/edit/page.tsx`, `src/features/sites/components/editor/{editor-form,language-tabs,localized-field,repeatable-list,save-bar}.tsx`.
-Modify: `sidebar.tsx`, `site-overview-card.tsx`, `repository.ts` (`updateDraft` with revision filter, `touchDraft`), messages.
+Create: `src/features/sites/apply-edit.ts` (+ test), `src/features/sites/components/editor/{editor-form,language-tabs,localized-field,repeatable-list,save-bar}.tsx`.
+Modify: `src/features/sites/schemas/update-site-schema.ts` (S1 shipped a profile-only strict schema; extend it to partial per-section, per-locale values), `src/app/api/sites/me/route.ts` (S1 added PATCH/DELETE), `src/app/[locale]/dashboard/site/edit/page.tsx` (S1 shipped a business-details form on this route; replace it with the tabbed editor), `src/features/sites/{repository.ts,service.ts}` (`updateDraft` with revision filter, `touchDraft`), `sidebar.tsx`, `site-overview-card.tsx` (S1 added "Edit details"; rename to "Edit content"), messages.
+
+Note: S1 pulled a profile-only slice of this task forward (business details, one locale per save, `PATCH /api/sites/me`, `/dashboard/site/edit`, `models.ts`). The pieces that remain here are the bilingual tabbed editor, stable item ids and reordering, the stricter per-field limits, `apply-edit`, `touchDraft` and the Preview hand-off.
 
 ## Tasks
 1. Editable sections (all fields from the existing `SiteData`; verify names in `sample-data.ts`): Company (name, category, description), About/story, Contact (email, phone, address, working hours), Services (list), Features (list), Active languages (en, ar, or both; at least one). Every item in a list needs a stable `id` (`crypto.randomUUID()`); add it to the type if missing.

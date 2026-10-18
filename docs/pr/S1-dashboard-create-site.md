@@ -1,6 +1,12 @@
 ## Slice
 S1: Dashboard shell and create-site flow (end to end)
 
+Merged to `main` by fast-forward on 2026-10-18 (owner-approved). The plan was updated to mirror the
+shipped API: `04-API-CONTRACT.md` gained `DELETE /api/sites/me` and the S1 scope on `PATCH
+/api/sites/me` (and `POST /api/sites` now documents `companyName`, not `businessName`); the S1
+slice documents tasks 1/3/5/11/13 as built; the S3 slice was rewritten from "create these files"
+to "extend what S1 shipped".
+
 ## Summary
 A signed-in user now lands on a dashboard shell (header, sidebar with "Overview", user menu,
 language switcher, mobile drawer), sees either an empty state with "Create your site" or their
@@ -127,13 +133,13 @@ npm run build: pass (Next.js 16.4.0, Turbopack) — routes include /[locale]/das
     the owner asked for editing. Payload is the same shape the contract names
     (`{revision, data: {profile}}`, strict, unknown keys rejected), revision-filtered write with
     `STALE_REVISION` on a lost race and `NOT_FOUND` when the user has no site.
-12. **`DELETE /api/sites/me` — a contract addition, not a contract path.** The owner asked for
-    "delete the website"; `04-API-CONTRACT.md` has no user-side delete row (only S6 admin
-    delete). I used the path that mirrors the existing `PATCH /api/sites/me` and returned 204,
-    as the contract's other deletes do. It needs to be added to `04-API-CONTRACT.md` (and to a
-    slice) or reverted — see "Questions for the owner" 1. There is no cascade today: projects
+12. **`DELETE /api/sites/me` — a contract addition.** The owner asked for "delete the website";
+    `04-API-CONTRACT.md` had no user-side delete row (only S6 admin delete). The path mirrors the
+    existing `PATCH /api/sites/me` and returns 204, as the contract's other deletes do.
+    **Owner-approved and now in the plan:** the row was added to `04-API-CONTRACT.md` and to this
+    slice (task 13), so the code no longer invents a path. There is no cascade today: projects
     (S4) and published snapshots (S5) do not exist yet, so deleting removes the site document
-    only; cascade rules must be added when those land.
+    only; the contract note records that those slices add the cascade.
 13. **Edit scope** — the edit page covers the whole wizard field set (name, category, description,
     logo, contact, services, features, languages) for **the locale being viewed**. It is not the
     S3 bilingual editor (no language tabs, no per-item ids/reordering, no uploads, no preview).

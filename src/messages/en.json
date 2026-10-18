@@ -73,6 +73,16 @@
       "signOutError": "We couldn't sign you out. Please try again."
     }
   },
+  "dashboard": {
+    "nav": {
+      "label": "Dashboard navigation",
+      "menu": "Dashboard menu",
+      "overview": "Overview"
+    },
+    "userMenu": {
+      "signedInAs": "Signed in as"
+    }
+  },
   "landing": {
     "nav": {
       "home": "Home",

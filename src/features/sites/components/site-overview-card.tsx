@@ -54,8 +54,14 @@ export async function SiteOverviewCard({
       </dl>
       <div className="mt-8 flex flex-col gap-3 border-t border-slate-100 pt-6 sm:flex-row sm:items-center">
         <Link
-          href="/dashboard/site/edit"
+          href="/dashboard/site/preview"
           className="inline-flex min-h-11 items-center justify-center rounded-xl bg-emerald-700 px-5 py-2 font-semibold text-white transition hover:bg-emerald-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
+        >
+          {t('previewAction')}
+        </Link>
+        <Link
+          href="/dashboard/site/edit"
+          className="inline-flex min-h-11 items-center justify-center rounded-xl border border-slate-300 px-5 py-2 font-semibold text-slate-800 transition hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
         >
           {t('editAction')}
         </Link>

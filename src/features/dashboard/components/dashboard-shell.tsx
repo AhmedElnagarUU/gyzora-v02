@@ -9,10 +9,12 @@ import {UserMenu} from './user-menu';
 export async function DashboardShell({
   userName,
   userEmail,
+  hasSite,
   children,
 }: {
   userName: string;
   userEmail: string;
+  hasSite: boolean;
   children: React.ReactNode;
 }) {
   const t = await getTranslations('common.brand');
@@ -39,7 +41,7 @@ export async function DashboardShell({
         </div>
       </header>
       <div className="flex flex-1 flex-col lg:flex-row">
-        <Sidebar />
+        <Sidebar hasSite={hasSite} />
         <main className="flex-1 px-4 py-8 sm:px-8">{children}</main>
       </div>
     </div>

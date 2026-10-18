@@ -5,11 +5,13 @@ import {useState} from 'react';
 
 import {Link, usePathname} from '@/i18n/navigation';
 
-export function Sidebar() {
+export function Sidebar({hasSite}: {hasSite: boolean}) {
   const t = useTranslations('dashboard.nav');
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const isOverview = pathname === '/dashboard';
+  const isPreview =
+    pathname === '/dashboard/site/preview' || pathname.startsWith('/dashboard/site/preview/');
 
   return (
     <div className="border-b border-slate-200 bg-white lg:w-64 lg:shrink-0 lg:border-b-0 lg:border-e lg:border-e-slate-200">
@@ -41,6 +43,21 @@ export function Sidebar() {
               {t('overview')}
             </Link>
           </li>
+          {hasSite ? (
+            <li>
+              <Link
+                href="/dashboard/site/preview"
+                aria-current={isPreview ? 'page' : undefined}
+                className={`flex items-center rounded-xl px-3 py-2 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 ${
+                  isPreview
+                    ? 'bg-emerald-50 text-emerald-800'
+                    : 'text-slate-700 hover:bg-slate-100'
+                }`}
+              >
+                {t('preview')}
+              </Link>
+            </li>
+          ) : null}
         </ul>
       </nav>
     </div>

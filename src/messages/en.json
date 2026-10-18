@@ -92,7 +92,8 @@
     "nav": {
       "label": "Dashboard navigation",
       "menu": "Dashboard menu",
-      "overview": "Overview"
+      "overview": "Overview",
+      "preview": "Preview"
     },
     "userMenu": {
       "signedInAs": "Signed in as"
@@ -107,6 +108,7 @@
       "status": "Status",
       "created": "Created",
       "editAction": "Edit details",
+      "previewAction": "Preview",
       "deleted": "Your website has been deleted."
     },
     "status": {

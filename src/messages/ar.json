@@ -92,7 +92,8 @@
     "nav": {
       "label": "تنقّل لوحة التحكم",
       "menu": "قائمة لوحة التحكم",
-      "overview": "نظرة عامة"
+      "overview": "نظرة عامة",
+      "preview": "معاينة"
     },
     "userMenu": {
       "signedInAs": "مسجَّل الدخول باسم"
@@ -107,6 +108,7 @@
       "status": "الحالة",
       "created": "تاريخ الإنشاء",
       "editAction": "تعديل البيانات",
+      "previewAction": "معاينة",
       "deleted": "تم حذف موقعك."
     },
     "status": {

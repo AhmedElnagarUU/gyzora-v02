@@ -6,6 +6,7 @@ import {type FormEvent, useState, useSyncExternalStore} from 'react';
 
 import type {SiteLocale} from '@/features/sites/types/site';
 import {siteSetupSchema, type SiteSetupValues} from '@/features/sites/schemas/create-site-schema';
+import {splitLines} from '@/features/sites/site-data';
 import {
   getServerSiteSetupDraftSnapshot,
   getSiteSetupDraftSnapshot,
@@ -15,10 +16,6 @@ import {
 
 function getLocale(locale: string): SiteLocale {
   return locale === 'ar' ? 'ar' : 'en';
-}
-
-function splitLines(value: string): string[] {
-  return value.split(/\r?\n/).map((item) => item.trim()).filter(Boolean);
 }
 
 export function CreateSiteForm() {

@@ -2,7 +2,7 @@
 
 | Slice | Status | Branch | PR | Notes |
 |---|---|---|---|---|
-| S0 Foundations | blocked | | | Font files (07 A) missing; dirty working tree. See `docs/questions/S0-foundations.md` |
+| S0 Foundations | in review | slice/S0-foundations | `docs/pr/S0-foundations.md` (no `gh` CLI) | Prereqs resolved (2026-10-17). lint/tsc/build pass; `npm run test` 11 pass + 1 skipped (needs `MONGODB_TEST_URL`). A4 click-through and A5 concurrency test UNVERIFIED. `[locale]/loading.tsx` relocated to `dashboard/` for real 404s (owner-approved). Dev-DB `user` docs deleted during cleanup — see PR "Observations". |
 | S1 Dashboard + create site | todo | | | |
 | S2 Preview my site | todo | | | |
 | S3 Content editor | todo | | | |

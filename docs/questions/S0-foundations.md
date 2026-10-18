@@ -15,6 +15,21 @@ Resolutions (2026-10-17):
   `gyzora-plan/gyzora-plan/docs/plan/`, `.env.example` + PR template installed from
   `repo-root-files/`; PR body goes to `docs/pr/S0-foundations.md` (`gh` absent).
 
+Resolutions (2026-10-18, during verification):
+- **Q5 (404 vs `loading.tsx`):** Task 6 names `src/app/[locale]/loading.tsx`, but a
+  `loading.tsx` Suspense fallback fixes the response status at `200`, which breaks A3/A8
+  (verified empirically). Owner approved relocating it to
+  `src/app/[locale]/dashboard/loading.tsx`; unknown URLs and unknown project ids now
+  return `404`. Recorded as a deviation in `docs/pr/S0-foundations.md`.
+- **Incident (dev DB):** while removing my own throwaway test rows, a cleanup filter used
+  `user.id`, but better-auth stores `_id` (no `id` field), so the filter matched every
+  document: all 3 `user` documents in the dev DB were deleted (2 owner accounts created
+  2026-10-14 + my throwaway account). `account` (password hashes) and `session` docs
+  survived; my own test artifacts were then removed. Emails/names are not recoverable from
+  the remaining data. The 2 surviving `_id`s are `6acf841e399bc897e583c139` and
+  `6acf958e399bc897e583c143`, so the `user` docs can be recreated with the original `_id`
+  if the owner supplies email/name. Full text in the PR "Observations".
+
 ## Original questions (kept for the record)
 
 Stopped per `05-AGENT-WORKFLOW.md` ("A required owner prerequisite is missing" /

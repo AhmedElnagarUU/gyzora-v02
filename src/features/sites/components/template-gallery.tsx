@@ -5,6 +5,7 @@ import {useRouter} from 'next/navigation';
 import {type RefObject, useEffect, useRef, useState, useSyncExternalStore} from 'react';
 
 import {Link} from '@/i18n/navigation';
+import {serializeFieldErrors} from '@/features/sites/field-errors';
 import {getDisplayValue} from '@/features/sites/site-data';
 import type {SiteSetupValues} from '@/features/sites/schemas/create-site-schema';
 import type {SiteLocale} from '@/features/sites/types/site';
@@ -20,6 +21,14 @@ import type {TemplateDefinition, TemplateId} from '@/features/templates/types';
 function getLocale(locale: string): SiteLocale {
   return locale === 'ar' ? 'ar' : 'en';
 }
+
+const API_ERROR_CODES = [
+  'UNAUTHENTICATED',
+  'VALIDATION_FAILED',
+  'SITE_ALREADY_EXISTS',
+  'NOT_FOUND',
+  'INTERNAL',
+] as const;
 
 const subscribeToNothing = () => () => {};
 
@@ -38,13 +47,17 @@ function previewHref(locale: SiteLocale, templateId: TemplateId, draft: SiteSetu
   return `/${locale}/templates/${templateId}?name=${name}&category=${category}`;
 }
 
-function fieldErrorHref(locale: SiteLocale, payload: unknown): string {
-  const fields = (payload as {error?: {fields?: Record<string, string>}} | null)?.error?.fields;
-  const names = Object.keys(fields ?? {});
+function apiErrorCode(payload: unknown, fallback: string): string {
+  const code = (payload as {error?: {code?: string}} | null)?.error?.code;
 
-  return names.length
-    ? `/${locale}/dashboard/site-create?fields=${names.join(',')}`
-    : `/${locale}/dashboard/site-create`;
+  return code && (API_ERROR_CODES as readonly string[]).includes(code) ? code : fallback;
+}
+
+function fieldErrorsHref(locale: SiteLocale, payload: unknown): string {
+  const fields = (payload as {error?: {fields?: Record<string, string>}} | null)?.error?.fields;
+  const query = serializeFieldErrors(fields ?? {});
+
+  return query ? `/${locale}/dashboard/site-create?fields=${query}` : `/${locale}/dashboard/site-create`;
 }
 
 function TemplateCard({
@@ -133,6 +146,7 @@ function TemplateCard({
 export function TemplateGallery({highlightId}: {highlightId?: string}) {
   const locale = getLocale(useLocale());
   const t = useTranslations('siteSetup');
+  const tErrors = useTranslations('errors');
   const router = useRouter();
   const draftSnapshot = useSyncExternalStore(
     subscribeToSiteSetupDraft,
@@ -141,7 +155,7 @@ export function TemplateGallery({highlightId}: {highlightId?: string}) {
   );
   const isClient = useIsClient();
   const [pendingTemplateId, setPendingTemplateId] = useState<TemplateId | null>(null);
-  const [error, setError] = useState<'siteExists' | 'createFailed' | null>(null);
+  const [errorCode, setErrorCode] = useState<string | null>(null);
   const selectButtonRef = useRef<HTMLButtonElement | null>(null);
   const draft = draftSnapshot.status === 'saved' ? draftSnapshot.values : null;
   const hasUsableDraft = draftSnapshot.status === 'saved';
@@ -163,7 +177,7 @@ export function TemplateGallery({highlightId}: {highlightId?: string}) {
     if (!draft || pendingTemplateId !== null) return;
 
     setPendingTemplateId(template.id);
-    setError(null);
+    setErrorCode(null);
 
     try {
       const response = await fetch('/api/sites', {
@@ -182,16 +196,17 @@ export function TemplateGallery({highlightId}: {highlightId?: string}) {
         return;
       }
 
+      const payload: unknown = await response.json().catch(() => null);
+
       if (response.status === 400) {
-        const payload: unknown = await response.json().catch(() => null);
-        router.replace(fieldErrorHref(locale, payload));
+        router.replace(fieldErrorsHref(locale, payload));
         return;
       }
 
-      setError(response.status === 409 ? 'siteExists' : 'createFailed');
+      setErrorCode(apiErrorCode(payload, 'INTERNAL'));
       setPendingTemplateId(null);
     } catch {
-      setError('createFailed');
+      setErrorCode('INTERNAL');
       setPendingTemplateId(null);
     }
   };
@@ -237,22 +252,18 @@ export function TemplateGallery({highlightId}: {highlightId?: string}) {
         </Link>
       </div>
 
-      {error === 'siteExists' ? (
+      {errorCode ? (
         <div role="alert" className="mb-5 rounded-xl bg-red-50 p-4 text-sm text-red-700">
-          <p>{t('errors.siteExists')}</p>
-          <Link
-            href="/dashboard"
-            className="mt-2 inline-block font-semibold text-emerald-800 underline-offset-4 hover:underline"
-          >
-            {t('actions.backToDashboard')}
-          </Link>
+          <p>{tErrors.has(errorCode) ? tErrors(errorCode) : tErrors('INTERNAL')}</p>
+          {errorCode === 'SITE_ALREADY_EXISTS' ? (
+            <Link
+              href="/dashboard"
+              className="mt-2 inline-block font-semibold text-emerald-800 underline-offset-4 hover:underline"
+            >
+              {t('actions.backToDashboard')}
+            </Link>
+          ) : null}
         </div>
-      ) : null}
-
-      {error === 'createFailed' ? (
-        <p role="alert" className="mb-5 rounded-xl bg-red-50 p-4 text-sm text-red-700">
-          {t('errors.createFailed')}
-        </p>
       ) : null}
 
       <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">

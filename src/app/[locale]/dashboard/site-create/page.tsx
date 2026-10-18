@@ -3,13 +3,21 @@ import {redirect} from 'next/navigation';
 
 import {getSession} from '@/features/auth/lib/session';
 import {CreateSiteForm} from '@/features/sites/components/create-site-form';
+import {parseFieldErrors} from '@/features/sites/field-errors';
 import {getSiteForOwner} from '@/features/sites/service';
 import {Link} from '@/i18n/navigation';
 
 export const dynamic = 'force-dynamic';
 
-export default async function SiteCreatePage({params}: {params: Promise<{locale: string}>}) {
+export default async function SiteCreatePage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{locale: string}>;
+  searchParams: Promise<{fields?: string | string[]}>;
+}) {
   const {locale} = await params;
+  const {fields} = await searchParams;
   setRequestLocale(locale);
 
   const session = await getSession();
@@ -39,7 +47,7 @@ export default async function SiteCreatePage({params}: {params: Promise<{locale:
           <h1 className="mt-3 text-3xl font-semibold text-slate-900">{t('firstStep.title')}</h1>
           <p className="mt-3 text-slate-600">{t('firstStep.description')}</p>
         </div>
-        <CreateSiteForm />
+        <CreateSiteForm fieldErrors={parseFieldErrors(fields)} />
       </div>
     </div>
   );

@@ -24,6 +24,20 @@
       "label": "Loading..."
     }
   },
+  "errors": {
+    "UNAUTHENTICATED": "Please sign in again to continue.",
+    "VALIDATION_FAILED": "Some details are invalid. Please review them and try again.",
+    "SITE_ALREADY_EXISTS": "A website already exists for this account.",
+    "NOT_FOUND": "We couldn't find what you were looking for.",
+    "INTERNAL": "Something went wrong. Please try again.",
+    "field": {
+      "too_small": "This value is too short.",
+      "too_big": "This value is too long.",
+      "invalid_format": "This value has an invalid format.",
+      "invalid_type": "This value is not valid.",
+      "custom": "This value is not valid."
+    }
+  },
   "auth": {
     "fields": {
       "name": "Full name",
@@ -274,8 +288,7 @@
     "errors": {
       "generic": "Something went wrong. Please try again.",
       "storage": "Your setup details could not be saved in this browser. Please try again.",
-      "siteExists": "A website already exists for this account.",
-      "createFailed": "We couldn't create your website draft. Please try again."
+      "reviewFields": "These details need attention before you continue:"
     },
     "loading": "Loading your saved details...",
     "success": "Your site draft has been created."

@@ -5,6 +5,7 @@ import {useRouter} from 'next/navigation';
 import {type FormEvent, useState, useSyncExternalStore} from 'react';
 
 import type {SiteLocale} from '@/features/sites/types/site';
+import type {FieldError} from '@/features/sites/field-errors';
 import {siteSetupSchema, type SiteSetupValues} from '@/features/sites/schemas/create-site-schema';
 import {splitLines} from '@/features/sites/site-data';
 import {
@@ -14,12 +15,26 @@ import {
   subscribeToSiteSetupDraft,
 } from '@/features/sites/wizard-draft';
 
+const FIELD_LABEL_KEYS: Record<string, string> = {
+  companyName: 'companyName',
+  category: 'category',
+  description: 'description',
+  logoUrl: 'logoUrl',
+  contactEmail: 'email',
+  contactPhone: 'phone',
+  address: 'address',
+  services: 'services',
+  features: 'features',
+  languagePreferences: 'language',
+};
+
 function getLocale(locale: string): SiteLocale {
   return locale === 'ar' ? 'ar' : 'en';
 }
 
-export function CreateSiteForm() {
+export function CreateSiteForm({fieldErrors = []}: {fieldErrors?: FieldError[]}) {
   const t = useTranslations('siteSetup');
+  const tErrors = useTranslations('errors');
   const locale = getLocale(useLocale());
   const router = useRouter();
   const draftSnapshot = useSyncExternalStore(
@@ -46,6 +61,13 @@ export function CreateSiteForm() {
     ...editedValues,
   };
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const fieldErrorMessages = fieldErrors
+    .map(({name, code}) => ({
+      name,
+      label: FIELD_LABEL_KEYS[name] ? t(`fields.${FIELD_LABEL_KEYS[name]}`) : null,
+      message: tErrors.has(`field.${code}`) ? tErrors(`field.${code}`) : tErrors('field.invalid_type'),
+    }))
+    .filter((item) => item.label);
 
   const updateValue = <K extends keyof SiteSetupValues>(key: K, value: SiteSetupValues[K]) => {
     setEditedValues((current) => ({...current, [key]: value}));
@@ -93,6 +115,19 @@ export function CreateSiteForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+      {fieldErrorMessages.length ? (
+        <div role="alert" className="rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-700">
+          <p className="font-semibold">{t('errors.reviewFields')}</p>
+          <ul className="mt-1 list-inside list-disc">
+            {fieldErrorMessages.map((item) => (
+              <li key={item.name}>
+                {item.label}: {item.message}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+
       <div className="space-y-2">
         <label htmlFor="companyName" className="block text-sm font-medium text-slate-700">
           {t('fields.companyName')}

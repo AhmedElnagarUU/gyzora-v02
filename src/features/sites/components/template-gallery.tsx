@@ -2,68 +2,79 @@
 
 import {useLocale, useTranslations} from 'next-intl';
 import {useRouter} from 'next/navigation';
-import {useState, useSyncExternalStore} from 'react';
+import {type RefObject, useEffect, useRef, useState, useSyncExternalStore} from 'react';
 
-import type {LocalizedValue, SiteLocale, SiteProfile} from '@/features/sites/types/site';
-import {TEMPLATES} from '@/features/templates/catalog';
-import {TemplateRenderer} from '@/features/templates/render/TemplateRenderer';
-import type {TemplateDefinition} from '@/features/templates/types';
+import {Link} from '@/i18n/navigation';
+import {getDisplayValue} from '@/features/sites/site-data';
+import type {SiteSetupValues} from '@/features/sites/schemas/create-site-schema';
+import type {SiteLocale} from '@/features/sites/types/site';
 import {
   clearSiteSetupDraft,
   getServerSiteSetupDraftSnapshot,
   getSiteSetupDraftSnapshot,
   subscribeToSiteSetupDraft,
 } from '@/features/sites/wizard-draft';
-import type {SiteSetupValues} from '@/features/sites/schemas/create-site-schema';
+import {TEMPLATES} from '@/features/templates/catalog';
+import type {TemplateDefinition, TemplateId} from '@/features/templates/types';
 
 function getLocale(locale: string): SiteLocale {
   return locale === 'ar' ? 'ar' : 'en';
 }
 
-function localizedValue(value: string, locale: SiteLocale): LocalizedValue {
-  return locale === 'ar' ? {en: '', ar: value} : {en: value, ar: ''};
+const subscribeToNothing = () => () => {};
+
+function useIsClient(): boolean {
+  return useSyncExternalStore(
+    subscribeToNothing,
+    () => true,
+    () => false
+  );
 }
 
-function splitLines(value: string): string[] {
-  return value.split(/\r?\n/).map((item) => item.trim()).filter(Boolean);
+function previewHref(locale: SiteLocale, templateId: TemplateId, draft: SiteSetupValues): string {
+  const name = encodeURIComponent(draft.companyName);
+  const category = encodeURIComponent(draft.category);
+
+  return `/${locale}/templates/${templateId}?name=${name}&category=${category}`;
 }
 
-function previewSite(values: SiteSetupValues): {profile: SiteProfile} {
-  const contact = {
-    email: values.contactEmail || undefined,
-    phone: values.contactPhone || undefined,
-    address: values.address ? localizedValue(values.address, values.locale) : undefined,
-  };
+function fieldErrorHref(locale: SiteLocale, payload: unknown): string {
+  const fields = (payload as {error?: {fields?: Record<string, string>}} | null)?.error?.fields;
+  const names = Object.keys(fields ?? {});
 
-  return {
-    profile: {
-      companyName: localizedValue(values.companyName, values.locale),
-      category: localizedValue(values.category, values.locale),
-      description: localizedValue(values.description, values.locale),
-      logoUrl: values.logoUrl || undefined,
-      contact: Object.values(contact).some(Boolean) ? contact : undefined,
-      services: splitLines(values.services).map((item) => localizedValue(item, values.locale)),
-      features: splitLines(values.features).map((item) => localizedValue(item, values.locale)),
-      languagePreferences: values.languagePreferences.length
-        ? values.languagePreferences
-        : [values.locale],
-    },
-  };
+  return names.length
+    ? `/${locale}/dashboard/site-create?fields=${names.join(',')}`
+    : `/${locale}/dashboard/site-create`;
 }
 
 function TemplateCard({
   template,
   locale,
+  draft,
+  pendingTemplateId,
+  highlightId,
+  selectButtonRef,
+  onSelect,
 }: {
   template: TemplateDefinition;
   locale: SiteLocale;
+  draft: SiteSetupValues;
+  pendingTemplateId: TemplateId | null;
+  highlightId?: string;
+  selectButtonRef: RefObject<HTMLButtonElement | null>;
+  onSelect: (template: TemplateDefinition) => void;
 }) {
   const t = useTranslations('siteSetup');
   const style = template.style;
+  const name = getDisplayValue(template.name, locale);
+  const isHighlighted = template.id === highlightId;
+  const isPending = template.id === pendingTemplateId;
 
   return (
     <article
-      className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm"
+      className={`flex flex-col overflow-hidden rounded-3xl border bg-white shadow-sm ${
+        isHighlighted ? 'border-emerald-500 ring-2 ring-emerald-500/40' : 'border-slate-200'
+      }`}
       data-template-id={template.id}
     >
       <div
@@ -72,11 +83,11 @@ function TemplateCard({
         style={{background: style.background, color: style.foreground}}
       >
         <div className="template-gallery-card-nav">
-          <span>{template.name[locale]}</span>
+          <span>{name}</span>
           <span className="template-gallery-card-action" style={{background: style.accent}} />
         </div>
         <div className="template-gallery-card-hero" style={{background: style.surface}}>
-          <span className="template-gallery-card-title">{template.name[locale]}</span>
+          <span className="template-gallery-card-title">{name}</span>
           <span className="template-gallery-card-scene" style={{background: style.accent}} />
         </div>
         <div className="template-gallery-card-sections">
@@ -85,25 +96,41 @@ function TemplateCard({
           <span style={{background: style.foreground}} />
         </div>
       </div>
-      <div className="space-y-4 p-5">
+      <div className="flex flex-1 flex-col gap-4 p-5">
         <div>
-          <h2 className="text-xl font-semibold text-slate-900">{template.name[locale]}</h2>
-          <p className="mt-1 text-sm text-slate-500" dir="ltr">{template.id}</p>
+          <h2 className="text-xl font-semibold text-slate-900">{name}</h2>
+          <p className="mt-1 text-sm text-slate-600">{getDisplayValue(template.summary, locale)}</p>
         </div>
-        <a
-          href={`/${locale}/templates/${template.id}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex min-h-11 w-full items-center justify-center rounded-xl border border-slate-300 px-4 py-2 font-semibold text-slate-800 transition hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
-        >
-          {t('actions.preview')}
-        </a>
+        {isHighlighted ? (
+          <p className="inline-flex w-fit rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-900">
+            {t('gallery.highlighted')}
+          </p>
+        ) : null}
+        <div className="mt-auto flex flex-col gap-2 sm:flex-row">
+          <a
+            href={previewHref(locale, template.id, draft)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-11 flex-1 items-center justify-center rounded-xl border border-slate-300 px-4 py-2 font-semibold text-slate-800 transition hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
+          >
+            {t('actions.preview')}
+          </a>
+          <button
+            type="button"
+            ref={isHighlighted ? selectButtonRef : null}
+            disabled={pendingTemplateId !== null}
+            onClick={() => onSelect(template)}
+            className="inline-flex min-h-11 flex-1 items-center justify-center rounded-xl bg-emerald-700 px-4 py-2 font-semibold text-white transition hover:bg-emerald-800 disabled:cursor-wait disabled:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
+          >
+            {isPending ? t('creating') : t('actions.selectTemplate')}
+          </button>
+        </div>
       </div>
     </article>
   );
 }
 
-export function TemplateGallery({previewTemplateId}: {previewTemplateId?: string}) {
+export function TemplateGallery({highlightId}: {highlightId?: string}) {
   const locale = getLocale(useLocale());
   const t = useTranslations('siteSetup');
   const router = useRouter();
@@ -112,16 +139,31 @@ export function TemplateGallery({previewTemplateId}: {previewTemplateId?: string
     getSiteSetupDraftSnapshot,
     getServerSiteSetupDraftSnapshot
   );
+  const isClient = useIsClient();
+  const [pendingTemplateId, setPendingTemplateId] = useState<TemplateId | null>(null);
+  const [error, setError] = useState<'siteExists' | 'createFailed' | null>(null);
+  const selectButtonRef = useRef<HTMLButtonElement | null>(null);
   const draft = draftSnapshot.status === 'saved' ? draftSnapshot.values : null;
-  const [error, setError] = useState('');
-  const [isCreating, setIsCreating] = useState(false);
-  const previewTemplate = TEMPLATES.find((template) => template.id === previewTemplateId) ?? null;
-  const previewData = draft ? previewSite(draft) : null;
+  const hasUsableDraft = draftSnapshot.status === 'saved';
+
+  useEffect(() => {
+    if (!isClient) return;
+    if (!hasUsableDraft) {
+      router.replace(`/${locale}/dashboard/site-create`);
+    }
+  }, [isClient, hasUsableDraft, locale, router]);
+
+  useEffect(() => {
+    if (isClient) {
+      selectButtonRef.current?.focus();
+    }
+  }, [isClient]);
 
   const handleSelect = async (template: TemplateDefinition) => {
-    if (!draft || isCreating) return;
-    setIsCreating(true);
-    setError('');
+    if (!draft || pendingTemplateId !== null) return;
+
+    setPendingTemplateId(template.id);
+    setError(null);
 
     try {
       const response = await fetch('/api/sites', {
@@ -129,75 +171,51 @@ export function TemplateGallery({previewTemplateId}: {previewTemplateId?: string
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({...draft, templateId: template.id}),
       });
-      if (!response.ok) {
-        setError(response.status === 409 ? t('errors.siteExists') : t('errors.createFailed'));
-        setIsCreating(false);
+
+      if (response.status === 201) {
+        try {
+          clearSiteSetupDraft();
+        } catch {
+          // The site is created; the draft can stay in this browser.
+        }
+        router.replace(`/${locale}/dashboard?created=1`);
         return;
       }
 
-      clearSiteSetupDraft();
-      router.push(`/${draft.locale}/dashboard`);
+      if (response.status === 400) {
+        const payload: unknown = await response.json().catch(() => null);
+        router.replace(fieldErrorHref(locale, payload));
+        return;
+      }
+
+      setError(response.status === 409 ? 'siteExists' : 'createFailed');
+      setPendingTemplateId(null);
     } catch {
-      setError(t('errors.createFailed'));
-      setIsCreating(false);
+      setError('createFailed');
+      setPendingTemplateId(null);
     }
   };
 
-  if (!draft || !previewData) {
-    const message =
-      draftSnapshot.status === 'unavailable'
-        ? t('errors.storage')
-        : draftSnapshot.status === 'invalid'
-          ? t('errors.invalidDraft')
-          : t('errors.noDraft');
+  if (!isClient || !hasUsableDraft) {
     return (
-      <div className="space-y-4">
-        <p role="alert" className="text-sm text-red-700">{message}</p>
-        <button
-          type="button"
-          onClick={() => router.push(`/${locale}/dashboard/site-create`)}
-          className="rounded-xl px-4 py-2 font-semibold text-emerald-800 underline-offset-4 hover:underline"
-        >
-          {t('actions.backToDetails')}
-        </button>
-      </div>
+      <p role="status" className="text-sm text-slate-600">
+        {t('loading')}
+      </p>
     );
   }
 
-  if (previewTemplate) {
+  if (!draft) {
     return (
-      <div className="space-y-5">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className="text-sm text-slate-600">{draft.companyName} · {draft.category}</p>
-          <button
-            type="button"
-            onClick={() => router.push(`/${locale}/dashboard/site-create/templates`)}
-            className="rounded-xl px-4 py-2 font-semibold text-emerald-800 underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
-          >
-            {t('actions.backToGallery')}
-          </button>
-        </div>
-        <div className="template-preview-frame overflow-hidden rounded-2xl border border-slate-200">
-          <TemplateRenderer
-            template={previewTemplate}
-            site={previewData}
-            locale={locale}
-            mode="sample"
-            pageId="home"
-            hrefForPage={() => '#template-preview'}
-          />
-        </div>
-        {error ? <p role="alert" className="rounded-xl bg-red-50 p-4 text-sm text-red-700">{error}</p> : null}
-        <div className="flex justify-end">
-          <button
-            type="button"
-            disabled={isCreating}
-            onClick={() => void handleSelect(previewTemplate)}
-            className="min-h-11 rounded-xl bg-emerald-700 px-5 py-2 font-semibold text-white hover:bg-emerald-800 disabled:cursor-wait disabled:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
-          >
-            {isCreating ? t('creating') : t('actions.selectTemplate')}
-          </button>
-        </div>
+      <div className="space-y-4">
+        <p role="alert" className="text-sm text-red-700">
+          {t('errors.storage')}
+        </p>
+        <Link
+          href="/dashboard/site-create"
+          className="inline-flex min-h-11 items-center justify-center rounded-xl border border-slate-300 px-4 py-2 font-semibold text-slate-800 transition hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
+        >
+          {t('actions.backToDetails')}
+        </Link>
       </div>
     );
   }
@@ -211,16 +229,31 @@ export function TemplateGallery({previewTemplateId}: {previewTemplateId?: string
             {draft.companyName} · {draft.category}
           </p>
         </div>
-        <button
-          type="button"
-          onClick={() => router.push(`/${locale}/dashboard/site-create`)}
+        <Link
+          href="/dashboard/site-create"
           className="rounded-xl px-4 py-2 font-semibold text-emerald-800 underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
         >
           {t('actions.backToDetails')}
-        </button>
+        </Link>
       </div>
 
-      {error ? <p role="alert" className="mb-5 rounded-xl bg-red-50 p-4 text-sm text-red-700">{error}</p> : null}
+      {error === 'siteExists' ? (
+        <div role="alert" className="mb-5 rounded-xl bg-red-50 p-4 text-sm text-red-700">
+          <p>{t('errors.siteExists')}</p>
+          <Link
+            href="/dashboard"
+            className="mt-2 inline-block font-semibold text-emerald-800 underline-offset-4 hover:underline"
+          >
+            {t('actions.backToDashboard')}
+          </Link>
+        </div>
+      ) : null}
+
+      {error === 'createFailed' ? (
+        <p role="alert" className="mb-5 rounded-xl bg-red-50 p-4 text-sm text-red-700">
+          {t('errors.createFailed')}
+        </p>
+      ) : null}
 
       <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
         {TEMPLATES.map((template) => (
@@ -228,6 +261,11 @@ export function TemplateGallery({previewTemplateId}: {previewTemplateId?: string
             key={template.id}
             template={template}
             locale={locale}
+            draft={draft}
+            pendingTemplateId={pendingTemplateId}
+            highlightId={highlightId}
+            selectButtonRef={selectButtonRef}
+            onSelect={(selected) => void handleSelect(selected)}
           />
         ))}
       </div>

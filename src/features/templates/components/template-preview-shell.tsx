@@ -10,11 +10,13 @@ export function TemplatePreviewShell({
   templateId,
   pageId,
   locale,
+  useTemplateHref,
   children,
 }: {
   templateId: TemplateId;
   pageId: TemplatePageId;
   locale: SiteLocale;
+  useTemplateHref: string;
   children: ReactNode;
 }) {
   const [viewport, setViewport] = useState<ViewportMode>('desktop');
@@ -25,6 +27,7 @@ export function TemplatePreviewShell({
         currentTemplateId={templateId}
         currentPageId={pageId}
         locale={locale}
+        useTemplateHref={useTemplateHref}
         viewport={viewport}
         onViewportChange={setViewport}
       />

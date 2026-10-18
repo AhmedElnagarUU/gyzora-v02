@@ -2,12 +2,15 @@ import type {Metadata} from 'next';
 import {notFound} from 'next/navigation';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 import {routing} from '@/i18n/routing';
-import type {SiteLocale} from '@/features/sites/types/site';
+import {getSession} from '@/features/auth/lib/session';
+import type {LocalizedValue, SiteLocale} from '@/features/sites/types/site';
 import {getTemplate, isTemplateId} from '@/features/templates/catalog';
 import {getSampleSiteData} from '@/features/templates/sample-data';
 import {TemplateRenderer} from '@/features/templates/render/TemplateRenderer';
 import {TemplatePreviewShell} from '@/features/templates/components/template-preview-shell';
-import type {TemplatePageId, TemplateProject} from '@/features/templates/types';
+import type {TemplatePageId, TemplateProject, TemplateSiteData} from '@/features/templates/types';
+
+const PREVIEW_TEXT_LIMIT = 80;
 
 interface PageProps {
   params: Promise<{
@@ -15,7 +18,46 @@ interface PageProps {
     templateId: string;
     slug?: string[];
   }>;
+  searchParams: Promise<{name?: string | string[]; category?: string | string[]}>;
 }
+
+function previewText(value: string | string[] | undefined): string {
+  return typeof value === 'string' ? value.trim().slice(0, PREVIEW_TEXT_LIMIT) : '';
+}
+
+function withLocalizedOverride(
+  value: LocalizedValue,
+  locale: SiteLocale,
+  text: string
+): LocalizedValue {
+  return locale === 'ar' ? {...value, ar: text} : {...value, en: text};
+}
+
+function withPreviewProfile(
+  siteData: TemplateSiteData,
+  locale: SiteLocale,
+  name: string,
+  category: string
+): TemplateSiteData {
+  if (!name && !category) {
+    return siteData;
+  }
+
+  return {
+    ...siteData,
+    profile: {
+      ...siteData.profile,
+      companyName: name
+        ? withLocalizedOverride(siteData.profile.companyName, locale, name)
+        : siteData.profile.companyName,
+      category: category
+        ? withLocalizedOverride(siteData.profile.category, locale, category)
+        : siteData.profile.category,
+    },
+  };
+}
+
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({params}: PageProps): Promise<Metadata> {
   const {locale, templateId, slug} = await params;
@@ -35,8 +77,9 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
   };
 }
 
-export default async function TemplatePreviewPage({params}: PageProps) {
+export default async function TemplatePreviewPage({params, searchParams}: PageProps) {
   const {locale, templateId, slug} = await params;
+  const {name, category} = await searchParams;
 
   if (!routing.locales.includes(locale as SiteLocale)) {
     notFound();
@@ -54,7 +97,12 @@ export default async function TemplatePreviewPage({params}: PageProps) {
     notFound();
   }
 
-  const siteData = getSampleSiteData(templateId);
+  const session = await getSession();
+  const useTemplateHref = session
+    ? `/${siteLocale}/dashboard/site-create/templates?highlight=${templateId}`
+    : `/${siteLocale}/auth/sign-up`;
+  const sampleData = getSampleSiteData(templateId);
+  const siteData = withPreviewProfile(sampleData, siteLocale, previewText(name), previewText(category));
 
   let pageId: TemplatePageId = 'home';
   let project: TemplateProject | undefined;
@@ -91,7 +139,12 @@ export default async function TemplatePreviewPage({params}: PageProps) {
   };
 
   return (
-    <TemplatePreviewShell templateId={template.id} pageId={pageId} locale={siteLocale}>
+    <TemplatePreviewShell
+      templateId={template.id}
+      pageId={pageId}
+      locale={siteLocale}
+      useTemplateHref={useTemplateHref}
+    >
       {pageId === 'project-details' && project ? (
         <TemplateRenderer
           template={template}

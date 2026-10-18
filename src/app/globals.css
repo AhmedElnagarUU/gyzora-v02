@@ -194,14 +194,6 @@ html[dir="rtl"] .template-site {
   margin-block: 1rem 0;
 }
 
-.template-preview-frame .template-site {
-  min-height: auto;
-}
-
-.template-preview-frame .template-section {
-  padding-block: clamp(1.5rem, 4vw, 3rem);
-}
-
 .template-preview-dialog::backdrop {
   background: rgb(2 6 23 / 70%);
 }
@@ -751,4 +743,79 @@ html[dir="rtl"] .template-site {
   .template-button {
     transition: none;
   }
+}
+
+.template-gallery-card-preview {
+  border-block-end: 1px solid rgb(15 23 42 / 8%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.template-gallery-card-nav {
+  align-items: center;
+  display: flex;
+  font-size: 0.7rem;
+  font-weight: 700;
+  gap: 0.5rem;
+  justify-content: space-between;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.template-gallery-card-action {
+  border-radius: 999px;
+  display: block;
+  height: 0.4rem;
+  width: 2.25rem;
+}
+
+.template-gallery-card-hero {
+  align-items: center;
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  min-height: 4rem;
+  padding: 1rem;
+}
+
+.template-gallery-card-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.template-gallery-card-scene {
+  border-radius: 999px;
+  display: block;
+  height: 1.5rem;
+  opacity: 0.75;
+  width: 1.5rem;
+}
+
+.template-gallery-card-sections {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.template-gallery-card-sections span {
+  border-radius: 0.25rem;
+  display: block;
+  height: 0.5rem;
+  opacity: 0.35;
+}
+
+.template-preview-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.template-preview-viewport-wrapper {
+  min-height: 0;
+}
+
+.template-preview-frame-container {
+  margin-inline: auto;
 }

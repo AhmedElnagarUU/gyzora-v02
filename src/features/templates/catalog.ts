@@ -90,7 +90,11 @@ const PAGES: readonly TemplatePageDefinition[] = [
 export const TEMPLATES: readonly TemplateDefinition[] = [
   {
     id: 'atelier',
-    name: {en: 'Editorial Atelier', ar: 'Editorial Atelier'},
+    name: {en: 'Editorial Atelier', ar: 'أتيلييه التحرير'},
+    summary: {
+      en: 'An editorial layout for design and architecture studios that lead with storytelling.',
+      ar: 'تصميم تحريري يناسب استوديوهات التصميم والعمارة التي تعتمد على سرد القصة.',
+    },
     style: {
       accent: '#9B4C31',
       accentForeground: '#FFFFFF',
@@ -112,7 +116,11 @@ export const TEMPLATES: readonly TemplateDefinition[] = [
   },
   {
     id: 'modern-build',
-    name: {en: 'Modern Build', ar: 'Modern Build'},
+    name: {en: 'Modern Build', ar: 'البناء العصري'},
+    summary: {
+      en: 'A bold, structured layout for construction and engineering companies.',
+      ar: 'تصميم جسور ومنظّم لشركات الإنشاءات والهندسة.',
+    },
     style: {
       accent: '#B64C20',
       accentForeground: '#FFFFFF',
@@ -134,7 +142,11 @@ export const TEMPLATES: readonly TemplateDefinition[] = [
   },
   {
     id: 'urban-estate',
-    name: {en: 'Urban Estate', ar: 'Urban Estate'},
+    name: {en: 'Urban Estate', ar: 'العقارات الحضرية'},
+    summary: {
+      en: 'A refined layout for real estate developers and agencies presenting their projects.',
+      ar: 'تصميم أنيق لشركات التطوير والتسويق العقاري لعرض مشاريعها.',
+    },
     style: {
       accent: '#A6874A',
       accentForeground: '#1D3029',
@@ -156,7 +168,11 @@ export const TEMPLATES: readonly TemplateDefinition[] = [
   },
   {
     id: 'interior-calm',
-    name: {en: 'Interior Calm', ar: 'Interior Calm'},
+    name: {en: 'Interior Calm', ar: 'الهدوء الداخلي'},
+    summary: {
+      en: 'A soft, minimal layout for interior design and finishing studios.',
+      ar: 'تصميم هادئ وبسيط لاستوديوهات التصميم الداخلي والتشطيبات.',
+    },
     style: {
       accent: '#78866C',
       accentForeground: '#252A23',
@@ -178,7 +194,11 @@ export const TEMPLATES: readonly TemplateDefinition[] = [
   },
   {
     id: 'craft-studio',
-    name: {en: 'Craft Studio', ar: 'Craft Studio'},
+    name: {en: 'Craft Studio', ar: 'استوديو الحرفية'},
+    summary: {
+      en: 'A crafted, workshop-style layout for makers, fabricators and artisans.',
+      ar: 'تصميم حرفي بأسلوب الورش للمصنّعين والحرفيين.',
+    },
     style: {
       accent: '#C18468',
       accentForeground: '#202222',
@@ -220,6 +240,7 @@ for (const template of TEMPLATES) {
     Object.freeze(template.images);
   }
   Object.freeze(template.name);
+  Object.freeze(template.summary);
   Object.freeze(template.style);
   Object.freeze(template);
 }

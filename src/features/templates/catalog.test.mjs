@@ -61,7 +61,10 @@ test('catalog exposes exactly the five supported IDs', () => {
     assert.equal(isTemplateId(template.id), true);
     assert.equal(template.name.en.length > 0, true);
     assert.equal(template.name.ar.length > 0, true);
-    assert.equal(template.name.en, template.name.ar);
+    assert.notEqual(template.name.ar, template.name.en);
+    assert.equal(template.summary.en.length > 0, true);
+    assert.equal(template.summary.ar.length > 0, true);
+    assert.notEqual(template.summary.ar, template.summary.en);
   }
   assert.equal(getTemplate('unknown'), null);
 });
@@ -100,6 +103,7 @@ test('catalog definitions and nested layout data are immutable and contain no cu
   for (const template of TEMPLATES) {
     assert.equal(Object.isFrozen(template), true);
     assert.equal(Object.isFrozen(template.style), true);
+    assert.equal(Object.isFrozen(template.summary), true);
     assert.equal(Object.isFrozen(template.pages), true);
     assert.equal('profile' in template, false);
     assert.equal('projects' in template, false);

@@ -2,18 +2,12 @@
 
 import Link from 'next/link';
 import {useTranslations} from 'next-intl';
+import {getDisplayValue} from '@/features/sites/site-data';
 import type {SiteLocale} from '@/features/sites/types/site';
+import {TEMPLATES} from '../catalog';
 import type {TemplateId, TemplatePageId} from '../types';
 
 export type ViewportMode = 'desktop' | 'tablet' | 'mobile';
-
-const TEMPLATE_OPTIONS: readonly {id: TemplateId; labelKey: string}[] = [
-  {id: 'modern-build', labelKey: 'modern-build'},
-  {id: 'atelier', labelKey: 'atelier'},
-  {id: 'urban-estate', labelKey: 'urban-estate'},
-  {id: 'interior-calm', labelKey: 'interior-calm'},
-  {id: 'craft-studio', labelKey: 'craft-studio'},
-];
 
 const NAVIGATION_PAGES: readonly {id: TemplatePageId; labelKey: string; slug: string}[] = [
   {id: 'home', labelKey: 'home', slug: ''},
@@ -27,12 +21,14 @@ export function TemplatePreviewBar({
   currentTemplateId,
   currentPageId,
   locale,
+  useTemplateHref,
   viewport,
   onViewportChange,
 }: {
   currentTemplateId: TemplateId;
   currentPageId: TemplatePageId;
   locale: SiteLocale;
+  useTemplateHref: string;
   viewport: ViewportMode;
   onViewportChange: (viewport: ViewportMode) => void;
 }) {
@@ -95,9 +91,9 @@ export function TemplatePreviewBar({
               }}
               className="appearance-none rounded-lg border border-slate-700 bg-slate-800 px-3 py-1.5 pe-8 text-xs font-semibold text-slate-100 shadow-sm transition hover:border-slate-600 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             >
-              {TEMPLATE_OPTIONS.map((opt) => (
-                <option key={opt.id} value={opt.id}>
-                  {t(`templates.${opt.labelKey}`)}
+              {TEMPLATES.map((template) => (
+                <option key={template.id} value={template.id}>
+                  {getDisplayValue(template.name, locale)}
                 </option>
               ))}
             </select>
@@ -191,7 +187,7 @@ export function TemplatePreviewBar({
 
           {/* Use This Template Button */}
           <Link
-            href={`/${locale}/dashboard/site-create?template=${currentTemplateId}`}
+            href={useTemplateHref}
             className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3.5 py-1.5 text-xs font-bold text-white shadow transition hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400"
           >
             <span>{t('useTemplate')}</span>

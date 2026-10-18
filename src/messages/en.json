@@ -239,15 +239,12 @@
     "gallery": {
       "heading": "Choose a design for your website",
       "title": "Available designs",
-      "description": "Explore the five designs and open a live preview before choosing one."
-    },
-    "preview": {
-      "title": "Preview: {name}"
+      "description": "Explore the five designs and open a live preview before choosing one.",
+      "highlighted": "Opened from the live preview"
     },
     "actions": {
       "preview": "Open live preview",
       "backToDetails": "Back to business details",
-      "backToGallery": "Back to designs",
       "backToDashboard": "Back to dashboard",
       "selectTemplate": "Select this design"
     },
@@ -278,10 +275,7 @@
       "generic": "Something went wrong. Please try again.",
       "storage": "Your setup details could not be saved in this browser. Please try again.",
       "siteExists": "A website already exists for this account.",
-      "createFailed": "We couldn't create your website draft. Please try again.",
-      "previewBlocked": "Your browser blocked the preview tab. Allow pop-ups for this site and try again.",
-      "noDraft": "Your business details are missing. Start the setup again.",
-      "invalidDraft": "Your saved setup details are invalid. Start the setup again."
+      "createFailed": "We couldn't create your website draft. Please try again."
     },
     "loading": "Loading your saved details...",
     "success": "Your site draft has been created."
@@ -291,13 +285,6 @@
     "badge": "Sample Preview",
     "useTemplate": "Use This Template",
     "template": "Design",
-    "templates": {
-      "modern-build": "Modern Build",
-      "atelier": "Editorial Atelier",
-      "urban-estate": "Urban Estate",
-      "interior-calm": "Interior Calm",
-      "craft-studio": "Craft Studio"
-    },
     "pages": {
       "home": "Home",
       "about": "About",

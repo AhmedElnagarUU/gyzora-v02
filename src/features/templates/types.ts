@@ -89,6 +89,7 @@ export interface TemplateStyle {
 export interface TemplateDefinition {
   readonly id: TemplateId;
   readonly name: LocalizedValue;
+  readonly summary: LocalizedValue;
   readonly style: TemplateStyle;
   readonly pages: readonly TemplatePageDefinition[];
   readonly images?: Partial<Record<TemplateImageSlotId, TemplateImage>>;

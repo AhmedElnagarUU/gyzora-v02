@@ -314,6 +314,7 @@
   "templatePreview": {
     "title": "Live Template Preview",
     "badge": "Sample Preview",
+    "badgeDraft": "Draft preview",
     "useTemplate": "Use This Template",
     "template": "Design",
     "pages": {
@@ -350,6 +351,7 @@
       "title": "{template} — {page} | Gyzora Live Preview",
       "description": "Live interactive preview of the {template} template on Gyzora."
     },
-    "backToTemplates": "Back to gallery"
+    "backToTemplates": "Back to gallery",
+    "backToDashboard": "Back to dashboard"
   }
 }

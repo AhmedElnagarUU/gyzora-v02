@@ -314,6 +314,7 @@
   "templatePreview": {
     "title": "معاينة التصميم المباشرة",
     "badge": "معاينة تجريبية",
+    "badgeDraft": "معاينة المسوّدة",
     "useTemplate": "استخدم هذا التصميم",
     "template": "التصميم",
     "pages": {
@@ -350,6 +351,7 @@
       "title": "{template} — {page} | معاينة قالب جيزورا المباشرة",
       "description": "معاينة تفاعلية مباشرة لقالب {template} على جيزورا."
     },
-    "backToTemplates": "العودة إلى المعرض"
+    "backToTemplates": "العودة إلى المعرض",
+    "backToDashboard": "العودة إلى لوحة التحكم"
   }
 }

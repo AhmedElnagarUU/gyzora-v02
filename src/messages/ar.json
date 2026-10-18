@@ -349,7 +349,8 @@
     },
     "metadata": {
       "title": "{template} — {page} | معاينة قالب جيزورا المباشرة",
-      "description": "معاينة تفاعلية مباشرة لقالب {template} على جيزورا."
+      "description": "معاينة تفاعلية مباشرة لقالب {template} على جيزورا.",
+      "draftTitle": "معاينة المسوّدة | جيزورا"
     },
     "backToTemplates": "العودة إلى المعرض",
     "backToDashboard": "العودة إلى لوحة التحكم"

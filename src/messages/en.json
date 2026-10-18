@@ -349,7 +349,8 @@
     },
     "metadata": {
       "title": "{template} — {page} | Gyzora Live Preview",
-      "description": "Live interactive preview of the {template} template on Gyzora."
+      "description": "Live interactive preview of the {template} template on Gyzora.",
+      "draftTitle": "Draft preview | Gyzora"
     },
     "backToTemplates": "Back to gallery",
     "backToDashboard": "Back to dashboard"

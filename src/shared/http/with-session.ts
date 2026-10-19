@@ -10,8 +10,10 @@ export type SessionContext = {
   req: Request;
 };
 
-export function withSession(handler: (context: SessionContext) => Promise<Response> | Response) {
-  return async (req: Request): Promise<Response> => {
+export function withSession<RouteContext = unknown>(
+  handler: (context: SessionContext & {routeContext: RouteContext}) => Promise<Response> | Response
+) {
+  return async (req: Request, routeContext: RouteContext): Promise<Response> => {
     try {
       const session = await getSession();
 
@@ -19,7 +21,7 @@ export function withSession(handler: (context: SessionContext) => Promise<Respon
         throw new AppError('UNAUTHENTICATED', 401);
       }
 
-      return await handler({session, req});
+      return await handler({session, req, routeContext});
     } catch (error) {
       return fail(error);
     }

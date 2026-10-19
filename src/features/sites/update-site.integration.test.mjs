@@ -180,6 +180,9 @@ test(
       await updateSiteForOwner(ownerA, siteA.revision, {
         profile: {companyName: {en: 'Owner A Renamed'}}
       });
+
+      const untouchedB = await getSiteForOwner(ownerB);
+
       await updateSiteForOwner(ownerB, siteB.revision, {
         profile: {companyName: {en: 'Owner B Renamed'}}
       });
@@ -187,6 +190,8 @@ test(
       const finalA = await getSiteForOwner(ownerA);
       const finalB = await getSiteForOwner(ownerB);
 
+      assert.deepEqual(untouchedB.data.profile.companyName, {en: 'Owner B Company', ar: ''});
+      assert.equal(untouchedB.revision, siteB.revision);
       assert.deepEqual(finalA.data.profile.companyName, {en: 'Owner A Renamed', ar: ''});
       assert.deepEqual(finalB.data.profile.companyName, {en: 'Owner B Renamed', ar: ''});
       assert.equal(finalA._id.toString() === finalB._id.toString(), false);

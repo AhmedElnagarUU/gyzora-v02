@@ -96,9 +96,13 @@ export function EditorForm({
   }, [isDirty]);
 
   const messageFor = (code: string): string => {
-    const key = code.startsWith(MESSAGE_PREFIX) ? code.slice(MESSAGE_PREFIX.length) : '';
+    if (code.startsWith(MESSAGE_PREFIX)) {
+      const key = code.slice(MESSAGE_PREFIX.length);
 
-    return key && t.has(key) ? t(key) : t('validation.invalid');
+      if (t.has(key)) return t(key);
+    }
+
+    return tErrors.has(`field.${code}`) ? tErrors(`field.${code}`) : t('validation.invalid');
   };
 
   const fieldPath = (path: readonly (string | number | symbol)[]): string =>

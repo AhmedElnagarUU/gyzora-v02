@@ -14,8 +14,16 @@ test('an update carries the revision and only the edited section and locale', ()
   }
 });
 
-test('an edit may contain an empty data object', () => {
-  assert.equal(updateSiteSchema.safeParse({revision: 0, data: {}}).success, true);
+test('an edit without any section is rejected', () => {
+  const parsed = updateSiteSchema.safeParse({revision: 0, data: {}});
+
+  assert.equal(parsed.success, false);
+  if (!parsed.success) {
+    assert.equal(
+      parsed.error.issues.some((issue) => issue.message === 'siteSetup.validation.emptyEdit'),
+      true
+    );
+  }
 });
 
 test('every editable section is accepted on its own', () => {
@@ -44,7 +52,7 @@ test('every editable section is accepted on its own', () => {
 test('the revision must be a non-negative integer', () => {
   for (const revision of [-1, 1.5, '1']) {
     assert.equal(
-      updateSiteSchema.safeParse({revision, data: {}}).success,
+      updateSiteSchema.safeParse({revision, data: {profile: {companyName: {en: 'A'}}}}).success,
       false,
       `revision ${revision} should be rejected`
     );

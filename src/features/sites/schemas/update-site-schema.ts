@@ -20,41 +20,32 @@ const VALIDATION = {
   emailInvalid: 'siteSetup.validation.emailInvalid',
   phoneInvalid: 'siteSetup.validation.phoneInvalid',
   urlInvalid: 'siteSetup.validation.urlInvalid',
+  emptyEdit: 'siteSetup.validation.emptyEdit',
 } as const;
 
 const CONTROL_CHARACTERS = /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/g;
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const HTTP_URL_PATTERN = /^https?:\/\//i;
+const EMAIL_PATTERN = /^$|^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE_PATTERN = /^$|^[\p{Nd}+\-()\s.]{5,40}$/u;
+const HTTP_URL_PATTERN = /^$|^https?:\/\/\S+$/i;
 
 export function normalizeText(value: string): string {
   return value.replace(/\r\n?/g, '\n').replace(CONTROL_CHARACTERS, '').trim();
 }
 
-function isLenientPhone(value: string): boolean {
-  return value === '' || (value.length >= 5 && (value.match(/\p{Nd}/gu)?.length ?? 0) >= 3);
-}
-
-function isHttpUrl(value: string): boolean {
-  if (value === '') return true;
-  if (!HTTP_URL_PATTERN.test(value)) return false;
-
-  try {
-    new URL(value);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
 const plainText = (max: number) =>
   z.string().transform(normalizeText).pipe(z.string().max(max, VALIDATION.maxLength));
 
-const emailText = () =>
-  plainText(200).refine((value) => value === '' || EMAIL_PATTERN.test(value), VALIDATION.emailInvalid);
+const matchingText = (max: number, pattern: RegExp, message: string) =>
+  z
+    .string()
+    .transform(normalizeText)
+    .pipe(z.string().max(max, VALIDATION.maxLength).regex(pattern, message));
 
-const phoneText = () => plainText(SITE_TEXT_LIMITS.phone).refine(isLenientPhone, VALIDATION.phoneInvalid);
+const emailText = () => matchingText(200, EMAIL_PATTERN, VALIDATION.emailInvalid);
 
-const urlText = () => plainText(SITE_TEXT_LIMITS.logoUrl).refine(isHttpUrl, VALIDATION.urlInvalid);
+const phoneText = () => matchingText(SITE_TEXT_LIMITS.phone, PHONE_PATTERN, VALIDATION.phoneInvalid);
+
+const urlText = () => matchingText(SITE_TEXT_LIMITS.logoUrl, HTTP_URL_PATTERN, VALIDATION.urlInvalid);
 
 const localizedText = (max: number) =>
   z.object({en: plainText(max).optional(), ar: plainText(max).optional()}).strict();
@@ -112,7 +103,8 @@ export const updateSiteSchema = z
         profile: profileSchema.optional(),
         pageCopy: z.object({about: aboutSchema.optional()}).strict().optional(),
       })
-      .strict(),
+      .strict()
+      .refine((data) => Object.keys(data).length > 0, VALIDATION.emptyEdit),
   })
   .strict();
 

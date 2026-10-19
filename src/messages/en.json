@@ -295,7 +295,8 @@
       "maxLength": "This text is too long.",
       "listTooMany": "There are more items than this section allows.",
       "languageRequired": "Keep at least one language.",
-      "invalid": "This value is not valid."
+      "invalid": "This value is not valid.",
+      "emptyEdit": "There is nothing to save."
     },
     "errors": {
       "generic": "Something went wrong. Please try again.",

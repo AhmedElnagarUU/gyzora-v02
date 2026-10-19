@@ -7,10 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --test src/features/templates/catalog.test.mjs src/features/sites/apply-edit.test.mjs src/features/sites/schemas/create-site-schema.test.mjs src/features/sites/schemas/update-site-schema.test.mjs src/features/sites/slug.test.mjs src/features/sites/site-data.test.mjs src/features/sites/to-render-data.test.mjs src/features/sites/field-errors.test.mjs src/features/sites/create-site.integration.test.mjs src/features/sites/update-site.integration.test.mjs src/messages/messages.test.mjs",
+    "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --test src/features/templates/catalog.test.mjs src/features/sites/apply-edit.test.mjs src/features/sites/schemas/create-site-schema.test.mjs src/features/sites/schemas/update-site-schema.test.mjs src/features/sites/slug.test.mjs src/features/sites/site-data.test.mjs src/features/sites/to-render-data.test.mjs src/features/sites/field-errors.test.mjs src/features/images/keys.test.mjs src/features/images/verify-upload.test.mjs src/features/projects/schemas/project-schema.test.mjs src/features/projects/to-render-project.test.mjs src/features/sites/create-site.integration.test.mjs src/features/sites/update-site.integration.test.mjs src/features/projects/projects.integration.test.mjs src/messages/messages.test.mjs",
     "test:templates": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --test src/features/templates/catalog.test.mjs src/features/sites/schemas/create-site-schema.test.mjs"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1152.0",
+    "@aws-sdk/s3-request-presigner": "^3.1152.0",
     "better-auth": "^1.7.7",
     "lucide-react": "^1.59.0",
     "mongoose": "^9.11.2",

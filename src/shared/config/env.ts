@@ -15,6 +15,19 @@ const authEnvSchema = z.object({
   )
 });
 
+const s3EnvSchema = z.object({
+  S3_BUCKET: z.preprocess(emptyToUndefined, z.string().min(1)),
+  S3_REGION: z.preprocess(emptyToUndefined, z.string().min(1)),
+  S3_ACCESS_KEY_ID: z.preprocess(emptyToUndefined, z.string().min(1)),
+  S3_SECRET_ACCESS_KEY: z.preprocess(emptyToUndefined, z.string().min(1)),
+  S3_PUBLIC_BASE_URL: z.preprocess(emptyToUndefined, z.url()),
+  S3_ENDPOINT: z.preprocess(emptyToUndefined, z.url().optional()),
+  S3_FORCE_PATH_STYLE: z.preprocess(
+    emptyToUndefined,
+    z.enum(['true', 'false']).default('false')
+  )
+});
+
 function readEnv<T extends z.ZodRawShape>(
   schema: z.ZodObject<T>,
   source: NodeJS.ProcessEnv = process.env
@@ -45,4 +58,28 @@ export function getDbEnv(): z.output<typeof dbEnvSchema> {
 
 export function getAuthEnv(): z.output<typeof authEnvSchema> {
   return readEnv(authEnvSchema);
+}
+
+export interface S3Env {
+  bucket: string;
+  region: string;
+  accessKeyId: string;
+  secretAccessKey: string;
+  publicBaseUrl: string;
+  endpoint?: string;
+  forcePathStyle: boolean;
+}
+
+export function getS3Env(): S3Env {
+  const env = readEnv(s3EnvSchema);
+
+  return {
+    bucket: env.S3_BUCKET,
+    region: env.S3_REGION,
+    accessKeyId: env.S3_ACCESS_KEY_ID,
+    secretAccessKey: env.S3_SECRET_ACCESS_KEY,
+    publicBaseUrl: env.S3_PUBLIC_BASE_URL.replace(/\/+$/, ''),
+    endpoint: env.S3_ENDPOINT,
+    forcePathStyle: env.S3_FORCE_PATH_STYLE === 'true'
+  };
 }

@@ -1,3 +1,6 @@
+import {deleteImageKey, snapshotImageKeys} from '@/features/images/delete-keys';
+import {verifyUploadedKey} from '@/features/images/verify-upload';
+import {deleteProjectsForSite} from '@/features/projects/service';
 import type {StoredSiteData, TemplateId} from '@/features/templates/types';
 import {duplicateKeyPattern, isDuplicateKeyError} from '@/shared/db/mongodb';
 import {AppError} from '@/shared/http/app-error';
@@ -92,18 +95,46 @@ export async function updateSiteForOwner(
     throw new AppError('VALIDATION_FAILED', 400, issues);
   }
 
+  const siteId = current._id.toString();
+  const previousLogoKey = current.data.profile.logoKey;
+  const logoChanged = previousLogoKey !== data.profile.logoKey;
+
+  if (logoChanged && data.profile.logoKey) {
+    await verifyUploadedKey(data.profile.logoKey, siteId, 'profile.logoKey');
+  }
+
   const site = await updateSiteData(ownerUserId, revision, data);
 
-  if (site) return toSiteView(site);
+  if (site) {
+    if (logoChanged && previousLogoKey && !snapshotImageKeys(current.published).has(previousLogoKey)) {
+      await deleteImageKey(previousLogoKey);
+    }
+
+    return toSiteView(site);
+  }
 
   throw new AppError('STALE_REVISION', 409);
 }
 
 export async function deleteSiteForOwner(ownerUserId: string): Promise<void> {
+  const site = await findSiteByOwnerId(ownerUserId);
+
+  if (!site) {
+    throw new AppError('NOT_FOUND', 404);
+  }
+
+  await deleteProjectsForSite(site);
+
   const deleted = await deleteSiteByOwnerId(ownerUserId);
 
   if (!deleted) {
     throw new AppError('NOT_FOUND', 404);
+  }
+
+  const logoKey = site.data.profile.logoKey;
+
+  if (logoKey && !snapshotImageKeys(site.published).has(logoKey)) {
+    await deleteImageKey(logoKey);
   }
 }
 

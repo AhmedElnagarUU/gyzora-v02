@@ -14,6 +14,7 @@ export interface SiteProfile {
   category: LocalizedValue;
   description: LocalizedValue;
   logoUrl?: string;
+  logoKey?: string;
   contact?: {
     email?: string;
     phone?: string;

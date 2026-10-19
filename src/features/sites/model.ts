@@ -28,6 +28,7 @@ const profileSchema = new Schema(
     category: {type: localizedValueSchema, required: true},
     description: {type: localizedValueSchema, required: true},
     logoUrl: {type: String},
+    logoKey: {type: String},
     contact: {type: contactSchema},
     services: {type: [localizedValueSchema], default: []},
     features: {type: [localizedValueSchema], default: []},

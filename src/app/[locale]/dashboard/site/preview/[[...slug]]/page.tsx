@@ -3,8 +3,11 @@ import {notFound, redirect} from 'next/navigation';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 
 import {getSession} from '@/features/auth/lib/session';
+import {getPublicImageUrl} from '@/features/images/public-url';
+import {listProjectsForOwner} from '@/features/projects/service';
+import {toRenderProject} from '@/features/projects/to-render-project';
 import {getSiteForOwner} from '@/features/sites/service';
-import {toRenderData} from '@/features/sites/to-render-data';
+import {toRenderData, withPublicLogo} from '@/features/sites/to-render-data';
 import type {SiteLocale} from '@/features/sites/types/site';
 import {getTemplate} from '@/features/templates/catalog';
 import {PreviewChrome} from '@/features/templates/components/preview-chrome';
@@ -58,7 +61,11 @@ export default async function SitePreviewPage({params}: PageProps) {
     notFound();
   }
 
-  const siteData = toRenderData(site.data);
+  const projects = await listProjectsForOwner(session.user.id);
+  const siteData = toRenderData(
+    withPublicLogo(site.data, getPublicImageUrl),
+    projects.map((project) => toRenderProject(project, getPublicImageUrl))
+  );
 
   let pageId: TemplatePageId = 'home';
   let project: TemplateProject | undefined;

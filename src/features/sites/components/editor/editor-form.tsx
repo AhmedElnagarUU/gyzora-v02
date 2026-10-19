@@ -5,6 +5,7 @@ import {useRouter} from 'next/navigation';
 import {type FormEvent, type ReactNode, useEffect, useState} from 'react';
 import type {ZodError} from 'zod';
 
+import {ImageUploader} from '@/features/images/components/image-uploader';
 import {buildEdit, type EditorDraft, type EditorListItem, normalizeDraft} from '@/features/sites/apply-edit';
 import {SITE_TEXT_LIMITS, updateSiteSchema} from '@/features/sites/schemas/update-site-schema';
 import {toSiteLocale} from '@/features/sites/site-data';
@@ -29,7 +30,7 @@ type LocalizedKey =
   | 'aboutIntroduction'
   | 'aboutStory';
 type ListKey = keyof typeof LIST_PATHS;
-type TextKey = 'logoUrl' | 'email' | 'phone';
+type TextKey = 'email' | 'phone';
 
 const FIELD_PATHS: Record<LocalizedKey, string> = {
   companyName: 'profile.companyName',
@@ -42,10 +43,11 @@ const FIELD_PATHS: Record<LocalizedKey, string> = {
 };
 
 const TEXT_PATHS: Record<TextKey, string> = {
-  logoUrl: 'profile.logoUrl',
   email: 'profile.contact.email',
   phone: 'profile.contact.phone',
 };
+
+const LOGO_KEY_PATH = 'profile.logoKey';
 
 interface EditorState {
   draft: EditorDraft;
@@ -65,9 +67,11 @@ function Section({title, children}: {title: string; children: ReactNode}) {
 export function EditorForm({
   draft: initialDraft,
   revision: initialRevision,
+  logoPreviewUrl,
 }: {
   draft: EditorDraft;
   revision: number;
+  logoPreviewUrl?: string;
 }) {
   const t = useTranslations('siteSetup');
   const tEditor = useTranslations('siteSetup.editor');
@@ -359,21 +363,21 @@ export function EditorForm({
           disabled={status === 'saving'}
         />
         <div className="space-y-2">
-          <label htmlFor="logoUrl" className="block text-sm font-medium text-slate-700">
-            {t('fields.logoUrl')} <span className="font-normal text-slate-500">({tEditor('optional')})</span>
-          </label>
-          <input
-            id="logoUrl"
-            type="url"
-            value={draft.logoUrl}
-            onChange={(event) => setTextField('logoUrl', event.target.value)}
-            aria-invalid={Boolean(errors[TEXT_PATHS.logoUrl])}
-            className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-900 outline-none transition focus:border-emerald-500 focus:bg-white disabled:opacity-60"
-            placeholder={t('fields.logoUrlPlaceholder')}
+          <p className="block text-sm font-medium text-slate-700">
+            {t('fields.logo')} <span className="font-normal text-slate-500">({tEditor('optional')})</span>
+          </p>
+          <ImageUploader
+            kind="logo"
+            value={draft.logoKey}
+            previewUrl={logoPreviewUrl}
+            onChange={(key) => setState((current) => ({
+              ...current,
+              draft: {...current.draft, logoKey: key},
+            }))}
             disabled={status === 'saving'}
           />
-          {errors[TEXT_PATHS.logoUrl] ? (
-            <p className="text-sm text-red-700">{errors[TEXT_PATHS.logoUrl]}</p>
+          {errors[LOGO_KEY_PATH] ? (
+            <p className="text-sm text-red-700">{errors[LOGO_KEY_PATH]}</p>
           ) : null}
         </div>
       </Section>

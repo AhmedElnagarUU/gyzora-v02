@@ -1,5 +1,9 @@
 import {z} from 'zod';
 
+import {normalizeText} from '../../../shared/text/normalize.ts';
+
+export {normalizeText};
+
 export const SITE_TEXT_LIMITS = {
   companyName: 80,
   category: 80,
@@ -7,7 +11,7 @@ export const SITE_TEXT_LIMITS = {
   about: 4000,
   address: 200,
   phone: 40,
-  logoUrl: 500,
+  logoKey: 300,
   listItem: 80,
   services: 12,
   features: 8,
@@ -20,17 +24,12 @@ const VALIDATION = {
   emailInvalid: 'siteSetup.validation.emailInvalid',
   phoneInvalid: 'siteSetup.validation.phoneInvalid',
   urlInvalid: 'siteSetup.validation.urlInvalid',
+  logoKeyInvalid: 'siteSetup.validation.logoKeyInvalid',
   emptyEdit: 'siteSetup.validation.emptyEdit',
 } as const;
 
-const CONTROL_CHARACTERS = /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/g;
 const EMAIL_PATTERN = /^$|^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_PATTERN = /^$|^[\p{Nd}+\-()\s.]{5,40}$/u;
-const HTTP_URL_PATTERN = /^$|^https?:\/\/\S+$/i;
-
-export function normalizeText(value: string): string {
-  return value.replace(/\r\n?/g, '\n').replace(CONTROL_CHARACTERS, '').trim();
-}
 
 const plainText = (max: number) =>
   z.string().transform(normalizeText).pipe(z.string().max(max, VALIDATION.maxLength));
@@ -45,7 +44,17 @@ const emailText = () => matchingText(200, EMAIL_PATTERN, VALIDATION.emailInvalid
 
 const phoneText = () => matchingText(SITE_TEXT_LIMITS.phone, PHONE_PATTERN, VALIDATION.phoneInvalid);
 
-const urlText = () => matchingText(SITE_TEXT_LIMITS.logoUrl, HTTP_URL_PATTERN, VALIDATION.urlInvalid);
+const logoKeyText = () =>
+
+  z
+    .string()
+    .transform(normalizeText)
+    .pipe(
+      z
+        .string()
+        .max(SITE_TEXT_LIMITS.logoKey, VALIDATION.maxLength)
+        .regex(/^$|^sites\/[0-9a-f]{24}\/logo\/[0-9a-f-]{36}\.(?:jpg|png|webp)$/, VALIDATION.logoKeyInvalid)
+    );
 
 const localizedText = (max: number) =>
   z.object({en: plainText(max).optional(), ar: plainText(max).optional()}).strict();
@@ -76,7 +85,7 @@ const profileSchema = z
     companyName: localizedText(SITE_TEXT_LIMITS.companyName).optional(),
     category: localizedText(SITE_TEXT_LIMITS.category).optional(),
     description: localizedText(SITE_TEXT_LIMITS.description).optional(),
-    logoUrl: urlText().optional(),
+    logoKey: logoKeyText().optional(),
     contact: contactSchema.optional(),
     services: localizedList(SITE_TEXT_LIMITS.services).optional(),
     features: localizedList(SITE_TEXT_LIMITS.features).optional(),

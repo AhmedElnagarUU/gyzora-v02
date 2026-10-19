@@ -27,7 +27,7 @@ export interface EditorDraft {
   companyName: LocalizedValue;
   category: LocalizedValue;
   description: LocalizedValue;
-  logoUrl: string;
+  logoKey: string;
   email: string;
   phone: string;
   address: LocalizedValue;
@@ -49,7 +49,7 @@ export function toEditorDraft(
     companyName: {...data.profile.companyName},
     category: {...data.profile.category},
     description: {...data.profile.description},
-    logoUrl: data.profile.logoUrl ?? '',
+    logoKey: data.profile.logoKey ?? '',
     email: data.profile.contact?.email ?? '',
     phone: data.profile.contact?.phone ?? '',
     address: {...(data.profile.contact?.address ?? EMPTY_LOCALIZED)},
@@ -76,7 +76,7 @@ export function normalizeDraft(draft: EditorDraft): EditorDraft {
     companyName: text(draft.companyName),
     category: text(draft.category),
     description: text(draft.description),
-    logoUrl: normalizeText(draft.logoUrl),
+    logoKey: normalizeText(draft.logoKey),
     email: normalizeText(draft.email),
     phone: normalizeText(draft.phone),
     address: text(draft.address),
@@ -115,7 +115,7 @@ export function buildEdit(draft: EditorDraft, baseline: EditorDraft): SiteEditVa
   if (companyName) profile.companyName = companyName;
   if (category) profile.category = category;
   if (description) profile.description = description;
-  if (baseline.logoUrl !== draft.logoUrl) profile.logoUrl = draft.logoUrl;
+  if (baseline.logoKey !== draft.logoKey) profile.logoKey = draft.logoKey;
 
   const contact: ContactEditValues = {};
   const address = changedLocalized(baseline.address, draft.address);
@@ -187,7 +187,8 @@ function mergeProfile(current: SiteProfile, edit: ProfileEditValues): SiteProfil
     description: edit.description
       ? mergeLocalized(current.description, edit.description)
       : current.description,
-    logoUrl: edit.logoUrl === undefined ? current.logoUrl : edit.logoUrl || undefined,
+    logoUrl: edit.logoKey === undefined ? current.logoUrl : undefined,
+    logoKey: edit.logoKey === undefined ? current.logoKey : edit.logoKey || undefined,
     contact: edit.contact ? mergeContact(current.contact, edit.contact) : current.contact,
     services: edit.services ? edit.services.map(toStoredItem) : current.services,
     features: edit.features ? edit.features.map(toStoredItem) : current.features,

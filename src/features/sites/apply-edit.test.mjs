@@ -14,7 +14,7 @@ const stored = {
     companyName: {en: 'Crown & Stone', ar: 'كراون وستون'},
     category: {en: 'Real estate', ar: 'عقارات'},
     description: {en: 'Prime developments', ar: ''},
-    logoUrl: 'https://example.com/logo.png',
+    logoKey: 'sites/64b7c1f2a1b2c3d4e5f60718/logo/3f2504e0-4f89-41d3-9a0c-0305e82c3301.png',
     contact: {
       email: 'hello@example.com',
       phone: '+20 100 000 0000',
@@ -39,7 +39,7 @@ const englishOnly = (data) => ({
     companyName: data.profile.companyName.en,
     category: data.profile.category.en,
     description: data.profile.description.en,
-    logoUrl: data.profile.logoUrl,
+    logoKey: data.profile.logoKey,
     contact: {
       email: data.profile.contact?.email,
       phone: data.profile.contact?.phone,
@@ -134,11 +134,12 @@ test('lists replace the stored order and keep both locales', () => {
 test('cleared optional contact details and logo drop out of the stored data', () => {
   const edited = applyEdit(stored, {
     profile: {
-      logoUrl: '',
+      logoKey: '',
       contact: {email: '', phone: '', address: {en: ''}, workingHours: {en: ''}},
     },
   });
 
+  assert.equal(edited.profile.logoKey, undefined);
   assert.equal(edited.profile.logoUrl, undefined);
   assert.equal(edited.profile.contact?.email, undefined);
   assert.equal(edited.profile.contact?.phone, undefined);

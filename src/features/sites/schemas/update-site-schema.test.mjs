@@ -30,7 +30,7 @@ test('every editable section is accepted on its own', () => {
   const sections = [
     {profile: {category: {en: 'Real estate'}}},
     {profile: {description: {en: 'Prime developments'}}},
-    {profile: {logoUrl: 'https://example.com/logo.png'}},
+    {profile: {logoKey: 'sites/64b7c1f2a1b2c3d4e5f60718/logo/3f2504e0-4f89-41d3-9a0c-0305e82c3301.png'}},
     {profile: {contact: {email: 'hello@example.com'}}},
     {profile: {contact: {phone: '+20 100 000 0000'}}},
     {profile: {contact: {address: {ar: 'الرياض'}}}},
@@ -136,20 +136,28 @@ test('language preferences must name at least one language', () => {
   }
 });
 
-test('only http and https URLs are accepted for the logo', () => {
-  for (const logoUrl of ['https://example.com/logo.png', 'http://example.com/a.png', '']) {
+test('logo keys must use the site logo key format', () => {
+  for (const logoKey of [
+    'sites/64b7c1f2a1b2c3d4e5f60718/logo/3f2504e0-4f89-41d3-9a0c-0305e82c3301.png',
+    'sites/64b7c1f2a1b2c3d4e5f60718/logo/3f2504e0-4f89-41d3-9a0c-0305e82c3301.webp',
+    '',
+  ]) {
     assert.equal(
-      updateSiteSchema.safeParse({revision: 0, data: {profile: {logoUrl}}}).success,
+      updateSiteSchema.safeParse({revision: 0, data: {profile: {logoKey}}}).success,
       true,
-      `${logoUrl} should be accepted`
+      `${logoKey} should be accepted`
     );
   }
 
-  for (const logoUrl of ['ftp://example.com/logo.png', 'javascript:alert(1)', 'example.com']) {
+  for (const logoKey of [
+    'https://example.com/logo.png',
+    'sites/64b7c1f2a1b2c3d4e5f60718/cover/3f2504e0-4f89-41d3-9a0c-0305e82c3301.png',
+    'sites/64b7c1f2a1b2c3d4e5f60718/logo/3f2504e0-4f89-41d3-9a0c-0305e82c3301.gif',
+  ]) {
     assert.equal(
-      updateSiteSchema.safeParse({revision: 0, data: {profile: {logoUrl}}}).success,
+      updateSiteSchema.safeParse({revision: 0, data: {profile: {logoKey}}}).success,
       false,
-      `${logoUrl} should be rejected`
+      `${logoKey} should be rejected`
     );
   }
 });

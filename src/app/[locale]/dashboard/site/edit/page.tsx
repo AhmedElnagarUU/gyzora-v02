@@ -2,6 +2,7 @@ import {getTranslations, setRequestLocale} from 'next-intl/server';
 import {redirect} from 'next/navigation';
 
 import {getSession} from '@/features/auth/lib/session';
+import {getPublicImageUrl} from '@/features/images/public-url';
 import {toEditorDraft} from '@/features/sites/apply-edit';
 import {EditorForm} from '@/features/sites/components/editor/editor-form';
 import {getSiteForOwner} from '@/features/sites/service';
@@ -45,7 +46,15 @@ export default async function SiteContentPage({params}: {params: Promise<{locale
           <p className="mt-3 text-slate-600">{t('edit.description')}</p>
         </div>
 
-        <EditorForm draft={toEditorDraft(site.data)} revision={site.revision} />
+        <EditorForm
+          draft={toEditorDraft(site.data)}
+          revision={site.revision}
+          logoPreviewUrl={
+            site.data.profile.logoKey
+              ? getPublicImageUrl(site.data.profile.logoKey)
+              : site.data.profile.logoUrl
+          }
+        />
       </div>
     </div>
   );

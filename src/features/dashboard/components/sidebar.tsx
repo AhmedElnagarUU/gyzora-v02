@@ -10,6 +10,7 @@ export function Sidebar({hasSite}: {hasSite: boolean}) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const isOverview = pathname === '/dashboard';
+  const isContent = pathname === '/dashboard/site/edit';
   const isPreview =
     pathname === '/dashboard/site/preview' || pathname.startsWith('/dashboard/site/preview/');
 
@@ -43,6 +44,21 @@ export function Sidebar({hasSite}: {hasSite: boolean}) {
               {t('overview')}
             </Link>
           </li>
+          {hasSite ? (
+            <li>
+              <Link
+                href="/dashboard/site/edit"
+                aria-current={isContent ? 'page' : undefined}
+                className={`flex items-center rounded-xl px-3 py-2 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 ${
+                  isContent
+                    ? 'bg-emerald-50 text-emerald-800'
+                    : 'text-slate-700 hover:bg-slate-100'
+                }`}
+              >
+                {t('content')}
+              </Link>
+            </li>
+          ) : null}
           {hasSite ? (
             <li>
               <Link

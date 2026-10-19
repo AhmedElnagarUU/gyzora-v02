@@ -48,3 +48,9 @@ export async function deleteSiteByOwnerId(ownerUserId: string): Promise<boolean>
 
   return result.deletedCount === 1;
 }
+
+// Used by project writes (S4) so the draft timestamp stays in sync.
+export async function touchDraft(siteId: string): Promise<void> {
+  await getDatabase();
+  await SiteModel.updateOne({_id: siteId}, {$set: {draftUpdatedAt: new Date()}}).exec();
+}

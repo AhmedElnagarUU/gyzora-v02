@@ -2,6 +2,7 @@ import type {StoredSiteData, TemplateId} from '@/features/templates/types';
 import {duplicateKeyPattern, isDuplicateKeyError} from '@/shared/db/mongodb';
 import {AppError} from '@/shared/http/app-error';
 
+import {applyEdit, missingRequiredFields} from './apply-edit';
 import {
   deleteSiteByOwnerId,
   findSiteByOwnerId,
@@ -10,6 +11,7 @@ import {
   updateSiteData,
 } from './repository';
 import type {CreateSiteValues} from './schemas/create-site-schema';
+import type {SiteEditValues} from './schemas/update-site-schema';
 import {siteDataFromValues} from './site-data';
 import {buildSlugBase, findAvailableSlug, MAX_SLUG_ATTEMPTS} from './slug';
 import type {SiteDocument, SiteStatus} from './types/site';
@@ -25,6 +27,7 @@ export interface SiteView {
   status: SiteStatus;
   templateId: TemplateId;
   createdAt: Date;
+  revision: number;
   data: StoredSiteData;
 }
 
@@ -74,15 +77,24 @@ export async function getSiteForOwner(ownerUserId: string): Promise<SiteDocument
 export async function updateSiteForOwner(
   ownerUserId: string,
   revision: number,
-  data: StoredSiteData
+  edit: SiteEditValues
 ): Promise<SiteView> {
+  const current = await findSiteByOwnerId(ownerUserId);
+
+  if (!current) {
+    throw new AppError('NOT_FOUND', 404);
+  }
+
+  const data = applyEdit(current.data, edit);
+  const issues = missingRequiredFields(data);
+
+  if (Object.keys(issues).length) {
+    throw new AppError('VALIDATION_FAILED', 400, issues);
+  }
+
   const site = await updateSiteData(ownerUserId, revision, data);
 
   if (site) return toSiteView(site);
-
-  if (!(await findSiteByOwnerId(ownerUserId))) {
-    throw new AppError('NOT_FOUND', 404);
-  }
 
   throw new AppError('STALE_REVISION', 409);
 }
@@ -102,6 +114,7 @@ export function toSiteView(site: SiteDocument): SiteView {
     status: site.status,
     templateId: site.templateId,
     createdAt: site.createdAt,
+    revision: site.revision,
     data: site.data,
   };
 }

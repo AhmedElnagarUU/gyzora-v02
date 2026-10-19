@@ -96,16 +96,12 @@ export const TEMPLATES: readonly TemplateDefinition[] = [
       ar: 'تصميم تحريري يناسب استوديوهات التصميم والعمارة التي تعتمد على سرد القصة.',
     },
     style: {
-      accent: '#9B4C31',
+      accent: '#B8956C',
       accentForeground: '#FFFFFF',
-      background: '#F5F0E8',
-      surface: '#FCFAF6',
-      foreground: '#28231F',
-      muted: '#756B62',
-      border: '#DED4C8',
-      radius: '0.75rem',
+      background: '#F4EFE6', surface: '#1C1C1C', foreground: '#1C1C1C', muted: '#6E6A64', border: '#D9D1C5', radius: '0',
       fontStyle: 'editorial',
     },
+    layout: {reference: 'agenvo', navigation: 'editorial-overlay', hero: 'editorial-bottom', projects: 'editorial-gallery'},
     pages: PAGES,
     images: {
       'home.hero': {
@@ -122,16 +118,10 @@ export const TEMPLATES: readonly TemplateDefinition[] = [
       ar: 'تصميم جسور ومنظّم لشركات الإنشاءات والهندسة.',
     },
     style: {
-      accent: '#B64C20',
-      accentForeground: '#FFFFFF',
-      background: '#172638',
-      surface: '#203246',
-      foreground: '#F4F6F8',
-      muted: '#B9C5D0',
-      border: '#3A4C5E',
-      radius: '0.25rem',
+      accent: '#C4B5A0', accentForeground: '#000000', background: '#000000', surface: '#181818', foreground: '#FFFFFF', muted: '#A1A1AA', border: '#27272A', radius: '0',
       fontStyle: 'geometric',
     },
+    layout: {reference: 'arhitect', navigation: 'technical-overlay', hero: 'technical-split', projects: 'technical-grid'},
     pages: PAGES,
     images: {
       'home.hero': {
@@ -148,16 +138,10 @@ export const TEMPLATES: readonly TemplateDefinition[] = [
       ar: 'تصميم أنيق لشركات التطوير والتسويق العقاري لعرض مشاريعها.',
     },
     style: {
-      accent: '#A6874A',
-      accentForeground: '#1D3029',
-      background: '#F3F1EB',
-      surface: '#FBFAF6',
-      foreground: '#1D3029',
-      muted: '#69736B',
-      border: '#DAD8CC',
-      radius: '0.35rem',
+      accent: '#B8956C', accentForeground: '#FFFFFF', background: '#F4EFE6', surface: '#1C1C1C', foreground: '#1C1C1C', muted: '#6E6A64', border: '#D9D1C5', radius: '0',
       fontStyle: 'refined',
     },
+    layout: {reference: 'agenvo', navigation: 'editorial-overlay', hero: 'editorial-bottom', projects: 'editorial-gallery'},
     pages: PAGES,
     images: {
       'home.hero': {
@@ -174,16 +158,10 @@ export const TEMPLATES: readonly TemplateDefinition[] = [
       ar: 'تصميم هادئ وبسيط لاستوديوهات التصميم الداخلي والتشطيبات.',
     },
     style: {
-      accent: '#78866C',
-      accentForeground: '#252A23',
-      background: '#F5F3EC',
-      surface: '#FCFBF7',
-      foreground: '#2D332D',
-      muted: '#73786E',
-      border: '#DFDED3',
-      radius: '1.25rem',
+      accent: '#C9A962', accentForeground: '#12100E', background: '#12100E', surface: '#0E0C0A', foreground: '#FFFFFF', muted: '#B8B1AA', border: '#4D402B', radius: '0',
       fontStyle: 'soft',
     },
+    layout: {reference: 'aurelia', navigation: 'gold-mark', hero: 'centered-ornament', projects: 'portrait-gallery'},
     pages: PAGES,
     images: {
       'home.hero': {
@@ -200,16 +178,10 @@ export const TEMPLATES: readonly TemplateDefinition[] = [
       ar: 'تصميم حرفي بأسلوب الورش للمصنّعين والحرفيين.',
     },
     style: {
-      accent: '#C18468',
-      accentForeground: '#202222',
-      background: '#202222',
-      surface: '#292C2C',
-      foreground: '#F1F0EB',
-      muted: '#B4B4AC',
-      border: '#454746',
-      radius: '0.4rem',
+      accent: '#C9A962', accentForeground: '#12100E', background: '#12100E', surface: '#0E0C0A', foreground: '#FFFFFF', muted: '#B8B1AA', border: '#4D402B', radius: '0',
       fontStyle: 'studio',
     },
+    layout: {reference: 'aurelia', navigation: 'gold-mark', hero: 'centered-ornament', projects: 'portrait-gallery'},
     pages: PAGES,
     images: {
       'home.hero': {
@@ -242,6 +214,7 @@ for (const template of TEMPLATES) {
   Object.freeze(template.name);
   Object.freeze(template.summary);
   Object.freeze(template.style);
+  Object.freeze(template.layout);
   Object.freeze(template);
 }
 

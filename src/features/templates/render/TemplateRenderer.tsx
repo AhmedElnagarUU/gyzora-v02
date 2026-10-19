@@ -36,6 +36,7 @@ export function TemplateRenderer(props: SitePageRendererProps) {
     <div
       className="template-site"
       data-template-id={template.id}
+      data-template-reference={template.layout.reference}
       data-font-style={template.style.fontStyle}
       lang={locale}
       dir={getTextDirection(locale)}
@@ -58,6 +59,7 @@ export function TemplateRenderer(props: SitePageRendererProps) {
       <header className="template-header">
         <div className="template-header-inner">
           <a className="template-brand" href={hrefForPage('home')}>
+            {template.layout.navigation === 'gold-mark' ? <span className="template-brand-mark" aria-hidden="true">{name.slice(0, 1)}</span> : null}
             {site.profile.logoUrl && name ? (
               <TemplateImageFrame
                 image={{
@@ -81,6 +83,15 @@ export function TemplateRenderer(props: SitePageRendererProps) {
               </a>
             ))}
           </nav>
+          <a className="template-header-action" href={hrefForPage('contact')}>
+            {t('contact')}
+          </a>
+          <details className="template-mobile-navigation">
+            <summary>{t('menu')}</summary>
+            <nav aria-label={t('label')}>
+              {NAVIGATION_PAGE_IDS.map((id) => <a href={hrefForPage(id)} key={id}>{t(id === 'home' ? 'home' : id)}</a>)}
+            </nav>
+          </details>
         </div>
       </header>
 

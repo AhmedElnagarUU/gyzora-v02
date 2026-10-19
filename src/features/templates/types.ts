@@ -74,6 +74,15 @@ export interface TemplatePageDefinition {
 
 export type TemplateFontStyle = 'editorial' | 'geometric' | 'refined' | 'soft' | 'studio';
 
+export type TemplateReference = 'aurelia' | 'agenvo' | 'arhitect';
+
+export interface TemplateLayout {
+  readonly reference: TemplateReference;
+  readonly navigation: 'gold-mark' | 'editorial-overlay' | 'technical-overlay';
+  readonly hero: 'centered-ornament' | 'editorial-bottom' | 'technical-split';
+  readonly projects: 'portrait-gallery' | 'editorial-gallery' | 'technical-grid';
+}
+
 export interface TemplateStyle {
   readonly accent: string;
   readonly accentForeground: string;
@@ -91,6 +100,7 @@ export interface TemplateDefinition {
   readonly name: LocalizedValue;
   readonly summary: LocalizedValue;
   readonly style: TemplateStyle;
+  readonly layout: TemplateLayout;
   readonly pages: readonly TemplatePageDefinition[];
   readonly images?: Partial<Record<TemplateImageSlotId, TemplateImage>>;
 }

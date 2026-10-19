@@ -819,3 +819,282 @@ html[dir="rtl"] .template-site {
 .template-preview-frame-container {
   margin-inline: auto;
 }
+
+/* Reference-driven template systems. The layout selection lives on TemplateDefinition.layout. */
+.template-mobile-navigation {
+  display: none;
+}
+
+.template-site[data-template-reference] {
+  --reference-gutter: clamp(1.5rem, 5vw, 4rem);
+  --reference-width: 80rem;
+  overflow: clip;
+}
+
+.template-site[data-template-reference] .template-header {
+  border: 0;
+  color: #fff;
+  inset-inline: 0;
+  position: absolute;
+  top: 0;
+  z-index: 10;
+}
+
+.template-site[data-template-reference] .template-header-inner {
+  max-width: var(--reference-width);
+  padding: 1.5rem var(--reference-gutter);
+}
+
+.template-site[data-template-reference] .template-brand {
+  font-size: .75rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+.template-site[data-template-reference] .template-navigation {
+  gap: clamp(1rem, 2vw, 2.5rem);
+}
+
+.template-site[data-template-reference] .template-navigation a {
+  color: inherit;
+  font-size: .65rem;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+}
+
+.template-site[data-template-reference] .template-navigation a:hover,
+.template-site[data-template-reference] .template-navigation a[aria-current="page"] {
+  color: var(--template-accent);
+}
+
+.template-site[data-template-reference] .template-page {
+  max-width: none;
+  padding-inline: 0;
+}
+
+.template-site[data-template-reference] .template-section {
+  padding: clamp(4.5rem, 9vw, 7.5rem) var(--reference-gutter);
+}
+
+.template-site[data-template-reference] .template-section-inner {
+  max-width: var(--reference-width);
+}
+
+.template-site[data-template-reference] .template-page-title {
+  letter-spacing: -.035em;
+}
+
+.template-site[data-template-reference] .template-section-heading {
+  color: inherit;
+  font-size: .7rem;
+  font-weight: 600;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+}
+
+.template-site[data-template-reference] .template-lead {
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  line-height: 1.7;
+}
+
+.template-site[data-template-reference] .template-button {
+  border-radius: 0;
+  font-size: .65rem;
+  letter-spacing: .16em;
+  min-height: 2.75rem;
+  text-transform: uppercase;
+}
+
+.template-site[data-template-reference] .template-project-card:hover .template-project-image img {
+  transform: scale(1.05);
+}
+
+.template-site[data-template-reference] .template-project-image img,
+.template-site[data-template-reference] .template-hero-image img {
+  transition: transform .7s cubic-bezier(.4,0,.2,1);
+}
+
+.template-site[data-template-reference] .template-footer {
+  border: 0;
+}
+
+.template-site[data-template-reference] .template-footer-inner {
+  max-width: var(--reference-width);
+  padding: 2rem var(--reference-gutter);
+}
+
+/* Aurelia: dark, gold, geometric, and centered. */
+.template-site[data-template-reference="aurelia"] {
+  background: #12100e;
+  color: #fff;
+}
+
+.template-site[data-template-reference="aurelia"] .template-header-inner {
+  justify-content: space-between;
+}
+
+.template-site[data-template-reference="aurelia"] .template-brand {
+  font-weight: 300;
+  letter-spacing: .35em;
+}
+
+.template-brand-mark {
+  align-items: center;
+  border: 1px solid color-mix(in srgb, var(--template-accent) 45%, transparent);
+  color: var(--template-accent);
+  display: inline-flex;
+  font-family: Georgia, serif;
+  font-size: 1.25rem;
+  height: 2.75rem;
+  justify-content: center;
+  letter-spacing: 0;
+  width: 2.75rem;
+}
+
+.template-site[data-template-reference="aurelia"] .template-navigation {
+  display: none;
+}
+
+.template-site[data-template-reference="aurelia"] .template-header-action {
+  border: 1px solid color-mix(in srgb, var(--template-accent) 40%, transparent);
+  color: var(--template-accent);
+  font-size: .62rem;
+  letter-spacing: .18em;
+  padding: .85rem 1.4rem;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.template-site[data-template-reference="aurelia"] .template-hero {
+  align-items: center;
+  display: grid;
+  min-height: 100svh;
+  overflow: hidden;
+  padding: 7rem var(--reference-gutter) 4rem;
+  position: relative;
+  text-align: center;
+}
+
+.template-site[data-template-reference="aurelia"] .template-hero::before {
+  background-image: linear-gradient(rgb(0 0 0 / 62%), rgb(0 0 0 / 62%)), repeating-linear-gradient(45deg, transparent 0 56px, rgb(201 169 98 / 8%) 57px 58px);
+  content: '';
+  inset: 0;
+  position: absolute;
+  z-index: 1;
+}
+
+.template-site[data-template-reference="aurelia"] .template-hero-inner { display: contents; }
+.template-site[data-template-reference="aurelia"] .template-hero-image { border-radius: 0; inset: 0; min-height: 100%; position: absolute; z-index: 0; }
+.template-site[data-template-reference="aurelia"] .template-hero-copy { margin-inline: auto; max-width: 55rem; position: relative; z-index: 2; }
+.template-site[data-template-reference="aurelia"] .template-page-title { color: var(--template-accent); font-family: Georgia, serif; font-size: clamp(3rem, 7vw, 5.5rem); font-weight: 500; line-height: 1.05; margin-inline: auto; }
+.template-site[data-template-reference="aurelia"] .template-hero-category { color: var(--template-accent); font-size: .65rem; letter-spacing: .22em; text-transform: uppercase; }
+.template-site[data-template-reference="aurelia"] .template-hero-copy .template-lead { color: rgb(255 255 255 / 55%); font-size: .9rem; margin-inline: auto; }
+.template-site[data-template-reference="aurelia"] .template-hero-pills, .template-site[data-template-reference="aurelia"] .template-hero-actions { justify-content: center; }
+.template-site[data-template-reference="aurelia"] .template-hero-pill { border-radius: 0; color: var(--template-accent); }
+.template-site[data-template-reference="aurelia"] .template-hero-actions { display: none; }
+.template-site[data-template-reference="aurelia"] .template-services, .template-site[data-template-reference="aurelia"] .template-capabilities { background: #0e0c0a; border: 0; }
+.template-site[data-template-reference="aurelia"] .template-service-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.template-site[data-template-reference="aurelia"] .template-service-item { border-block-end: 0; border-inline-end: 1px solid rgb(201 169 98 / 14%); display: block; padding: 1.5rem 2rem; text-align: center; }
+.template-site[data-template-reference="aurelia"] .template-service-item:last-child { border-inline-end: 0; }
+.template-site[data-template-reference="aurelia"] .template-service-item .template-index { display: block; font-size: 1.5rem; margin-block-end: 1rem; }
+.template-site[data-template-reference="aurelia"] .template-project-grid { gap: 2rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.template-site[data-template-reference="aurelia"] .template-project-image { aspect-ratio: 4 / 5; border-radius: 0; }
+.template-site[data-template-reference="aurelia"] .template-project-title { color: var(--template-accent); font-size: 1rem; font-weight: 500; }
+.template-site[data-template-reference="aurelia"] .template-project-meta, .template-site[data-template-reference="aurelia"] .template-project-specs { color: rgb(255 255 255 / 45%); font-size: .75rem; }
+.template-site[data-template-reference="aurelia"] .template-introduction, .template-site[data-template-reference="aurelia"] .template-story { text-align: center; }
+.template-site[data-template-reference="aurelia"] .template-introduction .template-lead, .template-site[data-template-reference="aurelia"] .template-story .template-lead { font-family: Georgia, serif; font-size: clamp(1.35rem, 3vw, 2rem); font-style: italic; margin-inline: auto; }
+.template-site[data-template-reference="aurelia"] .template-footer { background: #12100e; color: rgb(255 255 255 / 35%); }
+
+/* Agenvo: editorial cream-and-charcoal system. */
+.template-site[data-template-reference="agenvo"] { background: #f4efe6; color: #1c1c1c; }
+.template-site[data-template-reference="agenvo"] .template-header { mix-blend-mode: difference; position: fixed; }
+.template-site[data-template-reference="agenvo"] .template-brand { font-family: Georgia, serif; font-size: 1.5rem; font-weight: 600; letter-spacing: .02em; text-transform: none; }
+.template-site[data-template-reference="agenvo"] .template-header-action { border: 1px solid rgb(255 255 255 / 40%); color: #fff; font-size: .62rem; letter-spacing: .16em; padding: .65rem 1rem; text-decoration: none; text-transform: uppercase; }
+.template-site[data-template-reference="arhitect"] .template-header-action { color: var(--template-accent); font-size: .65rem; letter-spacing: .16em; text-decoration: none; text-transform: uppercase; }
+.template-site[data-template-reference="agenvo"] .template-hero { align-items: end; background: #1c1c1c; display: grid; min-height: 100svh; overflow: hidden; padding: 8rem var(--reference-gutter) clamp(4rem, 9vw, 7rem); position: relative; }
+.template-site[data-template-reference="agenvo"] .template-hero-inner { display: contents; }
+.template-site[data-template-reference="agenvo"] .template-hero-image { border-radius: 0; inset: 0; min-height: 100%; position: absolute; z-index: 0; }
+.template-site[data-template-reference="agenvo"] .template-hero::after { background: linear-gradient(to top, rgb(28 28 28 / 85%), rgb(28 28 28 / 15%), transparent); content: ''; inset: 0; position: absolute; z-index: 1; }
+.template-site[data-template-reference="agenvo"] .template-hero-copy { max-width: 62rem; position: relative; z-index: 2; }
+.template-site[data-template-reference="agenvo"] .template-page-title { color: #fff; font-family: Georgia, serif; font-size: clamp(3.5rem, 9vw, 8rem); font-weight: 500; line-height: .95; max-width: 11ch; }
+.template-site[data-template-reference="agenvo"] .template-hero-category, .template-site[data-template-reference="agenvo"] .template-section-heading { font-size: .65rem; letter-spacing: .28em; text-transform: uppercase; }
+.template-site[data-template-reference="agenvo"] .template-hero-copy .template-lead { color: rgb(255 255 255 / 62%); font-size: .9rem; max-width: 31rem; }
+.template-site[data-template-reference="agenvo"] .template-hero-pills { display: none; }
+.template-site[data-template-reference="agenvo"] .template-button { background: transparent; border-color: rgb(255 255 255 / 50%); }
+.template-site[data-template-reference="agenvo"] .template-introduction .template-lead, .template-site[data-template-reference="agenvo"] .template-story .template-lead { font-family: Georgia, serif; font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.05; max-width: 17ch; }
+.template-site[data-template-reference="agenvo"] .template-services { background: #1c1c1c; border: 0; color: #f4efe6; }
+.template-site[data-template-reference="agenvo"] .template-service-list { border-block: 1px solid rgb(255 255 255 / 10%); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.template-site[data-template-reference="agenvo"] .template-service-item { border-block-end: 1px solid rgb(255 255 255 / 10%); border-inline-end: 1px solid rgb(255 255 255 / 10%); font-family: Georgia, serif; font-size: clamp(1.35rem, 2.5vw, 2.25rem); padding: 2rem; }
+.template-site[data-template-reference="agenvo"] .template-project-grid { gap: clamp(1.25rem, 4vw, 4rem); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.template-site[data-template-reference="agenvo"] .template-project-card:nth-child(even) { margin-block-start: clamp(2rem, 10vw, 9rem); }
+.template-site[data-template-reference="agenvo"] .template-project-image { aspect-ratio: 4 / 5; border-radius: 0; }
+.template-site[data-template-reference="agenvo"] .template-project-title { font-family: Georgia, serif; font-size: 1.6rem; font-weight: 500; }
+.template-site[data-template-reference="agenvo"] .template-process, .template-site[data-template-reference="agenvo"] .template-call-to-action { background: #1c1c1c; border: 0; color: #f4efe6; }
+.template-site[data-template-reference="agenvo"] .template-process-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.template-site[data-template-reference="agenvo"] .template-process-list li { border-block-end: 0; border-inline-end: 1px solid rgb(255 255 255 / 10%); display: block; min-height: 10rem; padding: 1.5rem; }
+.template-site[data-template-reference="agenvo"] .template-footer { background: #1c1c1c; color: rgb(244 239 230 / 45%); }
+
+/* Arhitect: technical black system with sand highlights. */
+.template-site[data-template-reference="arhitect"] { background: #000; color: #fff; }
+.template-site[data-template-reference="arhitect"] .template-brand { font-weight: 700; }
+.template-site[data-template-reference="arhitect"] .template-hero { align-items: center; display: grid; min-height: 100svh; overflow: hidden; padding: 7rem var(--reference-gutter) 4rem; position: relative; }
+.template-site[data-template-reference="arhitect"] .template-hero-inner { display: contents; }
+.template-site[data-template-reference="arhitect"] .template-hero-image { border-radius: 0; inset: 0; min-height: 100%; position: absolute; z-index: 0; }
+.template-site[data-template-reference="arhitect"] .template-hero::after { background: rgb(0 0 0 / 45%); content: ''; inset: 0; position: absolute; z-index: 1; }
+.template-site[data-template-reference="arhitect"] .template-hero-copy { max-width: 37rem; position: relative; z-index: 2; }
+.template-site[data-template-reference="arhitect"] .template-page-title { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 300; letter-spacing: .04em; line-height: 1.15; text-transform: uppercase; }
+.template-site[data-template-reference="arhitect"] .template-hero-category { color: var(--template-accent); font-size: .65rem; letter-spacing: .2em; text-transform: uppercase; }
+.template-site[data-template-reference="arhitect"] .template-hero-copy .template-lead { color: #d1d5db; font-size: .85rem; }
+.template-site[data-template-reference="arhitect"] .template-hero-pills { display: none; }
+.template-site[data-template-reference="arhitect"] .template-button { background: var(--template-accent); border-color: var(--template-accent); color: #000; }
+.template-site[data-template-reference="arhitect"] .template-services, .template-site[data-template-reference="arhitect"] .template-capabilities { border: 0; }
+.template-site[data-template-reference="arhitect"] .template-service-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.template-site[data-template-reference="arhitect"] .template-service-item { border-block-end: 0; border-inline-end: 1px solid #27272a; display: block; min-height: 12rem; padding: 2rem; }
+.template-site[data-template-reference="arhitect"] .template-service-item .template-index { display: block; font-size: 1.1rem; margin-block-end: 1.25rem; }
+.template-site[data-template-reference="arhitect"] .template-project-grid { gap: 1.5rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.template-site[data-template-reference="arhitect"] .template-project-image { aspect-ratio: 1 / 1; border-radius: 0; }
+.template-site[data-template-reference="arhitect"] .template-project-title { font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; }
+.template-site[data-template-reference="arhitect"] .template-project-meta, .template-site[data-template-reference="arhitect"] .template-project-specs { color: #71717a; font-size: .75rem; }
+.template-site[data-template-reference="arhitect"] .template-process, .template-site[data-template-reference="arhitect"] .template-call-to-action { background: #090909; border-block: 1px solid #18181b; }
+.template-site[data-template-reference="arhitect"] .template-process-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.template-site[data-template-reference="arhitect"] .template-process-list li { border-block-end: 0; border-inline-end: 1px solid #27272a; display: block; min-height: 9rem; padding: 1.5rem; }
+.template-site[data-template-reference="arhitect"] .template-introduction { background: #fff; color: #000; text-align: center; }
+.template-site[data-template-reference="arhitect"] .template-introduction .template-lead { margin-inline: auto; max-width: 40rem; }
+.template-site[data-template-reference="arhitect"] .template-footer { border-top: 1px solid #18181b; color: #71717a; }
+
+@media (max-width: 767px) {
+  .template-site[data-template-reference] .template-header-inner { min-height: 4.75rem; padding-block: 1rem; }
+  .template-site[data-template-reference] .template-navigation { display: none; }
+  .template-site[data-template-reference] .template-mobile-navigation { display: block; position: relative; }
+  .template-site[data-template-reference] .template-mobile-navigation summary { cursor: pointer; font-size: .65rem; letter-spacing: .16em; list-style: none; text-transform: uppercase; }
+  .template-site[data-template-reference] .template-mobile-navigation summary::-webkit-details-marker { display: none; }
+  .template-site[data-template-reference] .template-mobile-navigation nav { background: #12100e; display: grid; gap: 1rem; inset-inline-end: 0; min-width: 11rem; padding: 1.25rem; position: absolute; top: 2rem; }
+  .template-site[data-template-reference="agenvo"] .template-mobile-navigation nav { background: #1c1c1c; }
+  .template-site[data-template-reference="arhitect"] .template-mobile-navigation nav { background: #000; }
+  .template-site[data-template-reference] .template-mobile-navigation a { color: #fff; font-size: .7rem; letter-spacing: .14em; text-decoration: none; text-transform: uppercase; }
+  .template-site[data-template-reference] .template-header-action { display: none; }
+  .template-site[data-template-reference="aurelia"] .template-service-list,
+  .template-site[data-template-reference="arhitect"] .template-service-list,
+  .template-site[data-template-reference="agenvo"] .template-service-list,
+  .template-site[data-template-reference="arhitect"] .template-process-list,
+  .template-site[data-template-reference="agenvo"] .template-process-list { grid-template-columns: 1fr; }
+  .template-site[data-template-reference="aurelia"] .template-service-item,
+  .template-site[data-template-reference="arhitect"] .template-service-item,
+  .template-site[data-template-reference="agenvo"] .template-service-item,
+  .template-site[data-template-reference="arhitect"] .template-process-list li,
+  .template-site[data-template-reference="agenvo"] .template-process-list li { border-block-end: 1px solid color-mix(in srgb, currentColor 12%, transparent); border-inline-end: 0; }
+  .template-site[data-template-reference="aurelia"] .template-project-grid,
+  .template-site[data-template-reference="agenvo"] .template-project-grid,
+  .template-site[data-template-reference="arhitect"] .template-project-grid { grid-template-columns: 1fr; }
+  .template-site[data-template-reference="agenvo"] .template-project-card:nth-child(even) { margin-block-start: 0; }
+  .template-site[data-template-reference] .template-page-title { max-width: 12ch; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .template-site[data-template-reference] .template-section-inner { animation: template-reveal .7s ease both; }
+}
+
+@keyframes template-reveal {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}

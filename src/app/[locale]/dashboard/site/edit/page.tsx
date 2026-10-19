@@ -2,13 +2,14 @@ import {getTranslations, setRequestLocale} from 'next-intl/server';
 import {redirect} from 'next/navigation';
 
 import {getSession} from '@/features/auth/lib/session';
-import {EditSiteForm} from '@/features/sites/components/edit-site-form';
+import {toEditorDraft} from '@/features/sites/apply-edit';
+import {EditorForm} from '@/features/sites/components/editor/editor-form';
 import {getSiteForOwner} from '@/features/sites/service';
 import {Link} from '@/i18n/navigation';
 
 export const dynamic = 'force-dynamic';
 
-export default async function SiteEditPage({params}: {params: Promise<{locale: string}>}) {
+export default async function SiteContentPage({params}: {params: Promise<{locale: string}>}) {
   const {locale} = await params;
   setRequestLocale(locale);
 
@@ -35,15 +36,16 @@ export default async function SiteEditPage({params}: {params: Promise<{locale: s
         {t('actions.backToDashboard')}
       </Link>
 
-      <div className="mt-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-        <div className="mb-8">
+      <div className="mt-6 space-y-6">
+        <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-700">
             {t('edit.eyebrow')}
           </p>
           <h1 className="mt-3 text-3xl font-semibold text-slate-900">{t('edit.title')}</h1>
           <p className="mt-3 text-slate-600">{t('edit.description')}</p>
         </div>
-        <EditSiteForm profile={site.data.profile} revision={site.revision} />
+
+        <EditorForm draft={toEditorDraft(site.data)} revision={site.revision} />
       </div>
     </div>
   );

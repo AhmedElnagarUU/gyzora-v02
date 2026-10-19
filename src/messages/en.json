@@ -93,6 +93,7 @@
       "label": "Dashboard navigation",
       "menu": "Dashboard menu",
       "overview": "Overview",
+      "content": "Content",
       "preview": "Preview"
     },
     "userMenu": {
@@ -107,7 +108,7 @@
       "template": "Design",
       "status": "Status",
       "created": "Created",
-      "editAction": "Edit details",
+      "editAction": "Edit content",
       "previewAction": "Preview",
       "deleted": "Your website has been deleted."
     },
@@ -289,7 +290,12 @@
       "companyNameMin": "Company name must be at least 2 characters.",
       "categoryMin": "Please provide a business category.",
       "urlInvalid": "Enter a valid image URL.",
-      "emailInvalid": "Enter a valid email address."
+      "emailInvalid": "Enter a valid email address.",
+      "phoneInvalid": "Enter a valid phone number.",
+      "maxLength": "This text is too long.",
+      "listTooMany": "There are more items than this section allows.",
+      "languageRequired": "Keep at least one language.",
+      "invalid": "This value is not valid."
     },
     "errors": {
       "generic": "Something went wrong. Please try again.",
@@ -300,8 +306,8 @@
     "success": "Your site draft has been created.",
     "edit": {
       "eyebrow": "Edit your website",
-      "title": "Business details",
-      "description": "Update your company information. Changes apply to the language you are viewing now.",
+      "title": "Website content",
+      "description": "Write your content in Arabic and English. Each language is saved on its own, and switching the language tab never changes your text.",
       "save": "Save changes",
       "saving": "Saving...",
       "saved": "Your changes have been saved.",
@@ -312,6 +318,43 @@
       "deleteConfirmDescription": "Your website and its content will be removed. You can create a new one afterwards.",
       "deleteConfirm": "Yes, delete it",
       "deleteCancel": "Keep it"
+    },
+    "editor": {
+      "languageLabel": "Content language",
+      "languages": {
+        "en": "English",
+        "ar": "العربية"
+      },
+      "missing": "Missing",
+      "optional": "optional",
+      "counter": "{count}/{max}",
+      "itemLabel": "Item {number}",
+      "listCount": "{count} of {max}",
+      "listEmpty": "No items yet. Add your first one.",
+      "limitReached": "You have reached the maximum of {max} items.",
+      "languageRequired": "Keep at least one language.",
+      "noChanges": "You have not changed anything yet.",
+      "previewHint": "Save your changes before previewing.",
+      "sections": {
+        "company": "Company details",
+        "about": "About your business",
+        "contact": "Contact details",
+        "services": "Services",
+        "features": "Features",
+        "languages": "Website languages"
+      },
+      "fields": {
+        "aboutIntroduction": "About page introduction",
+        "aboutStory": "Your story",
+        "workingHours": "Working hours"
+      },
+      "actions": {
+        "add": "Add item",
+        "remove": "Remove",
+        "moveUp": "Move up",
+        "moveDown": "Move down",
+        "preview": "Preview"
+      }
     }
   },
   "templatePreview": {

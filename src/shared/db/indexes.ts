@@ -21,4 +21,27 @@ export async function ensureIndexes(db: Database): Promise<void> {
 
     throw error;
   }
+
+  const projects = db.collection('projects');
+
+  try {
+    await projects.createIndex(
+      {siteId: 1, slug: 1},
+      {unique: true, name: 'siteId_slug_unique'}
+    );
+    await projects.createIndex(
+      {siteId: 1, featured: -1, createdAt: -1},
+      {name: 'siteId_featured_createdAt'}
+    );
+  } catch (error) {
+    if (isDuplicateKeyError(error)) {
+      throw new Error(
+        'Cannot create the unique index on projects.siteId and projects.slug: duplicate project ' +
+          'slugs already exist for a site. Remove the duplicate projects from the database and ' +
+          'restart.'
+      );
+    }
+
+    throw error;
+  }
 }

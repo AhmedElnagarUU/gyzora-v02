@@ -22,6 +22,19 @@
     },
     "loading": {
       "label": "Loading..."
+    },
+    "imageUploader": {
+      "choose": "Upload image",
+      "replace": "Replace image",
+      "remove": "Remove",
+      "empty": "No image",
+      "previewAlt": "Selected image preview",
+      "hint": "JPEG, PNG or WebP, up to 5 MB.",
+      "uploading": "Uploading… {percent}%",
+      "retry": "Try again",
+      "invalidType": "Choose a JPEG, PNG or WebP image.",
+      "tooLarge": "The image must be 5 MB or smaller.",
+      "failed": "Upload failed. Check your connection and try again."
     }
   },
   "errors": {
@@ -37,7 +50,9 @@
       "invalid_format": "This value has an invalid format.",
       "invalid_type": "This value is not valid.",
       "custom": "This value is not valid."
-    }
+    },
+    "NO_SITE": "Create your website before adding projects.",
+    "UPLOAD_REJECTED": "That file could not be accepted. Choose a JPEG, PNG or WebP image up to 5 MB."
   },
   "auth": {
     "fields": {
@@ -94,7 +109,8 @@
       "menu": "Dashboard menu",
       "overview": "Overview",
       "content": "Content",
-      "preview": "Preview"
+      "preview": "Preview",
+      "projects": "Projects"
     },
     "userMenu": {
       "signedInAs": "Signed in as"
@@ -110,7 +126,8 @@
       "created": "Created",
       "editAction": "Edit content",
       "previewAction": "Preview",
-      "deleted": "Your website has been deleted."
+      "deleted": "Your website has been deleted.",
+      "manageProjects": "Manage projects"
     },
     "status": {
       "draft": "Draft",
@@ -284,7 +301,8 @@
       "services": "Services (one per line)",
       "features": "Features (one per line)",
       "listPlaceholder": "Enter one item per line",
-      "language": "Website languages"
+      "language": "Website languages",
+      "logo": "Company logo"
     },
     "validation": {
       "companyNameMin": "Company name must be at least 2 characters.",
@@ -296,7 +314,8 @@
       "listTooMany": "There are more items than this section allows.",
       "languageRequired": "Keep at least one language.",
       "invalid": "This value is not valid.",
-      "emptyEdit": "There is nothing to save."
+      "emptyEdit": "There is nothing to save.",
+      "logoKeyInvalid": "Upload the logo again."
     },
     "errors": {
       "generic": "Something went wrong. Please try again.",
@@ -401,5 +420,73 @@
     },
     "backToTemplates": "Back to gallery",
     "backToDashboard": "Back to dashboard"
+  },
+  "projects": {
+    "eyebrow": "Portfolio",
+    "title": "Projects",
+    "description": "Showcase your completed work with photos and details.",
+    "add": "Add project",
+    "empty": {
+      "title": "No projects yet",
+      "description": "Add your first project to show your portfolio on your website.",
+      "action": "Add your first project"
+    },
+    "card": {
+      "noCover": "No cover image",
+      "featured": "Featured",
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "form": {
+      "back": "Back to projects",
+      "createTitle": "New project",
+      "createDescription": "Add photos and details, then save to see it in your preview.",
+      "editTitle": "Edit project",
+      "save": "Save project",
+      "saving": "Saving…",
+      "cancel": "Cancel",
+      "addImage": "Add gallery image",
+      "removeImage": "Remove image",
+      "galleryCount": "{count} of {max} gallery images",
+      "featuredHint": "Featured projects appear first. You can feature up to 6 projects.",
+      "sections": {
+        "basics": "Project details",
+        "cover": "Cover image",
+        "gallery": "Gallery",
+        "metadata": "Project facts",
+        "featured": "Featured project"
+      },
+      "fields": {
+        "title": "Title",
+        "category": "Category",
+        "location": "Location",
+        "description": "Description",
+        "alt": "Image description (alt text)",
+        "year": "Year",
+        "area": "Area (m²)",
+        "client": "Client",
+        "featured": "Show this project first"
+      }
+    },
+    "delete": {
+      "title": "Delete project?",
+      "description": "\"{title}\" will be removed from your website. This cannot be undone.",
+      "confirm": "Delete project",
+      "cancel": "Keep project",
+      "deleting": "Deleting…",
+      "failed": "The project could not be deleted. Try again."
+    },
+    "validation": {
+      "maxLength": "This value is too long.",
+      "invalidKey": "Upload this image again.",
+      "yearRange": "Enter a year between 1900 and 2100.",
+      "areaPositive": "Enter an area greater than zero.",
+      "galleryTooMany": "You can add up to 12 gallery images.",
+      "titleRequired": "Add a title in at least one of your website languages.",
+      "featuredLimit": "You can feature up to 6 projects. Unfeature another project first.",
+      "uploadRejected": "That image could not be accepted. Upload it again.",
+      "invalid": "This value is not valid.",
+      "saveFailed": "The project could not be saved. Try again."
+    }
   }
 }

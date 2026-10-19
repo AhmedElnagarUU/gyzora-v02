@@ -60,6 +60,12 @@ export async function SiteOverviewCard({
           {t('previewAction')}
         </Link>
         <Link
+          href="/dashboard/site/projects"
+          className="inline-flex min-h-11 items-center justify-center rounded-xl border border-slate-300 px-5 py-2 font-semibold text-slate-800 transition hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
+        >
+          {t('manageProjects')}
+        </Link>
+        <Link
           href="/dashboard/site/edit"
           className="inline-flex min-h-11 items-center justify-center rounded-xl border border-slate-300 px-5 py-2 font-semibold text-slate-800 transition hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
         >
